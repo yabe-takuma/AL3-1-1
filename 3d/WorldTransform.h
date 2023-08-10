@@ -1,9 +1,10 @@
 #pragma once
 
-#include "Matrix4x4.h"
+#include"Matrix4x4.h"
 #include "Vector3.h"
 #include <d3d12.h>
 #include <wrl.h>
+
 
 // 定数バッファ用データ構造体
 struct ConstBufferDataWorldTransform {
@@ -45,4 +46,8 @@ struct WorldTransform {
 	/// 行列を転送する
 	/// </summary>
 	void TransferMatrix();
+	/// <summary>
+	/// 行列を計算・転送する
+	/// </summary>
+	void UpdateMatrix();
 };

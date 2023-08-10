@@ -1,6 +1,8 @@
 #pragma once
 #include "WorldTransform.h"
 #include "Model.h"
+#include "Input.h"
+
 ///< summary>
 /// 自キャラ
 ///</summary
@@ -32,7 +34,8 @@ public:
 	Model* model_ = nullptr;
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0u;
-
+	// キーボード入力
+	Input* input_ = nullptr;
 
 
 
