@@ -14,6 +14,18 @@ void Player::Initialize(Model* model, uint32_t textureHandle) {
 
 }
 
+void Player::Attack() {
+	if (input_->TriggerKey(DIK_SPACE)) {
+		// 弾を生成し,初期化
+		PlayerBullet* newBullet = new PlayerBullet();
+
+		newBullet->Initialize(model_, worldTransform_.translation_);
+
+		// 弾を登録する
+		bullet_ = newBullet;
+	}
+}
+
 void Player::Update()
 { 
 
@@ -55,6 +67,14 @@ void Player::Update()
 	worldTransform_.translation_.y = max(worldTransform_.translation_.y, -kMoveLimitY);
 	worldTransform_.translation_.y = min(worldTransform_.translation_.y, +kMoveLimitY);
 
+	// キャラクター攻撃処理
+	Attack();
+
+	//弾更新
+	if (bullet_) {
+		bullet_->Update();
+	}
+
 	// キャラクターの座標を画面表示する処理
 	ImGui::Begin("Debug1");
 
@@ -74,5 +94,10 @@ void Player::Update()
 void Player::Draw(ViewProjection& viewProjection_)
 { 
 	model_->Draw(worldTransform_, viewProjection_, textureHandle_); 
+
+	//弾描画
+	if (bullet_) {
+		bullet_->Draw(viewProjection_);
+	}
 
 }
