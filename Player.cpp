@@ -2,6 +2,15 @@
 #include <cassert>
 #include "IMGuiManager.h"
 
+Player::~Player() { 
+for (PlayerBullet* bullet_ : bullets_) {
+
+		delete bullet_;
+	}
+
+
+
+}
 
 void Player::Initialize(Model* model, uint32_t textureHandle) {
 	assert(model);
@@ -16,13 +25,20 @@ void Player::Initialize(Model* model, uint32_t textureHandle) {
 
 void Player::Attack() {
 	if (input_->TriggerKey(DIK_SPACE)) {
+
+		////弾があれば解放する
+		//if (bullet_) {
+		//	delete bullet_;
+		//	bullet_ = nullptr;
+		//}
+
 		// 弾を生成し,初期化
 		PlayerBullet* newBullet = new PlayerBullet();
 
 		newBullet->Initialize(model_, worldTransform_.translation_);
 
 		// 弾を登録する
-		bullet_ = newBullet;
+		bullets_.push_back(newBullet);
 	}
 }
 
@@ -70,9 +86,10 @@ void Player::Update()
 	// キャラクター攻撃処理
 	Attack();
 
-	//弾更新
-	if (bullet_) {
-		bullet_->Update();
+		// 弾更新
+	for (PlayerBullet* bullet : bullets_) {
+
+		bullet->Update();
 	}
 
 	// キャラクターの座標を画面表示する処理
@@ -95,9 +112,9 @@ void Player::Draw(ViewProjection& viewProjection_)
 { 
 	model_->Draw(worldTransform_, viewProjection_, textureHandle_); 
 
-	//弾描画
-	if (bullet_) {
-		bullet_->Draw(viewProjection_);
+	for (PlayerBullet* bullet : bullets_) {
+
+		bullet->Draw(viewProjection_);
 	}
 
 }

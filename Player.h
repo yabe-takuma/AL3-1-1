@@ -3,6 +3,7 @@
 #include "Model.h"
 #include "Input.h"
 #include "PlayerBullet.h"
+#include <list>
 
 ///< summary>
 /// 自キャラ
@@ -27,7 +28,10 @@ public:
 	///</summary>
 	void Draw(ViewProjection& viewProjection_);
 
-
+	/// <summary>
+	/// デストラクタ
+	/// </summary>
+	~Player();
 
 
 
@@ -43,8 +47,10 @@ public:
 	// キーボード入力
 	Input* input_ = nullptr;
 
-	//弾
-	PlayerBullet* bullet_ = nullptr;
+	////弾
+	//PlayerBullet* bullet_ = nullptr;
 
+	// 弾
+	std::list<PlayerBullet*> bullets_;
 
 };
