@@ -10,6 +10,7 @@
 #include "WorldTransform.h"
 #include "Player.h"
 #include "DebugCamera.h"
+#include "Enemy.h"
 
 /// <summary>
 /// ゲームシーン
@@ -42,6 +43,8 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
+	void EnemyGeneration();
+
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
@@ -53,6 +56,8 @@ private: // メンバ変数
 
 	ViewProjection viewProjection_;
 	Player* player_ = nullptr;
+	Enemy* enemy_ = nullptr;
+
 	// デバッグカメラ有効
 	bool isDebugCameraAcctive_ = false;
 	DebugCamera* debugCamera_ = nullptr;
