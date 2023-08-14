@@ -2,6 +2,13 @@
 #include <cassert>
 #include "IMGuiManager.h"
 
+
+ Enemy::~Enemy() {
+	for (EnemyBullet* bullet : bullets_) {
+		delete bullet;
+	}
+ }
+
 void Enemy::Initialize(Model* model, const Vector3& position, const Vector3& velocity) {
 	assert(model);
 	model_ = model;
@@ -15,6 +22,11 @@ void Enemy::Initialize(Model* model, const Vector3& position, const Vector3& vel
 	worldTransform_.translation_ = {6.0f, 2.0f, 50.0f};
 	worldTransform_.Initialize();
 	velocity_ = velocity;
+
+	
+
+	// 接近フェーズ初期化
+	ApproachInitialize();
 
 }
 
@@ -32,8 +44,33 @@ void Enemy::Update() {
 		Leave();
 		break;
 	}
-}
 
+	ApproachUpdate();
+
+	for (EnemyBullet* bullet : bullets_)
+	{
+		bullet->Update();
+	}
+
+	// デスフラグの立った弾を削除
+	bullets_.remove_if([](EnemyBullet* bullet) {
+		if (bullet->IsDead()) {
+			delete bullet;
+			return true;
+		}
+		return false;
+	});
+
+}
+void Enemy::Fire() {
+	const float kBulletSpeed = -1.0f;
+	Vector3 velocity(0, 0, kBulletSpeed);
+
+	EnemyBullet* newEnemyBullet = new EnemyBullet();
+	newEnemyBullet->Initialize(model_, worldTransform_.translation_, velocity);
+
+	bullets_.push_back(newEnemyBullet);
+}
 void Enemy::Approach() {
 	// 移動(ベクトルを加算)
 	Add(worldTransform_.translation_, velocity_);
@@ -49,6 +86,27 @@ void Enemy::Leave() {
 	Add(worldTransform_.translation_, velocity_);
 }
 
+void Enemy::ApproachInitialize() {
+	// 発射タイマーを初期化
+	kFireTimer_ = kFireInterval_;
+}
+
+void Enemy::ApproachUpdate() {
+
+	// 発射タイマーカウントダウン
+	kFireTimer_--;
+	// 指定時間に達した
+	if (kFireTimer_ <= 0) {
+		// 弾を発射
+		Fire();
+		// 発射タイマーを初期化
+		kFireTimer_ = kFireInterval_;
+	}
+}
+
 void Enemy::Draw(const ViewProjection& viewProjection) {
 	model_->Draw(worldTransform_, viewProjection, textureHandle_);
+	for (EnemyBullet* bullet : bullets_) {
+		bullet->Draw(viewProjection);
+	}
 }
