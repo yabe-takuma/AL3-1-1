@@ -43,7 +43,8 @@ void GameScene::Initialize() {
 	player_->Initialize(model_, textureHandle_);
 	EnemyGeneration();
 	
-	
+	// 敵キャラに自キャラのアドレスを渡す
+	enemy_->SetPlayer(player_);
 
 }
 

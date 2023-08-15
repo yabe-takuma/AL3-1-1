@@ -4,6 +4,10 @@
 #include"EnemyBullet.h"
 #include<list>
 
+class Player;
+
+
+
 ///< summary>
 /// 敵
 /// </summary>
@@ -55,6 +59,11 @@ public:
 
 	void ApproachUpdate();
 
+	void SetPlayer(Player* player) { player_ = player; }
+
+	// ワールド座標を取得
+	Vector3 GetWorldPosition();
+
 	// 発射間隔
 	static const int kFireInterval_ = 60;
 
@@ -75,6 +84,8 @@ public:
 	std::list<EnemyBullet*> bullets_;
 	// 発射タイマー
 	int32_t kFireTimer_ = 0;
+
+	Player* player_ = nullptr;
 
 
 };
