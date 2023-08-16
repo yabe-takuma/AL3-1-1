@@ -47,9 +47,20 @@ void GameScene::Initialize() {
 
 	skydome_->Initialize(modelSkydome_);
 
+	railcamera_ = new RailCamera();
+	const float kCameraSpeed = 0.05f;
+	// const float kCameraRotateSpeed = 0.001f;
+	Vector3 velocity = {0.0f, 0.0f, kCameraSpeed};
+
+	railcamera_->Initialize(
+	    velocity, railcamera_->GetWorldPosition(), railcamera_->GetWorldRotation());
+
 	// 自キャラの生成
 	player_ = new Player();
-	player_->Initialize(model_, textureHandle_);
+	// 自キャラとレールカメラの親子関係を結ぶ
+	player_->SetParent(&railcamera_->GetWorldTransform());
+	Vector3 PlayerPosition = {0.0f, 0.0f, 10.0f};
+	player_->Initialize(model_, textureHandle_,PlayerPosition);
 	EnemyGeneration();
 	
 	// 敵キャラに自キャラのアドレスを渡す
@@ -75,6 +86,9 @@ void GameScene::EnemyGeneration() {
 
 void GameScene::Update() {
 	debugCamera_->Update();
+	// ビュープロジェクション行列の更新と転送
+	viewProjection_.UpdateMatrix();
+
 #ifdef _DEBUG
 	if (input_->TriggerKey(DIK_SPACE)) {
 		isDebugCameraAcctive_ = true;
@@ -91,6 +105,12 @@ void GameScene::Update() {
 	}
 #endif
 
+	viewProjection_.matView = railcamera_->GetViewProjection().matView;
+	viewProjection_.matProjection = railcamera_->GetViewProjection().matProjection;
+
+	// ビュープロジェクション行列の転送
+	viewProjection_.TransferMatrix();
+
 	CheckAllCollisions();
 
 player_->Update();
@@ -100,6 +120,10 @@ player_->Update();
 	 }
 	if (skydome_ != nullptr) {
 		 skydome_->Update();
+	}
+
+	if (railcamera_ != nullptr) {
+		 railcamera_->Update();
 	}
 
 }

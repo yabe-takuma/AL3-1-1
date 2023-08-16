@@ -12,7 +12,7 @@ for (PlayerBullet* bullet_ : bullets_) {
 
 }
 
-void Player::Initialize(Model* model, uint32_t textureHandle) {
+void Player::Initialize(Model* model, uint32_t textureHandle, const Vector3& Position) {
 	assert(model);
 	model_ = model;
 	textureHandle_ = textureHandle;
@@ -20,7 +20,7 @@ void Player::Initialize(Model* model, uint32_t textureHandle) {
 	worldTransform_.Initialize();
 	input_ = Input::GetInstance();
 
-
+	worldTransform_.translation_ = Position;
 }
 
 void Player::Attack() {
@@ -35,7 +35,7 @@ void Player::Attack() {
 		// 弾を生成し,初期化
 		PlayerBullet* newBullet = new PlayerBullet();
 
-		newBullet->Initialize(model_, worldTransform_.translation_, velocity);
+		newBullet->Initialize(model_, GetWorldPosition(), velocity);
 
 		// 弾を登録する
 		bullets_.push_back(newBullet);
@@ -63,6 +63,11 @@ Vector3 Player::GetWorldRadius() {
 }
 
 void Player::OnCollision() {}
+
+void Player::SetParent(const WorldTransform* parent) {
+	// 親子関係を結ぶ
+	worldTransform_.parent_ = parent;
+}
 
 void Player::Update()
 { 

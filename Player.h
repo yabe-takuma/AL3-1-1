@@ -10,7 +10,7 @@
 ///</summary
 class Player {
 public:
-	void Initialize(Model* model, uint32_t textureHandle);
+	void Initialize(Model* model, uint32_t textureHandle, const Vector3& Position);
 
 	///< summary>
 	/// 更新
@@ -35,6 +35,12 @@ public:
 	/// デストラクタ
 	/// </summary>
 	~Player();
+
+	/// <summary>
+	/// 親となるワールドトランスフォームをセット
+	/// </summary>
+	/// <param name="parent">親となるワールドトランスフォーム</param>
+	void SetParent(const WorldTransform* parent);
 
 	// ワールド座標を取得
 	Vector3 GetWorldPosition();
