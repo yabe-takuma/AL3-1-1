@@ -35,3 +35,27 @@ Vector3 Multiply(float scalar, const Vector3& v) {
 	result.z = scalar * v.z;
 	return result;
 }
+
+bool CollisionDot(
+    const Vector3& v1, const Vector3& v2, const Vector3& radius, const Vector3& radius2) {
+
+	float distance = Dot(v1, v2);
+	float distance2 = Add2(radius, radius2);
+	if (distance <= distance2) {
+		return true;
+	}
+
+	return false;
+}
+
+float Dot(const Vector3& v1, const Vector3& v2) {
+
+	float x = (v2.x - v1.x) * (v2.x - v1.x) + (v2.y - v1.y) * (v2.y - v1.y) +
+	          (v2.z - v1.z) * (v2.z - v1.z);
+	return x;
+}
+float Add2(const Vector3& v1, const Vector3& v2) {
+	float x = (v1.x + v1.y + v1.z + v2.x + v2.y + v2.z);
+
+	return x;
+}

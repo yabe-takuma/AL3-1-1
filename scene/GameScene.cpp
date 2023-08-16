@@ -82,7 +82,7 @@ void GameScene::Update() {
 	}
 #endif
 
-	
+	CheckAllCollisions();
 
 player_->Update();
 
@@ -90,6 +90,91 @@ player_->Update();
 	     enemy_->Update();
 	 }
 
+}
+
+void GameScene::CheckAllCollisions() {
+	 // 判定対象AをBの座標
+	 Vector3 posA, posB;
+
+	 // 自弾リストの取得
+	 const std::list<PlayerBullet*>& playerBullets = player_->GetBullets();
+	 // 敵弾リストの取得
+	 const std::list<EnemyBullet*>& enemyBullets = enemy_->GetBullets();
+	
+
+#pragma region 自キャラと敵弾の当たり判定
+	 // 自キャラの座標
+	 posA = player_->GetWorldPosition();
+	 Vector3 radiusA, radiusB;
+
+	 // 自キャラと敵弾全ての当たり判定
+	 for (EnemyBullet* bullet : enemyBullets) {
+		 // 敵弾の座標
+		 posB = bullet->GetWorldPosition();
+		 radiusA = player_->GetWorldRadius();
+		 radiusB = bullet->GetWorldRadius();
+
+		 // 球と球の交差
+		 if (CollisionDot(posA, posB, radiusA, radiusB)) {
+			 // 自キャラの衝突時のコールバックを呼び出す
+			 player_->OnCollision();
+			 // 敵弾の衝突時コールバックを呼び出す
+			 bullet->OnCollision();
+		 }
+	 }
+
+#pragma endregion
+
+#pragma region 自弾と敵キャラの当たり判定
+
+	 // 敵キャラと自弾全ての当たり判定
+	 for (PlayerBullet* bullet : playerBullets) {
+		
+
+			 // 自弾の座標
+			 posA = bullet->GetWorldPosition();
+
+			 posB = enemy_->GetWorldPosition();
+			 radiusB = enemy_->GetWorldRadius();
+
+			 radiusA = bullet->GetWorldRadius();
+
+			 if (CollisionDot(posB, posA, radiusB, radiusA)) {
+
+				 // 自弾の衝突時のコールバックを呼び出す
+				 bullet->OnCollision();
+				 // 敵キャラの衝突時コールバックを呼び出す
+
+				 enemy_->OnCollision();
+			 }
+		
+	 }
+
+#pragma endregion
+
+#pragma region 自弾と敵弾の当たり判定
+
+	 // 敵弾と自弾全ての当たり判定
+	 for (PlayerBullet* playerbullet : playerBullets) {
+		 for (EnemyBullet* enemybullet : enemyBullets) {
+			 // 自弾の座標
+			 posA = playerbullet->GetWorldPosition();
+			 // 敵弾の座標
+			 posB = enemybullet->GetWorldPosition();
+
+			 radiusA = playerbullet->GetWorldRadius();
+			 radiusB = enemybullet->GetWorldRadius();
+
+			 if (CollisionDot(posA, posB, radiusA, radiusB)) {
+
+				 // 自弾の衝突時のコールバックを呼び出す
+				 playerbullet->OnCollision();
+				 // 敵弾の衝突時コールバックを呼び出す
+				 enemybullet->OnCollision();
+			 }
+		 }
+	 }
+#pragma endregion
 }
 
 void GameScene::Draw() {

@@ -54,6 +54,9 @@ public:
 	/// </summary>
 	void Draw(const ViewProjection& viewProjection);
 
+	// 衝突を検出したら呼び出されるコールバック関数
+	void OnCollision();
+
 	/// 接近フェーズ初期化
 	void ApproachInitialize();
 
@@ -63,6 +66,11 @@ public:
 
 	// ワールド座標を取得
 	Vector3 GetWorldPosition();
+	// ワールドradiusを取得
+	Vector3 GetWorldRadius();
+
+    // 弾リストを取得
+	const std::list<EnemyBullet*>& GetBullets() const { return bullets_; }
 
 	// 発射間隔
 	static const int kFireInterval_ = 60;

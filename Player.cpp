@@ -53,6 +53,17 @@ Vector3 Player::GetWorldPosition() {
 	return worldPos;
 }
 
+Vector3 Player::GetWorldRadius() {
+	Vector3 worldRadius;
+
+	worldRadius.x = worldTransform_.scale_.x;
+	worldRadius.y = worldTransform_.scale_.y;
+	worldRadius.z = worldTransform_.scale_.z;
+	return worldRadius;
+}
+
+void Player::OnCollision() {}
+
 void Player::Update()
 { 
 

@@ -41,6 +41,17 @@ Vector3 Enemy::GetWorldPosition() {
 	return worldPos;
 }
 
+Vector3 Enemy::GetWorldRadius() {
+	Vector3 worldRadius;
+
+	worldRadius.x = worldTransform_.scale_.x;
+	worldRadius.y = worldTransform_.scale_.y;
+	worldRadius.z = worldTransform_.scale_.z;
+	return worldRadius;
+}
+
+void Enemy::OnCollision() {}
+
 void Enemy::Update() {
 	worldTransform_.UpdateMatrix();
 	worldTransform_.translation_ = Subtract(worldTransform_.translation_, velocity_);
