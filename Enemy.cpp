@@ -2,11 +2,12 @@
 #include <cassert>
 #include "IMGuiManager.h"
 #include "Player.h"
+#include"GameScene.h"
 
  Enemy::~Enemy() {
-	for (EnemyBullet* bullet : bullets_) {
+	/*for (EnemyBullet* bullet : bullets_) {
 		delete bullet;
-	}
+	}*/
  }
 
 void Enemy::Initialize(Model* model, const Vector3& position, const Vector3& velocity) {
@@ -19,7 +20,7 @@ void Enemy::Initialize(Model* model, const Vector3& position, const Vector3& vel
 	worldTransform_.translation_ = position;
 	worldTransform_.rotation_ = {0.0f, 0.0f, 0.0f};
 	worldTransform_.scale_ = {1.0f, 1.0f, 1.0f};
-	worldTransform_.translation_ = {6.0f, 2.0f, 50.0f};
+	//worldTransform_.translation_ = {6.0f, 2.0f, 50.0f};
 	worldTransform_.Initialize();
 	velocity_ = velocity;
 
@@ -50,7 +51,7 @@ Vector3 Enemy::GetWorldRadius() {
 	return worldRadius;
 }
 
-void Enemy::OnCollision() {}
+void Enemy::OnCollision() { isDead_ = true; }
 
 void Enemy::Update() {
 	worldTransform_.UpdateMatrix();
@@ -69,26 +70,24 @@ void Enemy::Update() {
 
 	ApproachUpdate();
 
-	for (EnemyBullet* bullet : bullets_)
-	{
-		bullet->Update();
-	}
+	//for (EnemyBullet* bullet : bullets_)
+	//{
+	//	bullet->Update();
+	//}
 
-	// デスフラグの立った弾を削除
-	bullets_.remove_if([](EnemyBullet* bullet) {
-		if (bullet->IsDead()) {
-			delete bullet;
-			return true;
-		}
-		return false;
-	});
+	//// デスフラグの立った弾を削除
+	//bullets_.remove_if([](EnemyBullet* bullet) {
+	//	if (bullet->IsDead()) {
+	//		delete bullet;
+	//		return true;
+	//	}
+	//	return false;
+	//});
 
 }
 void Enemy::Fire() {
 	const float kBulletSpeed = 1.0f;
 	Vector3 velocity(0, 0, kBulletSpeed);
-
-	player_->GetWorldPosition();
 
 	GetWorldPosition();
 	velocity = Subtract(player_->GetWorldPosition(), GetWorldPosition());
@@ -99,7 +98,7 @@ void Enemy::Fire() {
 	EnemyBullet* newEnemyBullet = new EnemyBullet();
 	newEnemyBullet->Initialize(model_, worldTransform_.translation_, velocity);
 
-	bullets_.push_back(newEnemyBullet);
+	gameScene_->AddEnemyBullet(newEnemyBullet);
 }
 void Enemy::Approach() {
 	// 移動(ベクトルを加算)
@@ -136,7 +135,7 @@ void Enemy::ApproachUpdate() {
 
 void Enemy::Draw(const ViewProjection& viewProjection) {
 	model_->Draw(worldTransform_, viewProjection, textureHandle_);
-	for (EnemyBullet* bullet : bullets_) {
+	/*for (EnemyBullet* bullet : bullets_) {
 		bullet->Draw(viewProjection);
-	}
+	}*/
 }

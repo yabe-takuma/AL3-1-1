@@ -13,6 +13,8 @@
 #include "Enemy.h"
 #include"Skydome.h"
 #include"RailCamera.h"
+#include<list>
+#include <sstream>
 
 /// <summary>
 /// ゲームシーン
@@ -46,11 +48,33 @@ public: // メンバ関数
 	void CheckAllCollisions();
 
 	/// <summary>
+	/// 敵弾を追加する
+	/// </summary>
+	/// <param name"enemyBullet">敵弾</param>
+	void AddEnemyBullet(EnemyBullet* enemyBullet);
+
+	/// <summary>
+	/// 敵発生データの読み込み
+	/// </summary>
+	void LoadEnemyPopData();
+
+	/// <summary>
+	/// 敵発生コマンドの更新
+	/// </summary>
+	void UpdateEnemyPopCommands();
+
+	/// <summary>
 	/// 描画
 	/// </summary>
 	void Draw();
 
-	void EnemyGeneration();
+	void EnemyGeneration(const Vector3& position);
+
+	// 弾リストを取得
+	const std::list<EnemyBullet*>& GetBullets() const { return enemybullets_; }
+
+	// 弾リストを取得
+	const std::list<Enemy*>& GetEnemys() const { return enemys_; }
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
@@ -71,6 +95,15 @@ private: // メンバ変数
 
 	// レールカメラ
 	RailCamera* railcamera_ = nullptr;
+
+	// 敵弾
+	std::list<EnemyBullet*> enemybullets_;
+
+	// 敵
+	 std::list<Enemy*> enemys_;
+
+	 // 敵発生コマンド
+	 std::stringstream enemyPopCommands;
 
 	// デバッグカメラ有効
 	bool isDebugCameraAcctive_ = false;

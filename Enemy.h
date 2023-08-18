@@ -6,7 +6,8 @@
 
 class Player;
 
-
+// GameSceneの前方宣言(苦肉の策)
+class GameScene;
 
 ///< summary>
 /// 敵
@@ -69,8 +70,9 @@ public:
 	// ワールドradiusを取得
 	Vector3 GetWorldRadius();
 
-    // 弾リストを取得
-	const std::list<EnemyBullet*>& GetBullets() const { return bullets_; }
+    bool IsDead() const { return isDead_; }
+
+	void SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; }
 
 	// 発射間隔
 	static const int kFireInterval_ = 60;
@@ -88,13 +90,16 @@ public:
 	Phase phase_ = phase_;
 	//弾
 	EnemyBullet* bullet_ = nullptr;
-	// 敵弾
-	std::list<EnemyBullet*> bullets_;
+	//// 敵弾
+	//std::list<EnemyBullet*> bullets_;
 	// 発射タイマー
 	int32_t kFireTimer_ = 0;
 
 	Player* player_ = nullptr;
 
+	GameScene* gameScene_ = nullptr;
 
+	// デスフラグ
+	bool isDead_ = false;
 };
 
