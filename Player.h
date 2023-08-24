@@ -4,6 +4,7 @@
 #include "Input.h"
 #include "PlayerBullet.h"
 #include <list>
+#include"Sprite.h"
 
 ///< summary>
 /// 自キャラ
@@ -15,7 +16,7 @@ public:
 	///< summary>
 	/// 更新
 	///</summary>
-	void Update();
+	void Update(ViewProjection& viewProjection_);
 
 	///< summary>
 	/// 攻撃
@@ -42,14 +43,30 @@ public:
 	/// <param name="parent">親となるワールドトランスフォーム</param>
 	void SetParent(const WorldTransform* parent);
 
+	/// <summary>
+	/// UI描画
+	/// </summary>
+	void DrawUI();
+
 	// ワールド座標を取得
 	Vector3 GetWorldPosition();
 
 	// ワールドradiusを取得
 	Vector3 GetWorldRadius();
 
+	//3DReticleのワールド座標を取得
+	Vector3 GetWorldPosition3DReticle();
+
 	// 弾リストを取得
 	const std::list<PlayerBullet*>& GetBullets() const { return bullets_; }
+
+	 bool IsDead() const { return isDead_; }
+
+	 static const int HP = 10;
+
+	 void HPInitialize();
+
+	 const WorldTransform& GetWorldTransform3DReticle() { return worldTransform_; }
 
 	private:
 	/// ワールド変換データ
@@ -66,5 +83,16 @@ public:
 
 	// 弾
 	std::list<PlayerBullet*> bullets_;
+
+	// 3Dレティクル用ワールドトランスフォーム
+	WorldTransform worldTransform3DReticle_;
+
+	bool isDead_ = false;
+
+	int32_t hp_ = 0;
+
+	// 2Dレティクル用スプライト
+	Sprite* sprite2DReticle_ = nullptr;
+
 
 };

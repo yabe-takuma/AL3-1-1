@@ -6,6 +6,8 @@
 #include "PrimitiveDrawer.h"
 #include "TextureManager.h"
 #include "WinApp.h"
+#include"TitleScene.h"
+#include"GameOverScene.h"
 
 // Windowsアプリでのエントリーポイント(main関数)
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
@@ -61,6 +63,15 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	gameScene = new GameScene();
 	gameScene->Initialize();
 
+	//タイトルシーンの初期化
+	/*TitleScene* titleScene = new TitleScene();
+	titleScene->Initialize();
+
+	GameOverScene* gameOverScene = new GameOverScene();
+	gameOverScene->Initialize();
+
+	Scene::SceneType sceneNo = Scene::SceneType::kTitle;*/
+
 	// メインループ
 	while (true) {
 		// メッセージ処理
@@ -72,8 +83,40 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		imguiManager->Begin();
 		// 入力関連の毎フレーム処理
 		input->Update();
-		// ゲームシーンの毎フレーム処理
-		gameScene->Update();
+
+		//switch (sceneNo) {
+		//case Scene::SceneType::kTitle:
+		//	
+		//	titleScene->Update();
+		//	
+		//	if (titleScene->IsSceneEnd()) {
+		//	//次のシーンの値を代入してシーンを切り替え
+		//		sceneNo = titleScene->NextScene();
+		//	}
+
+		//	break;
+
+		//	case Scene::SceneType::kGamePlay:
+			// ゲームシーンの毎フレーム処理
+			gameScene->Update();
+
+			/*if (gameScene->IsSceneEnd())
+			{
+				sceneNo = gameScene->NextScene();
+			}
+
+			break;
+
+			case Scene::SceneType::kGameOver:
+		
+				gameOverScene->Update();
+
+				if (gameOverScene->IsSceneEnd())
+				{
+				sceneNo = gameOverScene->NextScene();
+				}
+			break;
+		}*/
 		// 軸表示の更新
 		axisIndicator->Update();
 		// ImGui受付終了
@@ -81,8 +124,20 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		// 描画開始
 		dxCommon->PreDraw();
-		// ゲームシーンの描画
-		gameScene->Draw();
+
+	/*	switch (sceneNo) {
+		case Scene::SceneType::kTitle:
+			titleScene->Draw();
+			break;
+			
+			case Scene::SceneType::kGamePlay:*/
+			// ゲームシーンの描画
+			gameScene->Draw();
+		/*	break;
+
+			case Scene::SceneType::kGameOver:
+			gameOverScene->Draw();
+		}*/
 		// 軸表示の描画
 		axisIndicator->Draw();
 		// プリミティブ描画のリセット

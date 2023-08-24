@@ -77,6 +77,10 @@ public:
 	// 発射間隔
 	static const int kFireInterval_ = 60;
 
+	static const int HP_ = 3;
+
+	void HPInitialize();
+
 	private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;
@@ -101,5 +105,7 @@ public:
 
 	// デスフラグ
 	bool isDead_ = false;
+
+	int32_t hp_ = 0;
 };
 

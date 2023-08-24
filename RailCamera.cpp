@@ -17,27 +17,7 @@ void RailCamera::Initialize(
 	viewprojection_.Initialize();
 }
 
-WorldTransform RailCamera::GetWorldPosition() {
-	// ワールド座標を入れる変数
-	WorldTransform worldPos;
-	// ワールド行列の平行移動成分を取得(ワールド座標)
-	worldPos.translation_.x = worldTransform_.matWorld_.m[3][0];
-	worldPos.translation_.y = worldTransform_.matWorld_.m[3][1];
-	worldPos.translation_.z = worldTransform_.matWorld_.m[3][2];
 
-	return worldPos;
-}
-
-WorldTransform RailCamera::GetWorldRotation() {
-	// ワールド座標を入れる変数
-	WorldTransform worldRot;
-	// ワールド行列の回転成分を取得(ワールド座標)
-	worldRot.rotation_.x = worldTransform_.matWorld_.m[2][0];
-	worldRot.rotation_.y = worldTransform_.matWorld_.m[2][1];
-	worldRot.rotation_.z = worldTransform_.matWorld_.m[2][2];
-
-	return worldRot;
-}
 
 void RailCamera::Update() {
 	worldTransform_.translation_ = Add(worldTransform_.translation_, velocity_);
@@ -61,4 +41,26 @@ void RailCamera::Update() {
 	worldTransform_.rotation_.z = CameraRotation[2];
 	worldTransform_.UpdateMatrix();
 	ImGui::End();
+}
+
+WorldTransform RailCamera::GetWorldPosition() {
+	// ワールド座標を入れる変数
+	WorldTransform worldPos;
+	// ワールド行列の平行移動成分を取得(ワールド座標)
+	worldPos.translation_.x = worldTransform_.matWorld_.m[3][0];
+	worldPos.translation_.y = worldTransform_.matWorld_.m[3][1];
+	worldPos.translation_.z = worldTransform_.matWorld_.m[3][2];
+
+	return worldPos;
+}
+
+WorldTransform RailCamera::GetWorldRotation() {
+	// ワールド座標を入れる変数
+	WorldTransform worldRot;
+	// ワールド行列の回転成分を取得(ワールド座標)
+	worldRot.rotation_.x = worldTransform_.matWorld_.m[2][0];
+	worldRot.rotation_.y = worldTransform_.matWorld_.m[2][1];
+	worldRot.rotation_.z = worldTransform_.matWorld_.m[2][2];
+
+	return worldRot;
 }

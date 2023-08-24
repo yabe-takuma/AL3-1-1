@@ -15,6 +15,7 @@
 #include"RailCamera.h"
 #include<list>
 #include <sstream>
+#include"Scene.h"
 
 /// <summary>
 /// ゲームシーン
@@ -76,6 +77,10 @@ public: // メンバ関数
 	// 弾リストを取得
 	const std::list<Enemy*>& GetEnemys() const { return enemys_; }
 
+	bool IsSceneEnd() { return isSceneEnd_; }
+	Scene::SceneType NextScene() { return Scene::SceneType::kGameOver; }
+
+
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
@@ -108,6 +113,8 @@ private: // メンバ変数
 	// デバッグカメラ有効
 	bool isDebugCameraAcctive_ = false;
 	DebugCamera* debugCamera_ = nullptr;
+
+	bool isSceneEnd_ = false;
 
 	/// <summary>
 	/// ゲームシーン用

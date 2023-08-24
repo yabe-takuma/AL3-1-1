@@ -51,7 +51,7 @@ void GameScene::Initialize() {
 
 	railcamera_ = new RailCamera();
 	const float kCameraSpeed = 0.05f;
-	// const float kCameraRotateSpeed = 0.001f;
+	 //const float kCameraRotateSpeed = 0.001f;
 	Vector3 velocity = {0.0f, 0.0f, kCameraSpeed};
 
 	railcamera_->Initialize(
@@ -61,11 +61,16 @@ void GameScene::Initialize() {
 	player_ = new Player();
 	// 自キャラとレールカメラの親子関係を結ぶ
 	player_->SetParent(&railcamera_->GetWorldTransform());
-	Vector3 PlayerPosition = {0.0f, 0.0f, 30.0f};
+	Vector3 PlayerPosition = {0.0f, 0.0f, 20.0f};
 	player_->Initialize(model_, textureHandle_, PlayerPosition);
-	LoadEnemyPopData();
-	/*Vector3 Position{0, 0, 10};
-	EnemyGeneration(Position);*/
+	Vector3 Position{0, 0, 0};
+	EnemyGeneration(Position);
+	//LoadEnemyPopData();
+
+	// レティクルのテクスチャ
+	TextureManager::Load("Reticle.jpg");
+
+	
 }
 
 void GameScene::Update() {
@@ -98,8 +103,10 @@ void GameScene::Update() {
 	if (railcamera_ != nullptr) {
 		railcamera_->Update();
 	}
+	if (player_ != nullptr) {
 
-	player_->Update();
+		player_->Update(viewProjection_);
+	}
 	for (Enemy* enemy : enemys_) {
 		if (enemy != nullptr) {
 			enemy->Update();
@@ -113,7 +120,7 @@ void GameScene::Update() {
 	for (EnemyBullet* bullet : enemybullets_) {
 		bullet->Update();
 	}
-
+	
 	CheckAllCollisions();
 
 	// デスフラグの立った弾を削除
@@ -134,7 +141,12 @@ void GameScene::Update() {
 		return false;
 	});
 
-	UpdateEnemyPopCommands();
+	/*if (player_->IsDead())
+	{
+		isSceneEnd_ = true;
+	}*/
+
+	//UpdateEnemyPopCommands();
 }
 
 void GameScene::Draw() {
@@ -168,8 +180,10 @@ void GameScene::Draw() {
 			enemy->Draw(viewProjection_);
 		}
 	}
-	player_->Draw(viewProjection_);
+	if (player_ != nullptr) {
 
+		player_->Draw(viewProjection_);
+	}
 	skydome_->Draw(viewProjection_);
 
 	for (EnemyBullet* bullet : enemybullets_) {
@@ -188,6 +202,8 @@ void GameScene::Draw() {
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
 
+	player_->DrawUI();
+
 	// スプライト描画後処理
 	Sprite::PostDraw();
 
@@ -200,7 +216,7 @@ void GameScene::EnemyGeneration(const Vector3& position) {
 	Enemy* enemy = new Enemy();
 
 	// 敵の初期化
-	const float kEnemySpeed = 0.1f;
+	const float kEnemySpeed = 0.01f;
 	Vector3 velocity_ = {0, 0, kEnemySpeed};
 
 	enemy->Initialize(model_, position, velocity_);
