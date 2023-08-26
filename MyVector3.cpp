@@ -70,3 +70,11 @@ result.z = v1.z * v2.z;
 return result;
 }
 
+Vector3 Subtract2(float position, const Vector3& v)
+{
+Vector3 result;
+result.x =position - v.x;
+result.y = position - v.y;
+result.z = position - v.z;
+return result;
+}

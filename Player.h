@@ -48,6 +48,11 @@ public:
 	/// </summary>
 	void DrawUI();
 
+
+	//スクリーン変換からワールド変換
+	void ScreenWorldTransformation(ViewProjection& viewProjection_,Matrix4x4& matViewport);
+	
+
 	// ワールド座標を取得
 	Vector3 GetWorldPosition();
 
@@ -94,5 +99,6 @@ public:
 	// 2Dレティクル用スプライト
 	Sprite* sprite2DReticle_ = nullptr;
 
+	Vector2 SpritePosition;
 
 };
