@@ -272,7 +272,7 @@ void Player::ScreenWorldTransformation(ViewProjection& viewprojection_,Matrix4x4
 	
 	mouseDirection = Multiply(kDistanceTestobject, mouseDirection);
 
-	worldTransform3DReticle_.translation_ = Add(mouseDirection,posFar);
+	worldTransform3DReticle_.translation_ = Add(posNear,mouseDirection);
 	worldTransform3DReticle_.UpdateMatrix();
 
 	ImGui::Begin("Player");
