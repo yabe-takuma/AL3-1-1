@@ -98,39 +98,39 @@ void Player::Update(ViewProjection& viewProjection_) {
 	// 自機のワールド座標から3Dレティクルのワールド座標を計算
 
 	// 自機から3Dレティクルへの距離
-	const float kDistancePlayerTo3DReticle = 50.0f;
-	// 自機から3Dレティクルへのオフセット(z+向き)
-	Vector3 offset = {0, 0, 1.0f};
-	// 自機のワールド行列の回転を反映
-	offset = TransformNormal(offset, worldTransform_.matWorld_);
+	//const float kDistancePlayerTo3DReticle = 50.0f;
+	//// 自機から3Dレティクルへのオフセット(z+向き)
+	//Vector3 offset = {0, 0, 1.0f};
+	//// 自機のワールド行列の回転を反映
+	//offset = TransformNormal(offset, worldTransform_.matWorld_);
 
-	// ベクトルの長さを整える
-	offset = Normalize(offset);
-	offset = Multiply(kDistancePlayerTo3DReticle, offset);
+	//// ベクトルの長さを整える
+	//offset = Normalize(offset);
+	//offset = Multiply(kDistancePlayerTo3DReticle, offset);
 
-	// 3Dレティクルの座標を指定
-	worldTransform3DReticle_.translation_ = Add(GetWorldPosition3DReticle(), offset);
+	//// 3Dレティクルの座標を指定
+	//worldTransform3DReticle_.translation_ = Add(GetWorldPosition3DReticle(), offset);
 
-	worldTransform3DReticle_.UpdateMatrix();
+	//worldTransform3DReticle_.UpdateMatrix();
 
-	// 3Dレティクルのワールド座標から2Dレティクルのスクリーン座標を計算
+	//// 3Dレティクルのワールド座標から2Dレティクルのスクリーン座標を計算
 
-	// 3Dレティクルのワールド行列からワールド座標を取得
-	Vector3 positionReticle = GetWorldPosition();
+	//// 3Dレティクルのワールド行列からワールド座標を取得
+	//Vector3 positionReticle = GetWorldPosition();
 
 	// ビューポート行列
 	Matrix4x4 matViewport =
 	    MakeViewportMatrix(0, 0, WinApp::kWindowWidth, WinApp::kWindowHeight, 0, 1);
 
-	// ビュー行列とプロジェクション行列、ビューポート行列を合成する
-	Matrix4x4 matViewProjectionViewport =
-	    Multiply(Multiply(viewProjection_.matView,viewProjection_.matProjection), matViewport);
+	//// ビュー行列とプロジェクション行列、ビューポート行列を合成する
+	//Matrix4x4 matViewProjectionViewport =
+	//    Multiply(Multiply(viewProjection_.matView,viewProjection_.matProjection), matViewport);
 
-	// ワールドからスクリーン座標変換(ここで3Dから2Dになる)
-	positionReticle = Transform(positionReticle, matViewProjectionViewport);
+	//// ワールドからスクリーン座標変換(ここで3Dから2Dになる)
+	//positionReticle = Transform(positionReticle, matViewProjectionViewport);
 
-	// スプライトのレティクルに座標設定
-	sprite2DReticle_->SetPosition(Vector2(positionReticle.x, positionReticle.y));
+	//// スプライトのレティクルに座標設定
+	//sprite2DReticle_->SetPosition(Vector2(positionReticle.x, positionReticle.y));
 
 	ScreenWorldTransformation(viewProjection_, matViewport);
 
@@ -268,7 +268,7 @@ void Player::ScreenWorldTransformation(ViewProjection& viewprojection_,Matrix4x4
 	Vector3 mouseDirection = Subtract(posFar, posNear);
 	mouseDirection = Normalize(mouseDirection);
 	// カメラから照準オブジェクトの座標
-	const float kDistanceTestobject = 1200;
+	const float kDistanceTestobject = 50;
 	
 	mouseDirection = Multiply(kDistanceTestobject, mouseDirection);
 
