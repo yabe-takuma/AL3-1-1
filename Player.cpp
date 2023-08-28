@@ -252,7 +252,7 @@ void Player::ScreenWorldTransformation(ViewProjection& viewprojection_,Matrix4x4
 
 
 	// ビュープロジェクションビューポート合成行列
-	Matrix4x4 matVPV = Multiply(viewprojection_.matView, Multiply(viewprojection_.matProjection, matViewport));
+	Matrix4x4 matVPV = Multiply(Multiply(viewprojection_.matView,viewprojection_.matProjection), matViewport);
 	// 合成行列の逆行列を計算する
 	Matrix4x4 matInverseVPV = Inverse(matVPV);
 	
