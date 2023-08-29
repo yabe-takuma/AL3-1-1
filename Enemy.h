@@ -2,6 +2,7 @@
 #include "Model.h"
 #include "WorldTransform.h"
 #include"EnemyBullet.h"
+#include"EnemyHP.h"
 #include<list>
 
 class Player;
@@ -84,10 +85,16 @@ public:
 	private:
 	// ワールド変換データ
 	WorldTransform worldTransform_;
+
+
+
 	// モデル
 	Model* model_ = nullptr;
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0u;
+
+	
+
 	// 速度
 	Vector3 velocity_;
 	// フェーズ
@@ -107,5 +114,8 @@ public:
 	bool isDead_ = false;
 
 	int32_t hp_ = 0;
+
+	EnemyHP* enemyhp_ = nullptr;
+
 };
 

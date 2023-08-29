@@ -15,6 +15,8 @@ GameScene::~GameScene() {
 	for (EnemyBullet* bullet : enemybullets_) {
 		delete bullet;
 	}
+	delete enemyhp_;
+	delete enemyui_;
 }
 
 void GameScene::Initialize() {
@@ -50,7 +52,7 @@ void GameScene::Initialize() {
 	skydome_->Initialize(modelSkydome_);
 
 	railcamera_ = new RailCamera();
-	const float kCameraSpeed = 0.05f;
+	const float kCameraSpeed = 0.01f;
 	 //const float kCameraRotateSpeed = 0.001f;
 	Vector3 velocity = {0.0f, 0.0f, kCameraSpeed};
 
@@ -64,13 +66,37 @@ void GameScene::Initialize() {
 	Vector3 PlayerPosition = {0.0f, 0.0f, 20.0f};
 	player_->Initialize(model_, textureHandle_, PlayerPosition);
 	Vector3 Position{0, 0, 0};
-	EnemyGeneration(Position);
-	//LoadEnemyPopData();
+	//EnemyGeneration(Position);
+	LoadEnemyPopData();
 
 	// レティクルのテクスチャ
 	TextureManager::Load("Reticle.jpg");
 
+	Vector3 enemyhpposition_ = {0.0f, 18.0f, 50.0f};
+	enemyhp_ = new EnemyHP();
+	enemyhp_->Initialize(model_, enemyhpposition_);
+	enemyhp_->SetParent(&railcamera_->GetWorldTransform());
 	
+	Vector3 enemyuiposition_ = {0.0f, 30.0f, 20.0f};
+	enemyui_ = new EnemyUI();
+	enemyui_->Initialize(model_, enemyuiposition_);
+
+	Vector3 playerhpposition_ = {0.0f, -10.0f, 20.0f};
+	playerhp_ = new PlayerHP();
+	playerhp_->Initialize(model_, playerhpposition_);
+
+	Vector3 playeruiposition_ = {-12.0f, -10.0f, 20.0f};
+	playerui_ = new PlayerUI();
+	playerui_->Initialize(model_, playeruiposition_);
+
+	Vector3 limittimerposition_ = {10.0f, 0.0f, 20.0f};
+	limittimer_ = new LimitTimer();
+	limittimer_->Initialize(model_, limittimerposition_);
+
+	Vector3 limittimeruiposition_ = {15.0f, 0.0f, 20.0f};
+	limittimerui_ = new LImitTimerUI();
+	limittimerui_->Initialize(model_, limittimeruiposition_);
+
 }
 
 void GameScene::Update() {
@@ -116,6 +142,35 @@ void GameScene::Update() {
 		skydome_->Update();
 	}
 
+	if (enemyhp_ != nullptr) {
+
+		enemyhp_->Update();
+	}
+
+	if (enemyui_ != nullptr) {
+
+		enemyui_->Update();
+	}
+
+	if (playerhp_ != nullptr) {
+
+		playerhp_->Update();
+	}
+
+	if (playerui_ != nullptr) {
+
+		playerui_->Update();
+	}
+
+	if (limittimer_ != nullptr) {
+
+		limittimer_->Update();
+	}
+
+	if (limittimerui_ != nullptr) {
+
+		limittimerui_->Update();
+	}
 
 	for (EnemyBullet* bullet : enemybullets_) {
 		bullet->Update();
@@ -140,13 +195,16 @@ void GameScene::Update() {
 		}
 		return false;
 	});
-
+	/*if (limittimer_->IsTimerLimit())
+	{
+		
+	}*/
 	/*if (player_->IsDead())
 	{
 		isSceneEnd_ = true;
 	}*/
 
-	//UpdateEnemyPopCommands();
+	UpdateEnemyPopCommands();
 }
 
 void GameScene::Draw() {
@@ -188,6 +246,36 @@ void GameScene::Draw() {
 
 	for (EnemyBullet* bullet : enemybullets_) {
 		bullet->Draw(viewProjection_);
+	}
+
+	if (enemyhp_ != nullptr) {
+
+		enemyhp_->Draw(viewProjection_);
+	}
+
+	if (enemyui_ != nullptr) {
+
+		enemyui_->Draw(viewProjection_);
+	}
+
+	if (playerhp_ != nullptr) {
+
+		playerhp_->Draw(viewProjection_);
+	}
+
+	if (playerui_ != nullptr) {
+
+		playerui_->Draw(viewProjection_);
+	}
+
+	if (limittimer_ != nullptr) {
+
+		limittimer_->Draw(viewProjection_);
+	}
+
+	if (limittimerui_ != nullptr) {
+
+		limittimerui_->Draw(viewProjection_);
 	}
 
 	// 3Dオブジェクト描画後処理
@@ -261,6 +349,7 @@ void GameScene::CheckAllCollisions() {
 		if (CollisionDot(posA, posB, radiusA, radiusB)) {
 			// 自キャラの衝突時のコールバックを呼び出す
 			player_->OnCollision();
+			playerhp_->OnCollision();
 			// 敵弾の衝突時コールバックを呼び出す
 			bullet->OnCollision();
 		}
@@ -289,6 +378,7 @@ void GameScene::CheckAllCollisions() {
 				// 敵キャラの衝突時コールバックを呼び出す
 
 				enemy->OnCollision();
+				enemyhp_->OnCollision();
 			}
 		}
 	}

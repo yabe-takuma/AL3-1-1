@@ -32,6 +32,8 @@ public:
 	// 衝突を検出したら呼び出されるコールバック関数
 	void OnCollision();
 
+	void Move();
+
 	/// <summary>
 	/// デストラクタ
 	/// </summary>
@@ -50,7 +52,7 @@ public:
 
 
 	//スクリーン変換からワールド変換
-	void ScreenWorldTransformation(ViewProjection& viewProjection_,Matrix4x4& matViewport);
+	void ScreenWorldTransformation(ViewProjection& viewProjection);
 	
 
 	// ワールド座標を取得

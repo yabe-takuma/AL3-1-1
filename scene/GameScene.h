@@ -16,6 +16,12 @@
 #include<list>
 #include <sstream>
 #include"Scene.h"
+#include"EnemyHP.h"
+#include"EnemyUI.h"
+#include"PlayerHP.h"
+#include"PlayerUI.h"
+#include"LimitTimer.h"
+#include"LImitTimerUI.h"
 
 /// <summary>
 /// ゲームシーン
@@ -115,6 +121,18 @@ private: // メンバ変数
 	DebugCamera* debugCamera_ = nullptr;
 
 	bool isSceneEnd_ = false;
+
+	EnemyHP* enemyhp_ = nullptr;
+
+	EnemyUI* enemyui_ = nullptr;
+
+	PlayerHP* playerhp_ = nullptr;
+
+	PlayerUI* playerui_ = nullptr;
+
+	LimitTimer* limittimer_ = nullptr;
+
+	LImitTimerUI* limittimerui_ = nullptr;
 
 	/// <summary>
 	/// ゲームシーン用

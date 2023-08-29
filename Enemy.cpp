@@ -8,6 +8,7 @@
 	/*for (EnemyBullet* bullet : bullets_) {
 		delete bullet;
 	}*/
+	 //delete enemyhp_;
  }
 
 void Enemy::Initialize(Model* model, const Vector3& position, const Vector3& velocity) {
@@ -21,6 +22,9 @@ void Enemy::Initialize(Model* model, const Vector3& position, const Vector3& vel
 	worldTransform_.rotation_ = {0.0f, 0.0f, 0.0f};
 	worldTransform_.scale_ = {1.0f, 1.0f, 1.0f};
 	//worldTransform_.translation_ = {6.0f, 2.0f, 50.0f};
+
+	
+
 	worldTransform_.Initialize();
 	velocity_ = velocity;
 
@@ -29,13 +33,18 @@ void Enemy::Initialize(Model* model, const Vector3& position, const Vector3& vel
 	// 接近フェーズ初期化
 	ApproachInitialize();
 
-	//HPInitialize();
+	HPInitialize();
+
+	//Vector3 position_ = {0.0f, 0.0f, 20.0f};
+	//enemyhp_ = new EnemyHP();
+	//enemyhp_->Initialize(model_, position_);
 
 }
 
 void Enemy::Update() {
 	worldTransform_.UpdateMatrix();
 	worldTransform_.translation_ = Subtract(worldTransform_.translation_, velocity_);
+	
 	
 
 	switch (phase_) {
@@ -63,6 +72,8 @@ void Enemy::Update() {
 	//	}
 	//	return false;
 	//});
+	
+	
 
 }
 
@@ -71,6 +82,10 @@ void Enemy::Draw(const ViewProjection& viewProjection) {
 	/*for (EnemyBullet* bullet : bullets_) {
 	    bullet->Draw(viewProjection);
 	}*/
+	//if (enemyhp_ != nullptr) {
+
+	//	enemyhp_->Draw(viewProjection);
+	//}
 }
 
 void Enemy::Fire() {
@@ -146,10 +161,10 @@ Vector3 Enemy::GetWorldRadius() {
 }
 
 void Enemy::OnCollision() {
-	/*hp_--;
-
+	hp_--;
+	
 	if (hp_ <= 0)
-	{*/
+	{
 	isDead_ = true;
-	//}
+	}
 }

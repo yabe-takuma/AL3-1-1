@@ -14,6 +14,7 @@ void PlayerBullet::Initialize(Model* model, const Vector3& position,const Vector
 
 	// 因数で受け取った初期座標をセット
 	worldTransform_.translation_ = position;
+	worldTransform_.scale_ = {0.1f, 0.1f, 0.1f};
 	worldTransform_.Initialize();
 	// 引数で受け取った速度をメンバ変数に代入
 	velocity_ = velocity;
