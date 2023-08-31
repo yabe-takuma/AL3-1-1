@@ -13,6 +13,12 @@ public:
 
 	void TimerUpdate();
 
+	/// <summary>
+	/// 親となるワールドトランスフォームをセット
+	/// </summary>
+	/// <param name="parent">親となるワールドトランスフォーム</param>
+	void SetParent(const WorldTransform* parent);
+
 	bool IsTimerLimit() const { return istimerlimit_; };
 
 	static const int kFireInterval_ = 60;

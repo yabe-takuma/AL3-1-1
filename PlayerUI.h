@@ -9,6 +9,12 @@ public:
 
 	void Draw(const ViewProjection& viewProjection);
 
+	/// <summary>
+	/// 親となるワールドトランスフォームをセット
+	/// </summary>
+	/// <param name="parent">親となるワールドトランスフォーム</param>
+	void SetParent(const WorldTransform* parent);
+
 private:
 	WorldTransform worldTransform_;
 

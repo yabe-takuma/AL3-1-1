@@ -17,6 +17,12 @@ GameScene::~GameScene() {
 	}
 	delete enemyhp_;
 	delete enemyui_;
+	delete modelplayer_;
+	delete limittimer_;
+	delete limittimerui_;
+	delete playerhp_;
+	delete playerui_;
+	
 }
 
 void GameScene::Initialize() {
@@ -24,7 +30,7 @@ void GameScene::Initialize() {
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
-	textureHandle_ = TextureManager::Load("mario.jpg");
+	modelplayer_ = Model::CreateFromOBJ("Player", true);
 
 	model_ = Model::Create();
 	viewProjection_.Initialize();
@@ -52,7 +58,7 @@ void GameScene::Initialize() {
 	skydome_->Initialize(modelSkydome_);
 
 	railcamera_ = new RailCamera();
-	const float kCameraSpeed = 0.01f;
+	const float kCameraSpeed = 0.3f;
 	 //const float kCameraRotateSpeed = 0.001f;
 	Vector3 velocity = {0.0f, 0.0f, kCameraSpeed};
 
@@ -64,7 +70,7 @@ void GameScene::Initialize() {
 	// 自キャラとレールカメラの親子関係を結ぶ
 	player_->SetParent(&railcamera_->GetWorldTransform());
 	Vector3 PlayerPosition = {0.0f, 0.0f, 20.0f};
-	player_->Initialize(model_, textureHandle_, PlayerPosition);
+	player_->Initialize(modelplayer_, textureHandle_, PlayerPosition,model_);
 	Vector3 Position{0, 0, 0};
 	//EnemyGeneration(Position);
 	LoadEnemyPopData();
@@ -77,25 +83,32 @@ void GameScene::Initialize() {
 	enemyhp_->Initialize(model_, enemyhpposition_);
 	enemyhp_->SetParent(&railcamera_->GetWorldTransform());
 	
-	Vector3 enemyuiposition_ = {0.0f, 30.0f, 20.0f};
+	Vector3 enemyuiposition_ = {-7.0f, 18.0f, 50.0f};
 	enemyui_ = new EnemyUI();
 	enemyui_->Initialize(model_, enemyuiposition_);
+	enemyui_->SetParent(&railcamera_->GetWorldTransform());
 
-	Vector3 playerhpposition_ = {0.0f, -10.0f, 20.0f};
+	Vector3 playerhpposition_ = {-35.0f, -1.0f, 50.0f};
 	playerhp_ = new PlayerHP();
 	playerhp_->Initialize(model_, playerhpposition_);
+	playerhp_->SetParent(&railcamera_->GetWorldTransform());
 
-	Vector3 playeruiposition_ = {-12.0f, -10.0f, 20.0f};
+	Vector3 playeruiposition_ = {-35.0f, 5.0f, 50.0f};
 	playerui_ = new PlayerUI();
 	playerui_->Initialize(model_, playeruiposition_);
+	playerui_->SetParent(&railcamera_->GetWorldTransform());
 
-	Vector3 limittimerposition_ = {10.0f, 0.0f, 20.0f};
+	Vector3 limittimerposition_ = {35.0f, 1.0f, 50.0f};
 	limittimer_ = new LimitTimer();
 	limittimer_->Initialize(model_, limittimerposition_);
+	limittimer_->SetParent(&railcamera_->GetWorldTransform());
 
-	Vector3 limittimeruiposition_ = {15.0f, 0.0f, 20.0f};
+	Vector3 limittimeruiposition_ = {35.0f, 8.0f, 50.0f};
 	limittimerui_ = new LImitTimerUI();
 	limittimerui_->Initialize(model_, limittimeruiposition_);
+	limittimerui_->SetParent(&railcamera_->GetWorldTransform());
+
+	
 
 }
 
@@ -172,6 +185,8 @@ void GameScene::Update() {
 		limittimerui_->Update();
 	}
 
+	
+
 	for (EnemyBullet* bullet : enemybullets_) {
 		bullet->Update();
 	}
@@ -195,15 +210,25 @@ void GameScene::Update() {
 		}
 		return false;
 	});
-	/*if (limittimer_->IsTimerLimit())
-	{
-		
-	}*/
-	/*if (player_->IsDead())
+	
+	if (player_->IsDead())
 	{
 		isSceneEnd_ = true;
-	}*/
+	}
+	
+	if (enemyhp_->EnemyLimit()) {
+		isGameClear_ = true;
+	}
 
+	if (limittimer_->IsTimerLimit()) {
+		
+		isSceneEnd_ = true;
+	}
+	
+		/*else if (enemyhp_->EnemyLimit() && limittimer_->IsTimerLimit()) {
+			isGameClear_ = true;
+		}*/
+	
 	UpdateEnemyPopCommands();
 }
 
@@ -277,6 +302,8 @@ void GameScene::Draw() {
 
 		limittimerui_->Draw(viewProjection_);
 	}
+
+	
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
@@ -378,7 +405,13 @@ void GameScene::CheckAllCollisions() {
 				// 敵キャラの衝突時コールバックを呼び出す
 
 				enemy->OnCollision();
-				enemyhp_->OnCollision();
+				
+					if (enemy->IsExplosion() == false) {
+
+						enemyhp_->OnCollision();
+
+					}
+				
 			}
 		}
 	}

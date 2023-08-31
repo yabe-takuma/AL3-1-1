@@ -22,6 +22,7 @@
 #include"PlayerUI.h"
 #include"LimitTimer.h"
 #include"LImitTimerUI.h"
+#include"Frame.h"
 
 /// <summary>
 /// ゲームシーン
@@ -86,6 +87,8 @@ public: // メンバ関数
 	bool IsSceneEnd() { return isSceneEnd_; }
 	Scene::SceneType NextScene() { return Scene::SceneType::kGameOver; }
 
+	bool IsGameClear() { return isGameClear_; }
+	Scene::SceneType NextGameScene() { return Scene::SceneType::kGameClear; }
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
@@ -98,6 +101,7 @@ private: // メンバ変数
 
 	ViewProjection viewProjection_;
 	Player* player_ = nullptr;
+	Model* modelplayer_ = nullptr;
 	Enemy* enemy_ = nullptr;
 
 	// 3Dモデル
@@ -133,6 +137,10 @@ private: // メンバ変数
 	LimitTimer* limittimer_ = nullptr;
 
 	LImitTimerUI* limittimerui_ = nullptr;
+
+	Frame* frame_ = nullptr;
+
+	bool isGameClear_ = false;
 
 	/// <summary>
 	/// ゲームシーン用

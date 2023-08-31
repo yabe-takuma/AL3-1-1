@@ -17,3 +17,8 @@ void LImitTimerUI::Update() { worldTransform_.UpdateMatrix(); }
 void LImitTimerUI::Draw(const ViewProjection& viewProjection) {
 	model_->Draw(worldTransform_, viewProjection, textureHandle_);
 }
+
+void LImitTimerUI::SetParent(const WorldTransform* parent) {
+	// 親子関係を結ぶ
+	worldTransform_.parent_ = parent;
+}

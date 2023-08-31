@@ -39,6 +39,9 @@ private:
 	WorldTransform worldTransform_;
 	// モデル
 	Model* model_ = nullptr;
+
+	//Model* modelplayerbullet_ = nullptr;
+
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0u;
 	// 速度

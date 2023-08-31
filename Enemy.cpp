@@ -13,8 +13,10 @@
 
 void Enemy::Initialize(Model* model, const Vector3& position, const Vector3& velocity) {
 	assert(model);
+	modelenemy_ = model;
 	model_ = model;
-	textureHandle_ = TextureManager::Load("Enemy.jpg");
+	modelenemy_ = Model::CreateFromOBJ("Enemy", true);
+	textureHandle_ = TextureManager::Load("Explosion.png");
 
 	worldTransform_;
 
@@ -35,6 +37,8 @@ void Enemy::Initialize(Model* model, const Vector3& position, const Vector3& vel
 
 	HPInitialize();
 
+	ExplorionInitialize();
+
 	//Vector3 position_ = {0.0f, 0.0f, 20.0f};
 	//enemyhp_ = new EnemyHP();
 	//enemyhp_->Initialize(model_, position_);
@@ -43,7 +47,7 @@ void Enemy::Initialize(Model* model, const Vector3& position, const Vector3& vel
 
 void Enemy::Update() {
 	worldTransform_.UpdateMatrix();
-	worldTransform_.translation_ = Subtract(worldTransform_.translation_, velocity_);
+	//worldTransform_.translation_ = Subtract(worldTransform_.translation_, velocity_);
 	
 	
 
@@ -72,13 +76,31 @@ void Enemy::Update() {
 	//	}
 	//	return false;
 	//});
+
+	if (hp_ <= 0)
+	{
+		isexplosion_ = true;
+		ExplorionUpdate();
+	}
+
 	
 	
+	ImGui::Begin("Enemy");
+	ImGui::DragInt("ExplosionTimer", &kExplosionTimer_, 1);
+
+	    ImGui::End();
 
 }
 
 void Enemy::Draw(const ViewProjection& viewProjection) {
-	model_->Draw(worldTransform_, viewProjection, textureHandle_);
+	if (hp_ >= 1) {
+
+		modelenemy_->Draw(worldTransform_, viewProjection);
+	}
+	else
+	{
+		model_->Draw(worldTransform_, viewProjection, textureHandle_);
+	}
 	/*for (EnemyBullet* bullet : bullets_) {
 	    bullet->Draw(viewProjection);
 	}*/
@@ -89,7 +111,7 @@ void Enemy::Draw(const ViewProjection& viewProjection) {
 }
 
 void Enemy::Fire() {
-	const float kBulletSpeed = 1.0f;
+	const float kBulletSpeed = 3.0f;
 	Vector3 velocity(0, 0, kBulletSpeed);
 
 	GetWorldPosition();
@@ -161,10 +183,23 @@ Vector3 Enemy::GetWorldRadius() {
 }
 
 void Enemy::OnCollision() {
-	hp_--;
 	
-	if (hp_ <= 0)
+		hp_--;
+	
+	
+}
+void Enemy::ExplorionInitialize()
+{ kExplosionTimer_ = kExplosionInterval_; }
+
+void Enemy::ExplorionUpdate()
+{ 
+	kExplosionTimer_--;
+
+	if (kExplosionTimer_ <= 0)
 	{
 	isDead_ = true;
+	kExplosionTimer_ = kExplosionInterval_;
 	}
+
+
 }

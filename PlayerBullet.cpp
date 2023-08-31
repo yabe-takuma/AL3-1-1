@@ -7,14 +7,16 @@ void PlayerBullet::Initialize(Model* model, const Vector3& position,const Vector
 	assert(model);
 
 	model_ = model;
+	
+	//modelplayerbullet_ = Model::CreateFromOBJ("Bullet", true);
 	// テクスチャ読み込み
-	textureHandle_ = TextureManager::Load("black.png");
+	textureHandle_ = TextureManager::Load("PlayerBullet.png");
 
 	worldTransform_;
 
 	// 因数で受け取った初期座標をセット
 	worldTransform_.translation_ = position;
-	worldTransform_.scale_ = {0.1f, 0.1f, 0.1f};
+	worldTransform_.scale_ = {0.5f, 0.5f, 0.5f};
 	worldTransform_.Initialize();
 	// 引数で受け取った速度をメンバ変数に代入
 	velocity_ = velocity;
@@ -35,7 +37,7 @@ void PlayerBullet::Update() {
 }
 
 void PlayerBullet::Draw(const ViewProjection& viewProjection) {
-	model_->Draw(worldTransform_, viewProjection, textureHandle_);
+	model_->Draw(worldTransform_, viewProjection,textureHandle_);
 };
 
 void PlayerBullet::OnCollision() { isDead_ = true; }

@@ -113,11 +113,15 @@
     <ClCompile Include="EnemyBullet.cpp" />
     <ClCompile Include="EnemyHP.cpp" />
     <ClCompile Include="EnemyUI.cpp" />
+    <ClCompile Include="Frame.cpp" />
+    <ClCompile Include="GameClear.cpp" />
+    <ClCompile Include="GameExplanation.cpp" />
     <ClCompile Include="GameOverScene.cpp" />
     <ClCompile Include="LimitTimer.cpp" />
     <ClCompile Include="LImitTimerUI.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Matrix4x4.cpp" />
+    <ClCompile Include="MojiSprite.cpp" />
     <ClCompile Include="MyVector3.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="PlayerBullet.cpp" />
@@ -157,6 +161,9 @@
     <ClInclude Include="EnemyBullet.h" />
     <ClInclude Include="EnemyHP.h" />
     <ClInclude Include="EnemyUI.h" />
+    <ClInclude Include="Frame.h" />
+    <ClInclude Include="GameClear.h" />
+    <ClInclude Include="GameExplanation.h" />
     <ClInclude Include="GameOverScene.h" />
     <ClInclude Include="input\Input.h" />
     <ClInclude Include="LimitTimer.h" />
@@ -165,6 +172,7 @@
     <ClInclude Include="math\Vector2.h" />
     <ClInclude Include="math\Vector3.h" />
     <ClInclude Include="math\Vector4.h" />
+    <ClInclude Include="MojiSprite.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="PlayerBullet.h" />
     <ClInclude Include="PlayerHP.h" />

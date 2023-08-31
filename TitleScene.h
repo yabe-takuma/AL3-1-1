@@ -42,8 +42,10 @@ class TitleScene {
 	/// </summary>
 	void Draw();
 
+	void DrawUI();
+
 	bool IsSceneEnd() { return isSceneEnd_; }
-	Scene::SceneType NextScene() { return Scene::SceneType::kGamePlay; }
+	Scene::SceneType NextScene() { return Scene::SceneType::kGameExplanation; }
 
 	
 	private: //メンバ変数
@@ -52,7 +54,7 @@ class TitleScene {
 	Audio* audio_ = nullptr;
 	bool isSceneEnd_ = false;
 	
-	
+	Sprite* titlesprite_ = nullptr;
 
 
 };

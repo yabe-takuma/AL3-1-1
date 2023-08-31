@@ -40,6 +40,8 @@ class GameOverScene {
 	/// </summary>
 	void Draw();
 
+	void DrawUI();
+
 	bool IsSceneEnd() { return isSceneEnd_; }
 	Scene::SceneType NextScene() { return Scene::SceneType::kTitle; }
 
@@ -49,7 +51,7 @@ private: // メンバ変数
 	Audio* audio_ = nullptr;
 	bool isSceneEnd_ = false;
 
-
+	Sprite* titlesprite_ = nullptr;
 
 
 

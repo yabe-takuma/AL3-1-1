@@ -11,7 +11,7 @@
 ///</summary
 class Player {
 public:
-	void Initialize(Model* model, uint32_t textureHandle, const Vector3& Position);
+	void Initialize(Model* model, uint32_t textureHandle, const Vector3& Position,Model* modelplayerbullet);
 
 	///< summary>
 	/// 更新
@@ -69,7 +69,7 @@ public:
 
 	 bool IsDead() const { return isDead_; }
 
-	 static const int HP = 10;
+	 static const int HP = 5;
 
 	 void HPInitialize();
 
@@ -80,6 +80,9 @@ public:
 	WorldTransform worldTransform_;
 	// モデル
 	Model* model_ = nullptr;
+
+	Model* modelplayerbullet_ = nullptr;
+
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0u;
 	// キーボード入力

@@ -10,14 +10,16 @@ void GameOverScene::Initialize() {
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
+
+	uint32_t textureTitle = TextureManager::Load("GameOverTitle.png");
+
+	titlesprite_ =
+	    Sprite::Create(textureTitle, {640.0f, 360.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.5f, 0.5f});
 }
 
 void GameOverScene::Update() {
 	
-	if (input_->PushKey(DIK_SPACE))
-	{
-		isSceneEnd_ = true;
-	}
+
 
 }
 
@@ -59,8 +61,12 @@ void GameOverScene::Draw() {
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
 
+	DrawUI();
+
 	// スプライト描画後処理
 	Sprite::PostDraw();
 
 #pragma endregion
 }
+
+void GameOverScene::DrawUI() { titlesprite_->Draw(); }

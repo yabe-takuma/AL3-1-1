@@ -5,10 +5,10 @@ void LimitTimer::Initialize(Model* model, const Vector3& position) {
 
 	model_ = model;
 
-	textureHandle_ = TextureManager::Load("HP.png");
+	textureHandle_ = TextureManager::Load("Timer2.png");
 
 	worldTransform_.Initialize();
-	worldTransform_.scale_ = {1.0f, 30.0f, 1.0f};
+	worldTransform_.scale_ = {0.5f, 5.0f, 0.1f};
 	worldTransform_.translation_ = position;
 
 	TimerInitialize();
@@ -16,7 +16,7 @@ void LimitTimer::Initialize(Model* model, const Vector3& position) {
 
 void LimitTimer::Update() { 
 	TimerUpdate();
-	if (worldTransform_.scale_.y <= 0)
+	if (worldTransform_.scale_.y < 0.0f)
 	{
 		istimerlimit_ = true;
 	}
@@ -35,8 +35,13 @@ void LimitTimer::TimerUpdate()
 	kFireTimer_--;
 	// 指定時間に達した
 	if (kFireTimer_ <= 0) {
-		worldTransform_.scale_.y = worldTransform_.scale_.y - 1.0f;
+		worldTransform_.scale_.y = worldTransform_.scale_.y - 0.5f;
 		// タイマーを初期化
 		kFireTimer_ = kFireInterval_;
 	}
+}
+
+void LimitTimer::SetParent(const WorldTransform* parent) {
+	// 親子関係を結ぶ
+	worldTransform_.parent_ = parent;
 }

@@ -10,9 +10,10 @@ Player::~Player() {
 	delete sprite2DReticle_;
 }
 
-void Player::Initialize(Model* model, uint32_t textureHandle, const Vector3& Position) {
+void Player::Initialize(Model* model, uint32_t textureHandle, const Vector3& Position,Model* modelplayerbullet) {
 	assert(model);
 	model_ = model;
+	modelplayerbullet_ = modelplayerbullet;
 	textureHandle_ = textureHandle;
 
 	worldTransform_.Initialize();
@@ -156,7 +157,7 @@ void Player::Update(ViewProjection& viewProjection_) {
 	worldTransform_.translation_.y = playerPos[1];
 	worldTransform_.translation_.z = playerPos[2];
 
-	// ImGui::DragInt("HP", &hp_, 1.0f);
+	 ImGui::DragInt("HP", &hp_, 1.0f);
 	ImGui::Text("2DReticle:(%f,%f)", &worldTransform3DReticle_.translation_.x, worldTransform_.translation_.y);
 
 	
@@ -169,7 +170,7 @@ void Player::Draw(ViewProjection& viewProjection_) {
 
 		bullet->Draw(viewProjection_);
 	}
-	model_->Draw(worldTransform_, viewProjection_, textureHandle_);
+	model_->Draw(worldTransform_, viewProjection_);
 
 
 	// 3Dレティクルを描画
@@ -179,12 +180,13 @@ void Player::Draw(ViewProjection& viewProjection_) {
 void Player::DrawUI() { sprite2DReticle_->Draw(); }
 
 void Player::Attack() {
-	if (input_->IsPressMouse(WM_RBUTTONDOWN==0)) {
+	if (input_->IsPressMouse(WM_RBUTTONDOWN==0)){
+
 
 		
 
 		// 弾の速度
-		const float kBulletSpeed = 1.0f;
+		const float kBulletSpeed = 5.0f;
 		Vector3 velocity(0, 0, kBulletSpeed);
 		// 速度ベクトルを自機の向きに合わせて回転させる(自キャラのワールド行列はmatWorld)
 		velocity = TransformNormal(velocity, worldTransform_.matWorld_);
@@ -198,7 +200,7 @@ void Player::Attack() {
 		velocity = Normalize(velocity);
 		velocity = Multiply(kBulletSpeed, velocity);
 
-		newBullet->Initialize(model_, GetWorldPosition(), velocity);
+		newBullet->Initialize(modelplayerbullet_, GetWorldPosition(), velocity);
 
 		// 弾を登録する
 		bullets_.push_back(newBullet);

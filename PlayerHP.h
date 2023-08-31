@@ -1,6 +1,7 @@
 #pragma once
 #include"Model.h"
 #include"WorldTransform.h"
+
 class PlayerHP {
 
 public:
@@ -12,10 +13,22 @@ public:
 
 	void OnCollision();
 
+	/// <summary>
+	/// 親となるワールドトランスフォームをセット
+	/// </summary>
+	/// <param name="parent">親となるワールドトランスフォーム</param>
+	void SetParent(const WorldTransform* parent);
+
 private:
 	WorldTransform worldTransform_;
 
+	
+
 	Model* model_ = nullptr;
 
+	Model* framemodel_ = nullptr;
+
 	uint32_t textureHandle_ = 0u;
+
+	
 };

@@ -15,7 +15,6 @@ class GameScene;
 /// </summary>
 class Enemy {
 public:
-
 	enum class Phase {
 		Approach, // 接近する
 		Leave,    // 離脱する
@@ -45,7 +44,6 @@ public:
 	///</summary>
 	void Fire();
 
-
 	///< summary>
 	/// デストラクタ
 	///</summary>
@@ -66,12 +64,16 @@ public:
 
 	void SetPlayer(Player* player) { player_ = player; }
 
+	void ExplorionInitialize();
+
+	void ExplorionUpdate();
+
 	// ワールド座標を取得
 	Vector3 GetWorldPosition();
 	// ワールドradiusを取得
 	Vector3 GetWorldRadius();
 
-    bool IsDead() const { return isDead_; }
+	bool IsDead() const { return isDead_; }
 
 	void SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; }
 
@@ -81,6 +83,13 @@ public:
 	static const int HP_ = 3;
 
 	void HPInitialize();
+
+	bool IsExplosion() const { return isexplosion_; }
+
+
+	static const int kExplosionInterval_ = 20;
+
+	
 
 	private:
 	// ワールド変換データ
@@ -92,7 +101,9 @@ public:
 	Model* model_ = nullptr;
 	// テクスチャハンドル
 	uint32_t textureHandle_ = 0u;
+	uint32_t textureHandle2_ = 0u;
 
+	Model* modelenemy_ = nullptr;
 	
 
 	// 速度
@@ -106,6 +117,8 @@ public:
 	// 発射タイマー
 	int32_t kFireTimer_ = 0;
 
+	int32_t kExplosionTimer_ = 0;
+
 	Player* player_ = nullptr;
 
 	GameScene* gameScene_ = nullptr;
@@ -117,5 +130,8 @@ public:
 
 	EnemyHP* enemyhp_ = nullptr;
 
+	bool isexplosion_ = false;
+
+	
 };
 
