@@ -1,5 +1,6 @@
 #include "Player.h"
-
+#include "IMGuiManager.h"
+#include <cassert>
 
 Player::~Player() {
 	for (PlayerBullet* bullet_ : bullets_) {
