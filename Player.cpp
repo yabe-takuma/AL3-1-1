@@ -180,7 +180,7 @@ void Player::Draw(ViewProjection& viewProjection_) {
 void Player::DrawUI() { sprite2DReticle_->Draw(); }
 
 void Player::Attack() {
-	if (input_->IsPressMouse(WM_RBUTTONDOWN==0)){
+	if (input_->IsTriggerMouse(0)){
 
 
 		
