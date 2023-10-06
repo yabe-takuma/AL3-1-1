@@ -2,6 +2,7 @@
 #include "Vector3.h"
 #include "WorldTransform.h"
 
+
 void WorldTransform::UpdateMatrix() {
 	matWorld_.m;
 
