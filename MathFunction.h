@@ -1,7 +1,7 @@
 #pragma once
 #include"Matrix4x4.h"
 #include"Vector3.h"
-class MathFunction {
+
 
 	Matrix4x4 Multiply(const Matrix4x4& m1, const Matrix4x4& m2);
 
@@ -46,4 +46,4 @@ class MathFunction {
 
 	Vector3 Subtract2(float position, const Vector3& v);
 
-};
+

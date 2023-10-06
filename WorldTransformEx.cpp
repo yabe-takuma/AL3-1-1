@@ -1,6 +1,7 @@
 #include "Matrix4x4.h"
 #include "Vector3.h"
 #include "WorldTransform.h"
+#include <MathFunction.h>
 
 
 void WorldTransform::UpdateMatrix() {
@@ -14,6 +15,6 @@ void WorldTransform::UpdateMatrix() {
 
 		matWorld_ = Multiply(matWorld_, parent_->matWorld_);
 	}
-
+    
 	TransferMatrix();
 }
