@@ -11,6 +11,8 @@
 #include"Player.h"
 #include<memory>
 #include"Skydome.h"
+#include"Ground.h"
+#include"DebugCamera.h"
 
 /// <summary>
 /// ゲームシーン
@@ -60,6 +62,13 @@ private: // メンバ変数
 	std::unique_ptr<Model> modelskydome_;
 
 	std::unique_ptr<Skydome> skydome_;
+
+	std::unique_ptr<Ground> ground_;
+
+	std::unique_ptr<Model> modelground_;
+
+	//デバッグカメラ
+	std::unique_ptr<DebugCamera> debugCamera_;
 
 	/// <summary>
 	/// ゲームシーン用

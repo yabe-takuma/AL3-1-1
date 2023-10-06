@@ -22,10 +22,17 @@ void GameScene::Initialize() {
 	player_ = std::make_unique<Player>();
 	//自キャラの初期化
 	player_->Initialize(model_.get(),textureHandle_);
-
+	//天球の生成
 	skydome_ = std::make_unique<Skydome>();
 	modelskydome_.reset(Model::CreateFromOBJ("skydome", true));
-	skydome_->Initialize(modelskydome_)
+	skydome_->Initialize(modelskydome_.get());
+	//フィールドの生成
+	ground_ = std::make_unique<Ground>();
+	modelground_.reset(Model::CreateFromOBJ("ground", true));
+	ground_->Initialize(modelground_.get());
+
+	debugCamera_ = std::make_unique<DebugCamera>(1280, 720);
+
 }
 
 void GameScene::Update() { 
@@ -36,6 +43,13 @@ void GameScene::Update() {
 	if (skydome_ != nullptr) {
 		skydome_->Update();
 	}
+	if (ground_ != nullptr) {
+		ground_->Update();
+	}
+
+	debugCamera_->Update();
+
+
 }
 
 void GameScene::Draw() {
@@ -71,6 +85,13 @@ void GameScene::Draw() {
 	if (skydome_ != nullptr) {
 		skydome_->Draw(viewprojection_);
 	}
+	if (ground_ != nullptr){
+	
+		ground_->Draw(viewprojection_);
+	}
+
+	
+
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
