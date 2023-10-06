@@ -142,9 +142,9 @@ private: // メンバ変数
 
 	bool isGameClear_ = false;
 
-	uint32_t textureHandle_ = 0u;
+	/*uint32_t textureHandle_ = 0u;
 
-	Model* model_ = nullptr;
+	Model* model_ = nullptr;*/
 
 	/// <summary>
 	/// ゲームシーン用
