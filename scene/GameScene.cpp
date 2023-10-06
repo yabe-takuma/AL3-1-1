@@ -25,6 +25,7 @@ void GameScene::Initialize() {
 
 	skydome_ = std::make_unique<Skydome>();
 	modelskydome_.reset(Model::CreateFromOBJ("skydome", true));
+	skydome_->Initialize(modelskydome_)
 }
 
 void GameScene::Update() { 
