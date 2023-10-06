@@ -273,6 +273,13 @@ void Player::Move() {
 	} else if (input_->PushKey(DIK_RIGHT)) {
 		worldTransform_.rotation_.y += kRotSpeed;
 	}
+
+	move.x += kCharacterSpeed;
+	if (worldTransform_.translation_.x >= 1280)
+	{
+		kCharacterSpeed * -1;
+	}
+
 	// 座標移動(ベクトルの加算)
 	worldTransform_.translation_ = Add(worldTransform_.translation_, move);
 	// 移動限界座標
