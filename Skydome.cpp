@@ -14,7 +14,7 @@ void Skydome::Initialize(Model* model) {
 }
 
 void Skydome::Update() {
-	    worldTransform_.TransferMatrix();
+	worldTransform_.TransferMatrix();
 	worldTransform_.UpdateMatrix();
 	    
 }

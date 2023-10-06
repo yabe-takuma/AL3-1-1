@@ -24,10 +24,18 @@ void GameScene::Initialize() {
 	player_->Initialize(model_.get(),textureHandle_);
 
 	skydome_ = std::make_unique<Skydome>();
-	modelskydome_.reset(Model::CreateFromOBJ())
+	modelskydome_.reset(Model::CreateFromOBJ("skydome", true));
 }
 
-void GameScene::Update() { player_->Update(); }
+void GameScene::Update() { 
+	if (player_ != nullptr) {
+
+		player_->Update();
+	}
+	if (skydome_ != nullptr) {
+		skydome_->Update();
+	}
+}
 
 void GameScene::Draw() {
 
@@ -55,9 +63,13 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに3Dオブジェクトの描画処理を追加できる
 	/// </summary>
+	if (player_ != nullptr) {
 
-	player_->Draw(viewprojection_);
-
+		player_->Draw(viewprojection_);
+	}
+	if (skydome_ != nullptr) {
+		skydome_->Draw(viewprojection_);
+	}
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
 #pragma endregion
