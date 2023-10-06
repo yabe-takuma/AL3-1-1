@@ -22,6 +22,9 @@ void GameScene::Initialize() {
 	player_ = std::make_unique<Player>();
 	//自キャラの初期化
 	player_->Initialize(model_.get(),textureHandle_);
+
+	skydome_ = std::make_unique<Skydome>();
+	modelskydome_.reset(Model::CreateFromOBJ())
 }
 
 void GameScene::Update() { player_->Update(); }
