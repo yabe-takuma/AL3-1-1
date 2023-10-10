@@ -54,13 +54,13 @@ void GameScene::Update() {
 	}
 	if (isDebugCameraAcctive_) {
 
-		viewProjection_.matView = debugCamera_->GetViewProjection().matView;
-		viewProjection_.matProjection = debugCamera_->GetViewProjection().matProjection;
+		viewprojection_.matView = debugCamera_->GetViewProjection().matView;
+		viewprojection_.matProjection = debugCamera_->GetViewProjection().matProjection;
 		// ビュープロジェクション行列の転送
-		viewProjection_.TransferMatrix();
+		viewprojection_.TransferMatrix();
 	} else {
 		// ビュープロジェクション行列の更新と転送
-		viewProjection_.UpdateMatrix();
+		viewprojection_.UpdateMatrix();
 	}
 #endif
 

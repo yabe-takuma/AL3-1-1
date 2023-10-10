@@ -69,6 +69,8 @@ private: // メンバ変数
 
 	//デバッグカメラ
 	std::unique_ptr<DebugCamera> debugCamera_;
+	// デバッグカメラ有効
+	bool isDebugCameraAcctive_ = false;
 
 	/// <summary>
 	/// ゲームシーン用
