@@ -42,6 +42,17 @@ void Player::Update()
 		move.y -= kCharacterSpeed;
 	};
 
+	//ゲームパッド状態取得、ゲームパッドが有効の場合if文がを通る
+	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
+	//速さ
+		const float speed = 0.5f;
+
+		//移動量
+		Vector3 move = {0.3f, 0.0f, 0.3f};
+		//移動量に速さを反映
+		move=
+	}
+
 	//座標移動(ベクトルの加算)
 	worldTransform_.translation_= Add(worldTransform_.translation_,move);
 

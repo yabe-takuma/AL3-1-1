@@ -21,4 +21,7 @@ public:
 	//キーボード入力
 	Input* input_ = nullptr;
 
+	//ゲームパッドの状態を得る変数
+	XINPUT_STATE joyState;
+
 };
