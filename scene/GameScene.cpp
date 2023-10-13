@@ -12,7 +12,7 @@ void GameScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 
-	model_.reset(Model::Create());
+	model_.reset(Model::CreateFromOBJ("Player",true));
 
 	textureHandle_ = TextureManager::Load("sample.png");
 
