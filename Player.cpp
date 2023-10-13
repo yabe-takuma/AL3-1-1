@@ -36,10 +36,10 @@ void Player::Update()
 
 	// 押した方向で移動ベクトルを変更(上下)
 	if (input_->PushKey(DIK_UP)) {
-		move.y += kCharacterSpeed;
+		move.z += kCharacterSpeed;
 	} else if (input_->PushKey(DIK_DOWN)) {
 
-		move.y -= kCharacterSpeed;
+		move.z -= kCharacterSpeed;
 	};
 
 	//ゲームパッド状態取得、ゲームパッドが有効の場合if文がを通る
@@ -48,9 +48,12 @@ void Player::Update()
 		const float speed = 0.5f;
 
 		//移動量
-		Vector3 move = {0.3f, 0.0f, 0.3f};
+		Vector3 move2 = {(float)joyState.Gamepad.sThumbLX, 0.0f,(float)joyState.Gamepad.sThumbLY};
 		//移動量に速さを反映
-		move=
+		move2 = Multiply(speed, Normalize(move2));
+
+		//移動
+		worldTransform_.translation_ = Add(worldTransform_.translation_, move2);
 	}
 
 	//座標移動(ベクトルの加算)

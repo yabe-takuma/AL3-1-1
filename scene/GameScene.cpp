@@ -31,6 +31,10 @@ void GameScene::Initialize() {
 	modelground_.reset(Model::CreateFromOBJ("ground", true));
 	ground_->Initialize(modelground_.get());
 
+	followcamera_ = std::make_unique<FollowCamera>();
+	followcamera_->Initialize();
+	followcamera_->SetTarget()
+
 	debugCamera_ = std::make_unique<DebugCamera>(1280, 720);
 
 }
@@ -46,6 +50,10 @@ void GameScene::Update() {
 	if (ground_ != nullptr) {
 		ground_->Update();
 	}
+	if (followcamera_ != nullptr) {
+		followcamera_->Update();
+	}
+	
 
 	debugCamera_->Update();
 #ifdef _DEBUG
