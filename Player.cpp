@@ -46,9 +46,9 @@ void Player::Update()
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
 	//速さ
 		const float speed = 0.5f;
-
+		
 		//移動量
-		Vector3 move2 = {(float)joyState.Gamepad.sThumbLX, 0.0f,(float)joyState.Gamepad.sThumbLY};
+		Vector3 move2 = {Division((float)joyState.Gamepad.sThumbLX,SHRT_MAX), 0.0f,Division((float)joyState.Gamepad.sThumbLY,SHRT_MAX)};
 		//移動量に速さを反映
 		move2 = Multiply(speed, Normalize(move2));
 

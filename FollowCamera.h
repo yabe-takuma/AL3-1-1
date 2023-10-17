@@ -1,6 +1,7 @@
 #pragma once
 #include"ViewProjection.h"
 #include"WorldTransform.h"
+#include"input.h"
     /// <summary>
 /// 追従カメラ
 /// </summary>
@@ -18,9 +19,15 @@ public:
 
 	void SetTarget(const WorldTransform* target) { target_ = target; }
 
+	const ViewProjection& GetViewProjection() { return viewProjection_; }
+
 	private:
 	ViewProjection viewProjection_;
 	//追従対象
 	const WorldTransform* target_ = nullptr;
+
+	XINPUT_STATE joyState;
+
+	Input* input_ = nullptr;
 
 };

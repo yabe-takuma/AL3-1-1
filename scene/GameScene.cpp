@@ -33,13 +33,14 @@ void GameScene::Initialize() {
 
 	followcamera_ = std::make_unique<FollowCamera>();
 	followcamera_->Initialize();
-	followcamera_->SetTarget()
+	followcamera_->SetTarget(&player_->GetWorldTransform());
 
 	debugCamera_ = std::make_unique<DebugCamera>(1280, 720);
 
 }
 
 void GameScene::Update() { 
+	
 	if (player_ != nullptr) {
 
 		player_->Update();
@@ -50,6 +51,7 @@ void GameScene::Update() {
 	if (ground_ != nullptr) {
 		ground_->Update();
 	}
+	// 追従カメラの更新
 	if (followcamera_ != nullptr) {
 		followcamera_->Update();
 	}
@@ -71,6 +73,11 @@ void GameScene::Update() {
 		viewprojection_.UpdateMatrix();
 	}
 #endif
+
+	viewprojection_.matProjection = followcamera_->GetViewProjection().matProjection;
+	viewprojection_.matView = followcamera_->GetViewProjection().matView;
+
+	viewprojection_.TransferMatrix();
 
 }
 

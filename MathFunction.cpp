@@ -479,3 +479,29 @@ Vector3 Subtract2(float position, const Vector3& v) {
 	result.z = position - v.z;
 	return result;
 }
+
+Vector3 Multiply(float scalar, float scalar2) { Vector3 result;
+
+result.x = scalar * scalar2;
+result.y = scalar * scalar2;
+result.z = scalar * scalar2;
+return result;
+}
+
+Vector3 Add3(float num,const Vector3& v)
+{ Vector3 result;
+result.x = num * v.x;
+result.y = num * v.y;
+result.z = num * v.z;
+return result ;
+}
+
+float Division(float n, int num)
+{ 
+
+float x = n / num;
+float y = n / num;
+float z = n / num;
+return x,y,z;
+
+}

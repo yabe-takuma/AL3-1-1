@@ -46,4 +46,9 @@
 
 	Vector3 Subtract2(float position, const Vector3& v);
 
+	Vector3 Multiply(float scalar, float scalar2);
+
+	Vector3 Add3(float num, const Vector3& v);
+
+	float Division(float n, int num);
 
