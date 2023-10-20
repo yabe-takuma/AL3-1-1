@@ -418,12 +418,14 @@ Vector3 Subtract(const Vector3& v1, const Vector3& v2) {
 }
 
 Vector3 Normalize(const Vector3& v) {
-	Vector3 result;
-	float length = sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
-	assert(length != 0.0f);
-	result.x = v.x / length;
-	result.y = v.y / length;
-	result.z = v.z / length;
+	float len = Length(v);
+	Vector3 result = v;
+	if (len != 0) {
+		result.x=result.x / len;
+		result.y= result.y/ len;
+		result.z= result.z/ len;
+	}
+	
 	return result;
 }
 
@@ -487,12 +489,12 @@ result.z = scalar * scalar2;
 return result;
 }
 
-Vector3 Add3(float num,const Vector3& v)
-{ Vector3 result;
-result.x = num * v.x;
-result.y = num * v.y;
-result.z = num * v.z;
-return result ;
+float Add3(Vector3 v,const Vector3& v2)
+{ //Vector3 result;
+float x = v.x * v2.x;
+float y = v.y * v2.y;
+float z = v.z * v2.z;
+return x,y,z ;
 }
 
 Vector3 Division(Vector3 v, int num)
@@ -503,4 +505,9 @@ result.y = v.y / num;
 result.z = v.z / num;
 return result;
 
+}
+
+float Length(const Vector3& v) {
+float length = sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
+return length;
 }
