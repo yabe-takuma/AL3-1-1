@@ -50,5 +50,5 @@
 
 	Vector3 Add3(float num, const Vector3& v);
 
-	float Division(float n, int num);
+	Vector3 Division(Vector3 v, int num);
 

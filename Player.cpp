@@ -48,9 +48,9 @@ void Player::Update()
 		const float speed = 0.5f;
 		
 		//移動量
-		Vector3 move2 = {Division((float)joyState.Gamepad.sThumbLX,SHRT_MAX), 0.0f,Division((float)joyState.Gamepad.sThumbLY,SHRT_MAX)};
+		Vector3 move2 = {(float)joyState.Gamepad.sThumbLX, 0.0f,(float)joyState.Gamepad.sThumbLY};
 		//移動量に速さを反映
-		move2 = Multiply(speed, Normalize(move2));
+		move2 = Multiply(speed, Normalize(Division(move2,SHRT_MAX)));
 
 		//移動
 		worldTransform_.translation_ = Add(worldTransform_.translation_, move2);

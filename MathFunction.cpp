@@ -496,12 +496,12 @@ result.z = num * v.z;
 return result ;
 }
 
-float Division(float n, int num)
+Vector3 Division(Vector3 v, int num)
 { 
-
-float x = n / num;
-float y = n / num;
-float z = n / num;
-return x,y,z;
+	Vector3 result;
+result.x = v.x / num;
+result.y = v.y / num;
+result.z = v.z / num;
+return result;
 
 }
