@@ -24,7 +24,7 @@ void FollowCamera::Update()
 		const float kRotSpeed = 0.1f;
 
 		viewProjection_.rotation_ =
-		    Add(viewProjection_.rotation_, Multiply(kRotSpeed, (float)joyState.Gamepad.sThumbRX));
+		    Add(viewProjection_.rotation_, Multiply(kRotSpeed, (float)joyState.Gamepad.sThumbRX/SHRT_MAX*kRotSpeed));
 	}
 	// 押した方向で移動ベクトルを変更(左右)
 	if (input_->PushKey(DIK_D)) {
