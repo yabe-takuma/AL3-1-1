@@ -10,6 +10,8 @@ public:
 
 	void Draw(ViewProjection& viewProjection);
 
+	void SetViewProjection(const ViewProjection* viewProjection);
+
 	const WorldTransform& GetWorldTransform() { return worldTransform_; }
 
 	private:
@@ -25,5 +27,8 @@ public:
 
 	//ゲームパッドの状態を得る変数
 	XINPUT_STATE joyState;
+
+	//カメラのビュープロジェクション
+	const ViewProjection* viewProjection_ = nullptr;
 
 };

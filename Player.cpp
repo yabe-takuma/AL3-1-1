@@ -52,6 +52,16 @@ void Player::Update() {
 		// 移動量に速さを反映
 		move2 = Normalize(move2);
 		move2 = Multiply(speed, move2);
+		move2 = TransformNormal(move2, MakeRotateYMatrix(viewProjection_->rotation_.y));
+		if (move2.x != 0.0f) {
+
+			worldTransform_.rotation_.y = std::atan2(move2.x, move2.z);
+			MakeRotateYMatrix(worldTransform_.rotation_.y);
+			move2 = Multiply(move2, MakeRotateYMatrix(worldTransform_.rotation_.y));
+		}
+		//カメラ回転の速さ
+		/*const float cameraspeed = 0.1f;
+		move2 = Multiply2(move2,MakeRotateYMatrix(cameraspeed));*/
 
 		// 移動
 		worldTransform_.translation_ = Add(worldTransform_.translation_, move2);
@@ -64,3 +74,7 @@ void Player::Update() {
 }
 
 void Player::Draw(ViewProjection& viewProjection) { model_->Draw(worldTransform_, viewProjection); }
+
+void Player::SetViewProjection(const ViewProjection* viewProjection) {
+	viewProjection_ = viewProjection;
+}

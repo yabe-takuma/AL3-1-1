@@ -37,6 +37,8 @@ void GameScene::Initialize() {
 
 	debugCamera_ = std::make_unique<DebugCamera>(1280, 720);
 
+	player_->SetViewProjection(&followcamera_->GetViewProjection());
+
 }
 
 void GameScene::Update() { 

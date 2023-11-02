@@ -511,3 +511,12 @@ float Length(const Vector3& v) {
 float length = sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
 return length;
 }
+
+Vector3 Multiply(const Vector3& v, const Matrix4x4& m) { 
+	Vector3 result;
+result.x = m.m[0][0] * v.x + m.m[1][0] * v.x + m.m[2][0] * v.x + m.m[3][0] * v.x;
+	result.y = m.m[0][1] * v.y + m.m[1][1] * v.y + m.m[2][1] * v.y + m.m[3][1] * v.y;
+result.z = m.m[0][2] * v.z + m.m[1][2] * v.z + m.m[2][2] * v.z + m.m[3][2] * v.z;
+
+		return result;
+}

@@ -54,3 +54,5 @@
 
 	float Length(const Vector3& v);
 
+	Vector3 Multiply(const Vector3& v,const Matrix4x4& m);
+
