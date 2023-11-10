@@ -4,13 +4,17 @@
 #include"Input.h"
 class Player {
 public:
-	void Initialize(Model* model,uint32_t textureHandle);
+	void Initialize(Model* model,uint32_t textureHandle,Model* modelBoby,Model* modelHead,Model* modelL_arm,Model* modelR_arm);
 
 	void Update();
 
 	void Draw(ViewProjection& viewProjection);
 
 	void SetViewProjection(const ViewProjection* viewProjection);
+	//浮遊ギミック初期化
+	void InitializeFloatingGimmick();
+	//浮遊ギミック更新
+	void UpdateFloatingGimmick();
 
 	const WorldTransform& GetWorldTransform() { return worldTransform_; }
 
@@ -30,5 +34,20 @@ public:
 
 	//カメラのビュープロジェクション
 	const ViewProjection* viewProjection_ = nullptr;
+
+	//3Dモデル
+	Model* modelFighterBody_;
+	Model* modelFighterHead_;
+	Model* modelFighterL_arm_;
+	Model* modelFighterR_arm_;
+
+	WorldTransform worldTransformBody_;
+	WorldTransform worldTransformHead_;
+	WorldTransform worldTransformL_arm_;
+	WorldTransform worldTransformR_arm_;
+
+	//浮遊ギミックの媒介変数
+	float floatingParameter_ = 0.0f;
+	float floatingParameterHead_ = 0.0f;
 
 };
