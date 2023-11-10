@@ -33,6 +33,7 @@ void GameScene::Initialize() {
 
 	followcamera_ = std::make_unique<FollowCamera>();
 	followcamera_->Initialize();
+	
 	followcamera_->SetTarget(&player_->GetWorldTransform());
 
 	debugCamera_ = std::make_unique<DebugCamera>(1280, 720);
@@ -43,6 +44,39 @@ void GameScene::Initialize() {
 
 void GameScene::Update() { 
 	
+	
+
+	
+	
+	
+
+	debugCamera_->Update();
+#ifdef _DEBUG
+	if (input_->TriggerKey(DIK_SPACE)) {
+		isDebugCameraAcctive_ = true;
+	}
+#endif
+	if (isDebugCameraAcctive_) {
+
+		viewprojection_.matView = debugCamera_->GetViewProjection().matView;
+		viewprojection_.matProjection = debugCamera_->GetViewProjection().matProjection;
+		// ビュープロジェクション行列の転送
+		viewprojection_.TransferMatrix();
+	} else {
+		
+		viewprojection_.matProjection = followcamera_->GetViewProjection().matProjection;
+		viewprojection_.matView = followcamera_->GetViewProjection().matView;
+
+		viewprojection_.TransferMatrix();
+		// ビュープロジェクション行列の更新と転送
+		//viewprojection_.UpdateMatrix();
+	}
+
+	// 追従カメラの更新
+	if (followcamera_ != nullptr) {
+		followcamera_->Update();
+	}
+
 	if (player_ != nullptr) {
 
 		player_->Update();
@@ -53,33 +87,9 @@ void GameScene::Update() {
 	if (ground_ != nullptr) {
 		ground_->Update();
 	}
-	// 追従カメラの更新
-	if (followcamera_ != nullptr) {
-		followcamera_->Update();
-	}
+
 	
-
-	debugCamera_->Update();
-#ifdef _DEBUG
-	if (input_->TriggerKey(DIK_SPACE)) {
-		isDebugCameraAcctive_ = true;
-	}
-	if (isDebugCameraAcctive_) {
-
-		viewprojection_.matView = debugCamera_->GetViewProjection().matView;
-		viewprojection_.matProjection = debugCamera_->GetViewProjection().matProjection;
-		// ビュープロジェクション行列の転送
-		viewprojection_.TransferMatrix();
-	} else {
-		// ビュープロジェクション行列の更新と転送
-		viewprojection_.UpdateMatrix();
-	}
-#endif
-
-	viewprojection_.matProjection = followcamera_->GetViewProjection().matProjection;
-	viewprojection_.matView = followcamera_->GetViewProjection().matView;
-
-	viewprojection_.TransferMatrix();
+	
 
 }
 

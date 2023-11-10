@@ -54,10 +54,9 @@ void Player::Update() {
 		move2 = Multiply(speed, move2);
 		move2 = TransformNormal(move2, MakeRotateYMatrix(viewProjection_->rotation_.y));
 		if (move2.x != 0.0f) {
-
+			
 			worldTransform_.rotation_.y = std::atan2(move2.x, move2.z);
-			MakeRotateYMatrix(worldTransform_.rotation_.y);
-			move2 = Multiply(move2, MakeRotateYMatrix(worldTransform_.rotation_.y));
+		
 		}
 		//カメラ回転の速さ
 		/*const float cameraspeed = 0.1f;
