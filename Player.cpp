@@ -70,6 +70,7 @@ void Player::Update() {
 		    (float)joyState.Gamepad.sThumbLX / SHRT_MAX * speed, 0.0f,
 		    (float)joyState.Gamepad.sThumbLY / SHRT_MAX * speed};
 
+		
 		// 移動量に速さを反映
 		move2 = Normalize(move2);
 		move2 = Multiply(speed, move2);
