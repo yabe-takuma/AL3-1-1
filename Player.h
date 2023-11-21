@@ -2,13 +2,14 @@
 #include"WorldTransform.h"
 #include"Model.h"
 #include"Input.h"
-class Player {
+#include"BaseCharacter.h"
+class Player : public BaseCharacter {
 public:
-	void Initialize(Model* model,uint32_t textureHandle,Model* modelBoby,Model* modelHead,Model* modelL_arm,Model* modelR_arm);
+	void Initialize(const std::vector<Model*>& models) override;
 
-	void Update();
+	void Update() override;
 
-	void Draw(ViewProjection& viewProjection);
+	void Draw(ViewProjection& viewProjection) override;
 
 	void SetViewProjection(const ViewProjection* viewProjection);
 	//浮遊ギミック初期化

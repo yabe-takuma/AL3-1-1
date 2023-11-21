@@ -1,25 +1,14 @@
 #include "Player.h"
 #include <cassert>
 
-void Player::Initialize(
-    Model* model, uint32_t textureHandle, Model* modelBody, Model* modelHead, Model* modelL_arm,
-    Model* modelR_arm) {
-	// NULLポインタチェック
-	assert(model);
-	assert(modelBody);
-	assert(modelHead);
-	assert(modelL_arm);
-	assert(modelR_arm);
-
-	model_ = model;
-	modelFighterBody_ = modelBody;
-	modelFighterHead_ = modelHead;
-	modelFighterL_arm_ = modelL_arm;
-	modelFighterR_arm_ = modelR_arm;
+void Player::Initialize(const std::vector<Model*>& models) {
+	
+	BaseCharacter::Initialize(models);
+	
 
 	InitializeFloatingGimmick();
 
-	textureHandle_ = textureHandle;
+	
 
 	worldTransformBody_.translation_ = {0.0f, 0.5f, 0.0f};
 	worldTransformHead_.translation_ = {0.0f, 2.0f, 0.0f};
@@ -37,7 +26,7 @@ void Player::Initialize(
 }
 
 void Player::Update() {
-
+	BaseCharacter::Update();
 	// キャラクターの移動ベクトル
 	Vector3 move = {0, 0, 0};
 
@@ -59,6 +48,8 @@ void Player::Update() {
 
 		move.z -= kCharacterSpeed;
 	};
+
+	
 
 	// ゲームパッド状態取得、ゲームパッドが有効の場合if文がを通る
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
@@ -109,10 +100,13 @@ void Player::Update() {
 }
 
 void Player::Draw(ViewProjection& viewProjection) { //model_->Draw(worldTransform_, viewProjection); 
-	modelFighterBody_->Draw(worldTransformBody_, viewProjection);
-	modelFighterHead_->Draw(worldTransformHead_, viewProjection);
-	modelFighterL_arm_->Draw(worldTransformL_arm_, viewProjection);
-	modelFighterR_arm_->Draw(worldTransformR_arm_, viewProjection);
+	BaseCharacter::Draw(viewProjection);
+
+	//3Dモデルを描画
+	models_[0]->Draw(worldTransformBody_, viewProjection);
+	models_[1]->Draw(worldTransformHead_, viewProjection);
+	models_[2]->Draw(worldTransformL_arm_, viewProjection);
+	models_[3]->Draw(worldTransformR_arm_, viewProjection);
 
 }
 
