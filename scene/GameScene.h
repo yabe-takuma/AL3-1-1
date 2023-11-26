@@ -13,6 +13,7 @@
 #include"Skydome.h"
 #include"Ground.h"
 #include"FollowCamera.h"
+#include"Enemy.h"
 #include"DebugCamera.h"
 
 
@@ -76,6 +77,13 @@ private: // メンバ変数
 	std::unique_ptr<Model> modelFighterHead_;
 	std::unique_ptr<Model> modelFighterL_arm_;
 	std::unique_ptr<Model> modelFighterR_arm_;
+
+	std::unique_ptr<Enemy> enemy_;
+
+	//敵の3Dモデル
+	std::unique_ptr<Model> enemymodelBody_;
+	std::unique_ptr<Model> enemymodelL_arm_;
+	std::unique_ptr<Model> enemymodelR_arm_;
 
 	//デバッグカメラ
 	std::unique_ptr<DebugCamera> debugCamera_;

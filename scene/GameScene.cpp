@@ -49,7 +49,15 @@ void GameScene::Initialize() {
 
 	player_->SetViewProjection(&followcamera_->GetViewProjection());
 
-	
+	enemymodelBody_.reset(Model::CreateFromOBJ("needle_Body", true));
+	enemymodelL_arm_.reset(Model::CreateFromOBJ("needle_L_arm", true));
+	enemymodelR_arm_.reset(Model::CreateFromOBJ("needle_R_arm", true));
+
+	enemy_ = std::make_unique<Enemy>();
+	std::vector<Model*> enemymodels = {
+		enemymodelBody_.get(),enemymodelL_arm_.get(),
+		enemymodelR_arm_.get()};
+	enemy_->Initialize(enemymodels);
 
 }
 
@@ -69,7 +77,9 @@ void GameScene::Update() {
 		ground_->Update();
 	}
 
-	
+	if (enemy_ != nullptr) {
+		enemy_->Update();
+	}
 	
 	
 
@@ -142,7 +152,9 @@ void GameScene::Draw() {
 	
 		ground_->Draw(viewprojection_);
 	}
-
+	if (enemy_ != nullptr) {
+		enemy_->Draw(viewprojection_);
+	}
 	
 
 	// 3Dオブジェクト描画後処理

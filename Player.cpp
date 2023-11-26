@@ -100,8 +100,8 @@ void Player::Update() {
 }
 
 void Player::Draw(ViewProjection& viewProjection) { //model_->Draw(worldTransform_, viewProjection); 
-	BaseCharacter::Draw(viewProjection);
-
+	//BaseCharacter::Draw(viewProjection);
+	
 	//3Dモデルを描画
 	models_[0]->Draw(worldTransformBody_, viewProjection);
 	models_[1]->Draw(worldTransformHead_, viewProjection);
