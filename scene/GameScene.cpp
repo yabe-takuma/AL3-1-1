@@ -59,6 +59,8 @@ void GameScene::Initialize() {
 		enemymodelR_arm_.get()};
 	enemy_->Initialize(enemymodels);
 
+	enemy_->SetViewProjection(&followcamera_->GetViewProjection());
+
 }
 
 void GameScene::Update() { 

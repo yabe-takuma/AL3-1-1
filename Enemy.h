@@ -11,14 +11,19 @@ public:
 
 	void Draw(ViewProjection& viewProjection) override;
 
+	void SetViewProjection(const ViewProjection* viewProjection);
+
 	private:
 	WorldTransform worldTransformBody_;
 	WorldTransform worldTransformL_arm_;
 	WorldTransform worldTransformR_arm_;
 
-	Vector3 velocity_[3];
+	
 	float angularVelocity = 0.14f;
 	float angle = 0.0f;
 	float deltaTime = 0.1f;
+
+	// カメラのビュープロジェクション
+	const ViewProjection* viewProjection_ = nullptr;
 
 };

@@ -11,29 +11,29 @@ void Enemy::Initialize(const std::vector<Model*>& models) {
 	worldTransformL_arm_.Initialize();
 	worldTransformR_arm_.Initialize();
 
-	velocity_[0] = {0.0f, 0.0f, 0.0f};
-	velocity_[1] = {0.0f, 0.0f, 0.0f};
-	velocity_[2] = {0.0f, 0.0f, 0.0f};
+	
+	
 }
 
 void Enemy::Update() { 
 	BaseCharacter::Update();
+	Vector3 velocity_ = {0.1f, 0.0f, 0.1f};
+	
+	 velocity_ = TransformNormal(velocity_, MakeRotateYMatrix(viewProjection_->rotation_.y));
+	/*velocity_ = TransformNormal(velocity_, worldTransformL_arm_.matWorld_);
+	 velocity_ = TransformNormal(velocity_, worldTransformR_arm_.matWorld_);*/
 	
 	
-	//velocity_[0] = TransformNormal(velocity_[0], worldTransformBody_.matWorld_);
-	//velocity_[1] = TransformNormal(velocity_[1], worldTransformL_arm_.matWorld_);
-	//velocity_[2] = TransformNormal(velocity_[2], worldTransformR_arm_.matWorld_);
+	/*if (velocity_.x != 0.0f) {
+
+		worldTransformBody_.rotation_.y = std::atan2(velocity_.x, velocity_.z);
+		worldTransformR_arm_.rotation_.y = std::atan2(velocity_.x, velocity_.z);
+		worldTransformL_arm_.rotation_.y = std::atan2(velocity_.x, velocity_.z);
+	}*/
 	
+
 	
-	velocity_[0].x += angularVelocity * deltaTime;
-	velocity_[0].z += angularVelocity * deltaTime;
-
-		//worldTransformBody_.rotation_.y = std::atan2(velocity_[0].x, velocity_[0].z);
-
-	worldTransformBody_.translation_.x =0.0f + std::cos(velocity_[0].x) * 10.0f;
-	worldTransformBody_.translation_.z =0.0f + std::sin(velocity_[0].x) * 10.0f;
-
-
+	 worldTransformBody_.translation_ = Add(worldTransformBody_.translation_, velocity_);
 
 	/*worldTransformL_arm_.translation_ = Add(worldTransformL_arm_.translation_, velocity_[1]);
 	worldTransformR_arm_.translation_ = Add(worldTransformR_arm_.translation_, velocity_[2]);
@@ -55,3 +55,9 @@ void Enemy::Draw(ViewProjection& viewProjection) {
 
 
 }
+
+void Enemy::SetViewProjection(const ViewProjection* viewProjection) {
+	viewProjection_ = viewProjection;
+}
+
+
