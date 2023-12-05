@@ -11,8 +11,7 @@ public:
 
 	void Draw(ViewProjection& viewProjection) override;
 
-	void SetViewProjection(const ViewProjection* viewProjection);
-
+	
 	private:
 	WorldTransform worldTransformBody_;
 	WorldTransform worldTransformL_arm_;
@@ -24,6 +23,6 @@ public:
 	float deltaTime = 0.1f;
 
 	// カメラのビュープロジェクション
-	const ViewProjection* viewProjection_ = nullptr;
+	ViewProjection viewProjection_;
 
 };
