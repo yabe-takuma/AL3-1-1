@@ -8,7 +8,7 @@ void Player::Initialize(const std::vector<Model*>& models) {
 
 	InitializeFloatingGimmick();
 
-	worldTransformHead_ = SetParent(&worldTransformBody_);
+	SetParent(&worldTransformBody_);
 
 	worldTransformBody_.translation_ = {0.0f, 0.5f, 0.0f};
 	worldTransformHead_.translation_ = {0.0f, 2.0f, 0.0f};
