@@ -142,3 +142,7 @@ void Player::UpdateFloatingGimmick() {
 	worldTransformL_arm_.rotation_.x = std::sin(floatingParameter_) * floatingAmplitude;
 	worldTransformR_arm_.rotation_.x = std::sin(floatingParameter_) * floatingAmplitude;
 }
+
+void Player::SetParent(const WorldTransform* parent) {
+
+}
