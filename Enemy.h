@@ -18,11 +18,8 @@ public:
 	WorldTransform worldTransformR_arm_;
 
 	
-	float angularVelocity = 0.14f;
-	float angle = 0.0f;
-	float deltaTime = 0.1f;
+	
 
-	// カメラのビュープロジェクション
-	ViewProjection viewProjection_;
+	
 
 };
