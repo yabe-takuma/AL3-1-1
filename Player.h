@@ -46,6 +46,7 @@ public:
 	WorldTransform worldTransformHead_;
 	WorldTransform worldTransformL_arm_;
 	WorldTransform worldTransformR_arm_;
+	WorldTransform worldTransformHammer_;
 
 	//浮遊ギミックの媒介変数
 	float floatingParameter_ = 0.0f;

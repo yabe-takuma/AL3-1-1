@@ -14,12 +14,14 @@ void Player::Initialize(const std::vector<Model*>& models) {
 	worldTransformHead_.translation_ = {0.0f, 2.0f, 0.0f};
 	worldTransformL_arm_.translation_ = {-0.5f, 1.8f, 0.0f};
 	worldTransformR_arm_.translation_ = {0.5f, 1.8f, 0.0f};
+	worldTransformHammer_.translation_ = {0.0f, 3.0f, 0.0f};
 
 	worldTransform_.Initialize();
 	worldTransformBody_.Initialize();
 	worldTransformHead_.Initialize();
 	worldTransformL_arm_.Initialize();
 	worldTransformR_arm_.Initialize();
+	worldTransformHammer_.Initialize();
 
 	// シングルトンインスタンスを取得する
 	input_ = Input::GetInstance();
@@ -97,6 +99,7 @@ void Player::Update() {
 	worldTransformHead_.UpdateMatrix();
 	worldTransformL_arm_.UpdateMatrix();
 	worldTransformR_arm_.UpdateMatrix();
+	worldTransformHammer_.UpdateMatrix();
 }
 
 void Player::Draw(ViewProjection& viewProjection) { //model_->Draw(worldTransform_, viewProjection); 
@@ -107,6 +110,7 @@ void Player::Draw(ViewProjection& viewProjection) { //model_->Draw(worldTransfor
 	models_[1]->Draw(worldTransformHead_, viewProjection);
 	models_[2]->Draw(worldTransformL_arm_, viewProjection);
 	models_[3]->Draw(worldTransformR_arm_, viewProjection);
+	models_[4]->Draw(worldTransformHammer_, viewProjection);
 
 }
 
