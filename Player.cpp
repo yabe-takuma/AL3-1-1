@@ -8,7 +8,7 @@ void Player::Initialize(const std::vector<Model*>& models) {
 
 	InitializeFloatingGimmick();
 
-	
+	worldTransformHead_ = SetParent(&worldTransformBody_);
 
 	worldTransformBody_.translation_ = {0.0f, 0.5f, 0.0f};
 	worldTransformHead_.translation_ = {0.0f, 2.0f, 0.0f};
@@ -143,6 +143,4 @@ void Player::UpdateFloatingGimmick() {
 	worldTransformR_arm_.rotation_.x = std::sin(floatingParameter_) * floatingAmplitude;
 }
 
-void Player::SetParent(const WorldTransform* parent) {
-
-}
+void Player::SetParent(const WorldTransform* parent) { worldTransform_.parent_ = parent; }
