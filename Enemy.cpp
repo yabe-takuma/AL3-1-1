@@ -3,9 +3,11 @@
 void Enemy::Initialize(const std::vector<Model*>& models) { 
 	BaseCharacter::Initialize(models);
 
+	SetParent(&worldTransformBody_);
+
 	worldTransformBody_.translation_ = {-10.0f, -1.0f, 15.0f};
-	worldTransformL_arm_.translation_ = {-9.0f, 0.0f, 15.0f};
-	worldTransformR_arm_.translation_ = {-11.0f, 0.0f, 15.0f};
+	worldTransformL_arm_.translation_ = {-1.0f, 1.0f, 0.0f};
+	worldTransformR_arm_.translation_ = {1.0f, 1.0f, 0.0f};
 
 	worldTransformBody_.Initialize();
 	worldTransformL_arm_.Initialize();
@@ -20,15 +22,15 @@ void Enemy::Update() {
 	
 	const float rotation_ = 0.01f;
 	worldTransformBody_.rotation_.y += rotation_;
-	worldTransformL_arm_.rotation_.y += rotation_;
-	worldTransformR_arm_.rotation_.y += rotation_;
+	/*worldTransformL_arm_.rotation_.y += rotation_;
+	worldTransformR_arm_.rotation_.y += rotation_;*/
 
 	velocity_ = TransformNormal(velocity_, MakeRotateYMatrix(worldTransformBody_.rotation_.y));
 
 	
 	 worldTransformBody_.translation_ = Add(worldTransformBody_.translation_, velocity_);
-	worldTransformL_arm_.translation_ = Add(worldTransformL_arm_.translation_, velocity_);
-	 worldTransformR_arm_.translation_ = Add(worldTransformR_arm_.translation_, velocity_);
+	/*worldTransformL_arm_.translation_ = Add(worldTransformL_arm_.translation_, velocity_);
+	 worldTransformR_arm_.translation_ = Add(worldTransformR_arm_.translation_, velocity_);*/
 	
 	
 
@@ -44,6 +46,11 @@ void Enemy::Draw(ViewProjection& viewProjection) {
 	models_[2]->Draw(worldTransformR_arm_, viewProjection);
 
 
+}
+
+void Enemy::SetParent(const WorldTransform* parent) {
+	worldTransformL_arm_.parent_ = parent;
+	worldTransformR_arm_.parent_ = parent;
 }
 
 

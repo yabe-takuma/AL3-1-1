@@ -11,6 +11,11 @@ public:
 
 	void Draw(ViewProjection& viewProjection) override;
 
+	/// <summary>
+	/// 親となるワールドトランスフォームをセット
+	/// </summary>
+	/// <param name="parent">親となるワールドトランスフォーム</param>
+	void SetParent(const WorldTransform* parent);
 	
 	private:
 	WorldTransform worldTransformBody_;

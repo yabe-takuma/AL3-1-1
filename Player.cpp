@@ -11,9 +11,9 @@ void Player::Initialize(const std::vector<Model*>& models) {
 	SetParent(&worldTransformBody_);
 
 	worldTransformBody_.translation_ = {0.0f, 0.5f, 0.0f};
-	worldTransformHead_.translation_ = {0.0f, 2.0f, 0.0f};
-	worldTransformL_arm_.translation_ = {-0.5f, 1.8f, 0.0f};
-	worldTransformR_arm_.translation_ = {0.5f, 1.8f, 0.0f};
+	worldTransformHead_.translation_ = {0.0f, 1.5f, 0.0f};
+	worldTransformL_arm_.translation_ = {-0.5f, 1.3f, 0.0f};
+	worldTransformR_arm_.translation_ = {0.5f, 1.3f, 0.0f};
 
 	worldTransform_.Initialize();
 	worldTransformBody_.Initialize();
@@ -70,9 +70,9 @@ void Player::Update() {
 			
 			worldTransform_.rotation_.y = std::atan2(move2.x, move2.z);
 			worldTransformBody_.rotation_.y = std::atan2(move2.x, move2.z);
-			worldTransformHead_.rotation_.y = std::atan2(move2.x, move2.z);
+			/*worldTransformHead_.rotation_.y = std::atan2(move2.x, move2.z);
 			worldTransformL_arm_.rotation_.y = std::atan2(move2.x, move2.z);
-			worldTransformR_arm_.rotation_.y = std::atan2(move2.x, move2.z);
+			worldTransformR_arm_.rotation_.y = std::atan2(move2.x, move2.z);*/
 		
 		}
 		//カメラ回転の速さ
@@ -82,9 +82,9 @@ void Player::Update() {
 		// 移動
 		worldTransform_.translation_ = Add(worldTransform_.translation_, move2);
 		worldTransformBody_.translation_ = Add(worldTransformBody_.translation_, move2);
-		worldTransformHead_.translation_ = Add(worldTransformHead_.translation_, move2);
+		/*worldTransformHead_.translation_ = Add(worldTransformHead_.translation_, move2);
 		worldTransformL_arm_.translation_ = Add(worldTransformL_arm_.translation_, move2);
-		worldTransformR_arm_.translation_ = Add(worldTransformR_arm_.translation_, move2);
+		worldTransformR_arm_.translation_ = Add(worldTransformR_arm_.translation_, move2);*/
 	}
 
 	// 座標移動(ベクトルの加算)
@@ -135,12 +135,17 @@ void Player::UpdateFloatingGimmick() {
 	const float floatingAmplitude = 0.3f;
 	//浮遊を座標に反映
 	worldTransformBody_.translation_.y = std::sin(floatingParameter_) * floatingAmplitude-0.5f;
-	worldTransformHead_.translation_.y = std::sin(floatingParameter_) * floatingAmplitude+1.0f;
-	worldTransformL_arm_.translation_.y = std::sin(floatingParameter_) * floatingAmplitude+0.8f;
-	worldTransformR_arm_.translation_.y = std::sin(floatingParameter_) * floatingAmplitude+0.8f;
+	//worldTransformHead_.translation_.y = std::sin(floatingParameter_) * floatingAmplitude+1.0f;
+	//worldTransformL_arm_.translation_.y = std::sin(floatingParameter_) * floatingAmplitude+0.8f;
+	//worldTransformR_arm_.translation_.y = std::sin(floatingParameter_) * floatingAmplitude+0.8f;
 
 	worldTransformL_arm_.rotation_.x = std::sin(floatingParameter_) * floatingAmplitude;
 	worldTransformR_arm_.rotation_.x = std::sin(floatingParameter_) * floatingAmplitude;
 }
 
-void Player::SetParent(const WorldTransform* parent) { worldTransform_.parent_ = parent; }
+void Player::SetParent(const WorldTransform* parent) { 
+	worldTransformHead_.parent_ = parent; 
+	worldTransformL_arm_.parent_ = parent;
+	worldTransformR_arm_.parent_ = parent;
+	
+}
