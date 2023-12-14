@@ -3,6 +3,7 @@
 #include"Model.h"
 #include"Input.h"
 #include"BaseCharacter.h"
+#include"ImGuiManager.h"
 class Player : public BaseCharacter {
 public:
 	void Initialize(const std::vector<Model*>& models) override;
@@ -16,6 +17,10 @@ public:
 	void InitializeFloatingGimmick();
 	//浮遊ギミック更新
 	void UpdateFloatingGimmick();
+	//通常行動更新
+	void BehaviorRootUpdate();
+	//攻撃行動更新
+	void BehaviorAttackUpdate();
 
 	const WorldTransform& GetWorldTransform() { return worldTransform_; }
 
