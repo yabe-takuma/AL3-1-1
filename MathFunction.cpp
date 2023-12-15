@@ -520,3 +520,13 @@ result.z = m.m[0][2] * v.z + m.m[1][2] * v.z + m.m[2][2] * v.z + m.m[3][2] * v.z
 
 		return result;
 }
+
+Vector3 Add4(const Vector3& v1, const float num) { 
+	Vector3 result;
+	    result.x = v1.x + num;
+	result.y = v1.y + num;
+	    result.z = v1.z + num;
+	return result; 
+
+
+}

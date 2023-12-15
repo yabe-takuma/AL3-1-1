@@ -56,3 +56,4 @@
 
 	Vector3 Multiply(const Vector3& v,const Matrix4x4& m);
 
+	Vector3 Add4(const Vector3& v1, const float num);

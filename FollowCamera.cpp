@@ -19,12 +19,14 @@ void FollowCamera::Update()
 		viewProjection_.rotation_.y += joyState.Gamepad.sThumbRX / SHRT_MAX * kRotSpeed;
 	}
 
+	
+
 	if (target_) {
 	//追従対象からカメラまでのオフセット
 		Vector3 offset = {0.0f, 2.0f, -10.0f};
 
 		offset = TransformNormal(offset, MakeRotateYMatrix(viewProjection_.rotation_.y));
-
+	
 		//座標をコピーしてオフセット分ずらす
 		viewProjection_.translation_ = Add(target_->translation_, offset);
 	}
@@ -49,3 +51,4 @@ void FollowCamera::Update()
 
 
 }
+

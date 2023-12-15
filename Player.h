@@ -4,7 +4,23 @@
 #include"Input.h"
 #include"BaseCharacter.h"
 #include"ImGuiManager.h"
+#include <optional>
+#include<random>
 class Player : public BaseCharacter {
+
+	//振るまい
+	enum class Behavior {
+		kRoot,//通常攻撃
+		kAttack,//攻撃中
+	};
+
+	//攻撃モーション
+	struct Attack {
+		int32_t time;
+		int32_t kAnimMaxtime;
+		int32_t cooltime;
+	};
+
 public:
 	void Initialize(const std::vector<Model*>& models) override;
 
@@ -21,6 +37,14 @@ public:
 	void BehaviorRootUpdate();
 	//攻撃行動更新
 	void BehaviorAttackUpdate();
+	//通常行動初期化
+	void BehaviorRootInitialize();
+	//攻撃行動初期化
+	void BeheviorAttackInitialize();
+
+	void CameraSake();
+
+	float EaseInBack(float x);
 
 	const WorldTransform& GetWorldTransform() { return worldTransform_; }
 
@@ -62,5 +86,19 @@ public:
 	//浮遊ギミックの媒介変数
 	float floatingParameter_ = 0.0f;
 	float floatingParameterHead_ = 0.0f;
+	//攻撃モーション
+	Attack attack_;
+	//振るまい
+	Behavior behavior_ = Behavior::kRoot;
 
+	static void (Player::*pBehaviorInitializeTable[])();
+
+	static void (Player::*pBehaviorUpdateTable[])();
+
+
+
+	//次の振るまいをリクエスト
+	std::optional<Behavior> behaviorRequest_ = std::nullopt;
+
+	
 };

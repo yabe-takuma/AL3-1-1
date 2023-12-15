@@ -29,10 +29,18 @@ void Player::Initialize(const std::vector<Model*>& models) {
 
 void Player::Update() {
 	BaseCharacter::Update();
-	
+	if (behaviorRequest_) {
+	//振るまいを変更する
+		behavior_ = behaviorRequest_.value();
+		//各振るまいごとの初期化の実行
+		(this->*pBehaviorInitializeTable[static_cast<size_t>(behavior_)])();
+		//振るまいリクエストリセット
+		behaviorRequest_ = std::nullopt;
+	}
+	(this->*pBehaviorUpdateTable[static_cast<size_t>(behavior_)])();
 	//BehaviorRootUpdate();
-
-	BehaviorAttackUpdate();
+	
+	//BehaviorAttackUpdate();
 
 		worldTransform_.UpdateMatrix();
 	worldTransformBody_.UpdateMatrix();
@@ -42,8 +50,8 @@ void Player::Update() {
 	worldTransformHammer_.UpdateMatrix();
 
 	
-	ImGui::Begin("Windows");
-	ImGui::DragFloat3("L_arm", &worldTransformL_arm_.rotation_.x, 0.01f);
+	 ImGui::Begin("Windows");
+	ImGui::DragFloat("L_arm", &worldTransformL_arm_.rotation_.x, 0.01f);
 	ImGui::End();
 	
 }
@@ -56,8 +64,10 @@ void Player::Draw(ViewProjection& viewProjection) { //model_->Draw(worldTransfor
 	models_[1]->Draw(worldTransformHead_, viewProjection);
 	models_[2]->Draw(worldTransformL_arm_, viewProjection);
 	models_[3]->Draw(worldTransformR_arm_, viewProjection);
-	models_[4]->Draw(worldTransformHammer_, viewProjection);
+	if (behavior_ == Behavior::kAttack) {
 
+		models_[4]->Draw(worldTransformHammer_, viewProjection);
+	}
 }
 
 void Player::SetViewProjection(const ViewProjection* viewProjection) {
@@ -146,12 +156,17 @@ void Player::BehaviorRootUpdate() {
 		/*worldTransformHead_.translation_ = Add(worldTransformHead_.translation_, move2);
 		worldTransformL_arm_.translation_ = Add(worldTransformL_arm_.translation_, move2);
 		worldTransformR_arm_.translation_ = Add(worldTransformR_arm_.translation_, move2);*/
+
+		if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_B) {
+			behavior_ = Behavior::kAttack;
+		}
+
 	}
 
 	// 座標移動(ベクトルの加算)
 	// worldTransform_.translation_ = Add(worldTransform_.translation_, move);
 
-	//UpdateFloatingGimmick();
+	UpdateFloatingGimmick();
 
 
 
@@ -159,33 +174,54 @@ void Player::BehaviorRootUpdate() {
 }
 
 void Player::BehaviorAttackUpdate() {
-
-	// 浮遊移動のサイクル<frame>
-	    const uint16_t fream = 400;
-	// 1フレームでのパラメータ加算値
-	const float step = 3.0f * 3.14f / fream;
-	// パラメータを1ステップ分加算
+	float armPI = 1.57f;
+	float weaponPI = 4.71f;
+	const float kDegreeToRadian = 0.1f;
+	attack_.kAnimMaxtime = 50;
+	attack_.time++;
 	
-	if (worldTransformL_arm_.rotation_.x >= -3.0  )
-	{
-		step * -1;
-	}
-	else if (worldTransformL_arm_.rotation_.x <= -1.6)
-	{
-		step * -1;
-	}
-
-		floatingParameter_ -= step;
+	if (attack_.time <= attack_.kAnimMaxtime) {
 	
-	//// 2πを超えたら0に戻す
-	//floatingParameter_ = std::fmod(floatingParameter_, 0.5f * 3.14f);
+		float frame = (float)attack_.time / attack_.kAnimMaxtime;
+		float easeInBack = EaseInBack(frame * frame);
+		float weaponAngle = 45 * kDegreeToRadian*easeInBack;
+		float armAngle = 45 * kDegreeToRadian * easeInBack;
 
-		// 浮遊の振幅<π>
-	const float floatingAmplitude = 3.0f;
+		worldTransformHammer_.rotation_.x = weaponAngle-weaponPI;
+		worldTransformL_arm_.rotation_.x = armAngle - armPI;
+		worldTransformR_arm_.rotation_.x = armAngle - armPI;
+	} else if (attack_.time >= attack_.kAnimMaxtime) {
+		attack_.cooltime++;
+		if (attack_.cooltime >= 30) {
+			attack_.time = 0;
+			behaviorRequest_ = Behavior::kRoot;
+			attack_.cooltime = 0;
+		}
+	}
+}
 
-	worldTransformL_arm_.rotation_.x = std::sin(floatingParameter_) * floatingAmplitude;
-	worldTransformR_arm_.rotation_.x = std::sin(floatingParameter_) * floatingAmplitude;
+void Player::BehaviorRootInitialize() { 
+	
+worldTransformL_arm_.rotation_ = {0.0f, 0.0f, 0.0f}; 
+worldTransformR_arm_.rotation_ = {0.0f, 0.0f, 0.0f};
+}
 
+void Player::BeheviorAttackInitialize() 
+{ attack_.time = 0;
+
+}
+
+
+
+float Player::EaseInBack(float x) { 
+	float radian = 0.005f;
+		 float c1 = 3.70158f;
+		 float c3 = c1 + radian;
+
+		
+
+		return c3=c3 * x * x * x - c1 * x * x;
+	
 }
 
 void Player::SetParent(const WorldTransform* parent) { 
@@ -194,3 +230,13 @@ void Player::SetParent(const WorldTransform* parent) {
 	worldTransformR_arm_.parent_ = parent;
 	worldTransformHammer_.parent_ = parent;
 }
+
+void (Player::*Player::pBehaviorInitializeTable[])() = {
+    &Player::BehaviorRootInitialize,
+    &Player::BeheviorAttackInitialize,
+};
+
+void (Player::*Player::pBehaviorUpdateTable[])() = {
+    &Player::BehaviorRootUpdate,
+    &Player::BehaviorAttackUpdate,
+};

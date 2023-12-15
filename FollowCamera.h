@@ -19,6 +19,8 @@ public:
 
 	void SetTarget(const WorldTransform* target) { target_ = target; }
 
+	
+
 	const ViewProjection& GetViewProjection() { return viewProjection_; }
 
 	private:
@@ -29,5 +31,7 @@ public:
 	XINPUT_STATE joyState;
 
 	Input* input_ = nullptr;
+
+	
 
 };
