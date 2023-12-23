@@ -42,7 +42,10 @@ void Player::Update()
 		move.y -= kCharacterSpeed;
 	};
 
-
+	if (Input::GetInstance()->GetJoystickState(0, joyState))
+	{
+		Vector3 move = {(float)joy }
+	}
 
 	//座標移動(ベクトルの加算)
 	worldTransform_.translation_= Add(worldTransform_.translation_,move);

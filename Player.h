@@ -22,6 +22,6 @@ public:
 	//キーボード入力
 	Input* input_ = nullptr;
 
-	XINPUT joyState;
+	XINPUT_STATE joyState;
 
 };
