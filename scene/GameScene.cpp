@@ -33,19 +33,16 @@ void GameScene::Initialize() {
 
 	debugCamera_ = std::make_unique<DebugCamera>(1280, 720);
 
+	followcamera_ = std::make_unique<FollowCamera>();
+	followcamera_->Initialize();
+	followcamera_->SetTarget(&player_->GetWorldTransform());
+	
+	player_->SetViewProjection(&followcamera_->GetViewProjection());
+
 }
 
 void GameScene::Update() { 
-	if (player_ != nullptr) {
-
-		player_->Update();
-	}
-	if (skydome_ != nullptr) {
-		skydome_->Update();
-	}
-	if (ground_ != nullptr) {
-		ground_->Update();
-	}
+	
 
 	debugCamera_->Update();
 #ifdef _DEBUG
@@ -59,10 +56,29 @@ void GameScene::Update() {
 		// ビュープロジェクション行列の転送
 		viewprojection_.TransferMatrix();
 	} else {
+		viewprojection_.matView = followcamera_->GetViewProjection().matView;
+		viewprojection_.matProjection = followcamera_->GetViewProjection().matProjection;
+
+		viewprojection_.TransferMatrix();
 		// ビュープロジェクション行列の更新と転送
-		viewprojection_.UpdateMatrix();
+		//viewprojection_.UpdateMatrix();
 	}
 #endif
+
+	if (followcamera_ != nullptr) {
+		followcamera_->Update();
+	}
+
+	if (player_ != nullptr) {
+
+		player_->Update();
+	}
+	if (skydome_ != nullptr) {
+		skydome_->Update();
+	}
+	if (ground_ != nullptr) {
+		ground_->Update();
+	}
 
 }
 

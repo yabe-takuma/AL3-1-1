@@ -11,6 +11,10 @@ public:
 
 	void Draw(ViewProjection& viewProjection);
 
+	void SetViewProjection(const ViewProjection* viewProjection);
+
+	const WorldTransform& GetWorldTransform() { return worldTransform_; }
+
 	private:
 	//ワールド変換データ
 	WorldTransform worldTransform_;
@@ -23,5 +27,8 @@ public:
 	Input* input_ = nullptr;
 
 	XINPUT_STATE joyState;
+
+	// カメラのビュープロジェクション
+	const ViewProjection* viewProjection_ = nullptr;
 
 };

@@ -400,8 +400,7 @@ Vector3 Transform(const Vector3& vector, const Matrix4x4& matrix) {
 	return result;
 }
 
-#include <cassert>
-#include <cmath>
+
 Vector3 Add(const Vector3& v1, const Vector3& v2) {
 	Vector3 result;
 	result.x = v1.x + v2.x;
@@ -419,12 +418,13 @@ Vector3 Subtract(const Vector3& v1, const Vector3& v2) {
 }
 
 Vector3 Normalize(const Vector3& v) {
-	Vector3 result;
-	float length = sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
-	assert(length != 0.0f);
-	result.x = v.x / length;
-	result.y = v.y / length;
-	result.z = v.z / length;
+	float len = Length(v);
+	Vector3 result = v;
+	if (len != 0) {
+		result.x = result.x / len;
+		result.y = result.y / len;
+		result.z = result.z / len;
+	}
 	return result;
 }
 
@@ -478,4 +478,9 @@ Vector3 Subtract2(float position, const Vector3& v) {
 	result.y = position - v.y;
 	result.z = position - v.z;
 	return result;
+}
+
+float Length(const Vector3& v) {
+	float length = sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
+	return length;
 }
