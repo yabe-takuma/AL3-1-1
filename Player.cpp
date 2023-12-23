@@ -42,6 +42,8 @@ void Player::Update()
 		move.y -= kCharacterSpeed;
 	};
 
+
+
 	//座標移動(ベクトルの加算)
 	worldTransform_.translation_= Add(worldTransform_.translation_,move);
 

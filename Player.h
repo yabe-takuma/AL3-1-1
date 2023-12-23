@@ -2,6 +2,7 @@
 #include"WorldTransform.h"
 #include"Model.h"
 #include"Input.h"
+#include"Xinput.h"
 class Player {
 public:
 	void Initialize(Model* model,uint32_t textureHandle);
@@ -20,5 +21,7 @@ public:
 
 	//キーボード入力
 	Input* input_ = nullptr;
+
+	XINPUT joyState;
 
 };
