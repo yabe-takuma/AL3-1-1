@@ -13,6 +13,8 @@ public:
 
 	void SetViewProjection(const ViewProjection* viewProjection);
 
+	Vector3 GetWorldPosition();
+
 	const WorldTransform& GetWorldTransform() { return worldTransform_; }
 
 	private:
