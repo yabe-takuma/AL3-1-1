@@ -1,4 +1,5 @@
 #include "Enemy.h"
+#include"Player.h"
 
 void Enemy::Initialize() { 
 
@@ -6,12 +7,21 @@ void Enemy::Initialize() {
 
 	worldTransform_.Initialize();
 	model_ = Model::Create();
-
+	
 }
 
 void Enemy::Update() { 
 	
+	const float kSpeed = 0.3f;
+	Vector3 velocity(0, 0, kSpeed);
 
+	GetWorldPosition();
+	velocity = Subtract(player_->GetWorldPosition(), GetWorldPosition());
+
+	velocity = Normalize(velocity);
+	velocity = Multiply(kSpeed, velocity);
+
+	worldTransform_.translation_ = Add(worldTransform_.translation_, velocity);
 
 	worldTransform_.UpdateMatrix();
 
