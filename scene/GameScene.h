@@ -14,6 +14,7 @@
 #include"Ground.h"
 #include"DebugCamera.h"
 #include"FollowCamera.h"
+#include"Enemy.h"
 
 /// <summary>
 /// ゲームシーン
@@ -58,7 +59,8 @@ private: // メンバ変数
 	ViewProjection viewprojection_;
 
 	//自キャラ
-	std::unique_ptr<Player> player_;
+	Player* player_ = nullptr;
+	
 
 	std::unique_ptr<Model> modelskydome_;
 
@@ -69,6 +71,8 @@ private: // メンバ変数
 	std::unique_ptr<Model> modelground_;
 
 	std::unique_ptr<FollowCamera> followcamera_;
+
+	std::unique_ptr<Enemy> enemy_;
 
 	//デバッグカメラ
 	std::unique_ptr<DebugCamera> debugCamera_;

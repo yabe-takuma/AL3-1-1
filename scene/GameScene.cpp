@@ -4,7 +4,7 @@
 
 GameScene::GameScene() {}
 
-GameScene::~GameScene() { }
+GameScene::~GameScene() { delete player_; }
 
 void GameScene::Initialize() {
 
@@ -19,7 +19,7 @@ void GameScene::Initialize() {
 	viewprojection_.Initialize();
 
 	//自キャラの生成
-	player_ = std::make_unique<Player>();
+	player_ =new Player();
 	//自キャラの初期化
 	player_->Initialize(model_.get(),textureHandle_);
 	//天球の生成
@@ -38,6 +38,10 @@ void GameScene::Initialize() {
 	followcamera_->SetTarget(&player_->GetWorldTransform());
 	
 	player_->SetViewProjection(&followcamera_->GetViewProjection());
+
+	enemy_ = std::make_unique<Enemy>();
+	enemy_->Initialize();
+	enemy_->SetPlayer(player_);
 
 }
 
@@ -79,6 +83,10 @@ void GameScene::Update() {
 	if (ground_ != nullptr) {
 		ground_->Update();
 	}
+	if (enemy_ != nullptr)
+	{
+		enemy_->Update();
+	}
 
 }
 
@@ -119,7 +127,10 @@ void GameScene::Draw() {
 	
 		ground_->Draw(viewprojection_);
 	}
-
+	if (enemy_ != nullptr)
+	{
+		enemy_->Draw(viewprojection_);
+	}
 	
 
 	// 3Dオブジェクト描画後処理
