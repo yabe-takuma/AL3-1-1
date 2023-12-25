@@ -11,7 +11,7 @@ public:
 	void Draw(ViewProjection& viewProjection) override;
 
 private:
-	WorldTransform worldTransform_[10];
+	WorldTransform worldTransform_;
 
 	Model* model_ = nullptr;
 };
