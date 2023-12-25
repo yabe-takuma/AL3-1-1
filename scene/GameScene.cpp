@@ -18,13 +18,17 @@ void GameScene::Initialize() {
 
 	viewprojection_.Initialize();
 
+	// レティクルのテクスチャ
+	TextureManager::Load("uvChecker.png");
+
 	//自キャラの生成
 	player_ = std::make_unique<Player>();
+
 	//自キャラの初期化
 	player_->Initialize(model_.get(),textureHandle_);
 }
 
-void GameScene::Update() { player_->Update(); }
+void GameScene::Update() { player_->Update(viewprojection_); }
 
 void GameScene::Draw() {
 
@@ -38,6 +42,8 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに背景スプライトの描画処理を追加できる
 	/// </summary>
+
+	player_->DrawUI();
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
@@ -72,3 +78,4 @@ void GameScene::Draw() {
 
 #pragma endregion
 }
+

@@ -46,4 +46,4 @@
 
 	Vector3 Subtract2(float position, const Vector3& v);
 
-
+	float Length(const Vector3& v);
