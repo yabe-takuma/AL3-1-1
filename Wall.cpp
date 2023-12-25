@@ -1,6 +1,9 @@
 #include "Wall.h"
+#include<cassert>
 
-void Wall::Initialize() {
+void Wall::Initialize(const std::vector<Model*>& models) {
+	assert(models);
+	model_ = models;
 	worldTransform_.Initialize();
 	model_ = Model::Create();
 }

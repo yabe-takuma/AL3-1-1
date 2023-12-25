@@ -1,13 +1,14 @@
 #pragma once
 #include "Model.h"
 #include "WorldTransform.h"
-class Wall {
+#include"BaseWall.h"
+class Wall : public BaseWall {
 public:
-	void Initialize();
+	void Initialize(const std::vector<Model*>& models) override;
 
-	void Update();
+	void Update() override;
 
-	void Draw(ViewProjection& viewProjection);
+	void Draw(ViewProjection& viewProjection) override;
 
 private:
 	WorldTransform worldTransform_;
