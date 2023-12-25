@@ -43,6 +43,10 @@ void GameScene::Initialize() {
 	enemy_->Initialize();
 	enemy_->SetPlayer(player_);
 
+	wall_ = std::make_unique<Wall>();
+	wall_->Initialize(model_);
+	
+
 }
 
 void GameScene::Update() { 

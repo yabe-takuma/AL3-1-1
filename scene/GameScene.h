@@ -15,6 +15,7 @@
 #include"DebugCamera.h"
 #include"FollowCamera.h"
 #include"Enemy.h"
+#include"Wall.h"
 
 /// <summary>
 /// ゲームシーン
@@ -73,6 +74,8 @@ private: // メンバ変数
 	std::unique_ptr<FollowCamera> followcamera_;
 
 	std::unique_ptr<Enemy> enemy_;
+
+	std::unique_ptr<Wall> wall_;
 
 	//デバッグカメラ
 	std::unique_ptr<DebugCamera> debugCamera_;
