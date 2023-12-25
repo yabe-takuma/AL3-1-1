@@ -43,11 +43,13 @@ void GameScene::Initialize() {
 	enemy_->Initialize();
 	enemy_->SetPlayer(player_);
 
-	std::vector<Model*> wallModels = {model_.get_deleter()
+	modelwall_.reset (Model::Create());
+
+	std::vector<Model*> wallModels = {modelwall_.get()
 
 	};
 	wall_ = std::make_unique<Wall>();
-	wall_->Initialize(model_);
+	wall_->Initialize(wallModels);
 	
 
 }
@@ -94,6 +96,10 @@ void GameScene::Update() {
 	{
 		enemy_->Update();
 	}
+	if (wall_ != nullptr)
+	{
+		wall_->Update();
+	}
 
 }
 
@@ -137,6 +143,10 @@ void GameScene::Draw() {
 	if (enemy_ != nullptr)
 	{
 		enemy_->Draw(viewprojection_);
+	}
+	if (wall_ != nullptr)
+	{
+		wall_->Draw(viewprojection_);
 	}
 	
 

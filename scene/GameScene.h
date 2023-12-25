@@ -76,6 +76,7 @@ private: // メンバ変数
 	std::unique_ptr<Enemy> enemy_;
 
 	std::unique_ptr<Wall> wall_;
+	std::unique_ptr<Model> modelwall_;
 
 	//デバッグカメラ
 	std::unique_ptr<DebugCamera> debugCamera_;
