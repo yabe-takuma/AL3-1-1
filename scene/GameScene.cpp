@@ -43,12 +43,13 @@ void GameScene::Initialize() {
 	enemy_->Initialize();
 	enemy_->SetPlayer(player_);
 
+	wall_ = std::make_unique<Wall>();
 	modelwall_.reset (Model::Create());
 
 	std::vector<Model*> wallModels = {modelwall_.get()
 
 	};
-	wall_ = std::make_unique<Wall>();
+	
 	wall_->Initialize(wallModels);
 	
 
