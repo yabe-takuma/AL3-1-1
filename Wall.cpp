@@ -14,4 +14,6 @@ void Wall::Update() {
 
 }
 
-void Wall::Draw(ViewProjection& viewProjection) { models->Draw(worldTransform_, viewProjection); }
+void Wall::Draw(ViewProjection& viewProjection) {
+	models_[0]->Draw(worldTransform_, viewProjection);
+}
