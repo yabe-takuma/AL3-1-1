@@ -12,7 +12,7 @@ public:
 	void Draw(ViewProjection& viewProjection) override;
 
 private:
-	WorldTransform worldTransform_[34];
+	WorldTransform worldTransform_[35];
 	
 	uint32_t textureHandle_;
 

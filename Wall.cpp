@@ -108,11 +108,14 @@ void Wall::Initialize(const std::vector<Model*>& models) {
 
 	worldTransform_[33].translation_ = {16.9f, 0.0f, 55.0f};
 	worldTransform_[33].scale_ = {1.0f, 20.0f, 15.2f};
+
+	worldTransform_[34].translation_ = {26.0f, 20.5f, 13.0f};
+	worldTransform_[34].scale_ = {82.0f, 1.0f, 113.0f};
 	
-	
+	textureHandle_ = TextureManager::Load("wall.png");
 	
 
-	for (int i = 0; i < 34; i++) {
+	for (int i = 0; i < 35; i++) {
 		worldTransform_[i].Initialize();
 	}
 	
@@ -120,7 +123,7 @@ void Wall::Initialize(const std::vector<Model*>& models) {
 
 void Wall::Update() {
 	BaseWall::Update();
-	for (int i = 0; i < 34; i++) {
+	for (int i = 0; i < 35; i++) {
 		worldTransform_[i].UpdateMatrix();
 	}
 
@@ -198,47 +201,49 @@ void Wall::Update() {
 	ImGui::DragFloat3("scale32", &worldTransform_[32].scale_.x, 0.1f);
 	ImGui::DragFloat3("position33", &worldTransform_[33].translation_.x, 0.1f);
 	ImGui::DragFloat3("scale33", &worldTransform_[33].scale_.x, 0.1f);
+	ImGui::DragFloat3("position34", &worldTransform_[34].translation_.x, 0.1f);
+	ImGui::DragFloat3("scale34", &worldTransform_[34].scale_.x, 0.1f);
 	ImGui::End();
 
 	
 }
 
 void Wall::Draw(ViewProjection& viewProjection) {
-	
-	models_[0]->Draw(worldTransform_[0], viewProjection);
-	models_[1]->Draw(worldTransform_[1], viewProjection);
-	models_[2]->Draw(worldTransform_[2], viewProjection);
-	models_[3]->Draw(worldTransform_[3], viewProjection);
-	models_[4]->Draw(worldTransform_[4], viewProjection);
-	models_[5]->Draw(worldTransform_[5], viewProjection);
-	models_[6]->Draw(worldTransform_[6], viewProjection);
-	models_[7]->Draw(worldTransform_[7], viewProjection);
-	models_[8]->Draw(worldTransform_[8], viewProjection);
-	models_[9]->Draw(worldTransform_[9], viewProjection);
-	models_[10]->Draw(worldTransform_[10], viewProjection);
-	models_[11]->Draw(worldTransform_[11], viewProjection);
-	models_[12]->Draw(worldTransform_[12], viewProjection);
-	models_[13]->Draw(worldTransform_[13], viewProjection);
-	models_[14]->Draw(worldTransform_[14], viewProjection);
-	models_[15]->Draw(worldTransform_[15], viewProjection);
-	models_[16]->Draw(worldTransform_[16], viewProjection);
-	models_[17]->Draw(worldTransform_[17], viewProjection);
-	models_[18]->Draw(worldTransform_[18], viewProjection);
-	models_[19]->Draw(worldTransform_[19], viewProjection);
-	models_[20]->Draw(worldTransform_[20], viewProjection);
-	models_[21]->Draw(worldTransform_[21], viewProjection);
-	models_[22]->Draw(worldTransform_[22], viewProjection);
-	models_[23]->Draw(worldTransform_[23], viewProjection);
-	models_[24]->Draw(worldTransform_[24], viewProjection);
-	models_[25]->Draw(worldTransform_[25], viewProjection);
-	models_[26]->Draw(worldTransform_[26], viewProjection);
-	models_[27]->Draw(worldTransform_[27], viewProjection);
-	models_[28]->Draw(worldTransform_[28], viewProjection);
-	models_[29]->Draw(worldTransform_[29], viewProjection);
-	models_[30]->Draw(worldTransform_[30], viewProjection);
-	models_[31]->Draw(worldTransform_[31], viewProjection);
-	models_[32]->Draw(worldTransform_[32], viewProjection);
-	models_[33]->Draw(worldTransform_[33], viewProjection);
-	
-	
+
+	models_[0]->Draw(worldTransform_[0], viewProjection, textureHandle_);
+	models_[1]->Draw(worldTransform_[1], viewProjection, textureHandle_);
+	models_[2]->Draw(worldTransform_[2], viewProjection, textureHandle_);
+	models_[3]->Draw(worldTransform_[3], viewProjection, textureHandle_);
+	models_[4]->Draw(worldTransform_[4], viewProjection, textureHandle_);
+	models_[5]->Draw(worldTransform_[5], viewProjection, textureHandle_);
+	models_[6]->Draw(worldTransform_[6], viewProjection, textureHandle_);
+	models_[7]->Draw(worldTransform_[7], viewProjection, textureHandle_);
+	models_[8]->Draw(worldTransform_[8], viewProjection, textureHandle_);
+	models_[9]->Draw(worldTransform_[9], viewProjection, textureHandle_);
+	models_[10]->Draw(worldTransform_[10], viewProjection, textureHandle_);
+	models_[11]->Draw(worldTransform_[11], viewProjection, textureHandle_);
+	models_[12]->Draw(worldTransform_[12], viewProjection, textureHandle_);
+	models_[13]->Draw(worldTransform_[13], viewProjection, textureHandle_);
+	models_[14]->Draw(worldTransform_[14], viewProjection, textureHandle_);
+	models_[15]->Draw(worldTransform_[15], viewProjection, textureHandle_);
+	models_[16]->Draw(worldTransform_[16], viewProjection, textureHandle_);
+	models_[17]->Draw(worldTransform_[17], viewProjection, textureHandle_);
+	models_[18]->Draw(worldTransform_[18], viewProjection, textureHandle_);
+	models_[19]->Draw(worldTransform_[19], viewProjection, textureHandle_);
+	models_[20]->Draw(worldTransform_[20], viewProjection, textureHandle_);
+	models_[21]->Draw(worldTransform_[21], viewProjection, textureHandle_);
+	models_[22]->Draw(worldTransform_[22], viewProjection, textureHandle_);
+	models_[23]->Draw(worldTransform_[23], viewProjection, textureHandle_);
+	models_[24]->Draw(worldTransform_[24], viewProjection, textureHandle_);
+	models_[25]->Draw(worldTransform_[25], viewProjection, textureHandle_);
+	models_[26]->Draw(worldTransform_[26], viewProjection, textureHandle_);
+	models_[27]->Draw(worldTransform_[27], viewProjection, textureHandle_);
+	models_[28]->Draw(worldTransform_[28], viewProjection, textureHandle_);
+	models_[29]->Draw(worldTransform_[29], viewProjection, textureHandle_);
+	models_[30]->Draw(worldTransform_[30], viewProjection, textureHandle_);
+	models_[31]->Draw(worldTransform_[31], viewProjection, textureHandle_);
+	models_[32]->Draw(worldTransform_[32], viewProjection, textureHandle_);
+	models_[33]->Draw(worldTransform_[33], viewProjection, textureHandle_);
+	models_[34]->Draw(worldTransform_[34], viewProjection, textureHandle_);
 }
+	

@@ -64,7 +64,7 @@ void GameScene::Initialize() {
 		modelwall_.get(), modelwall_.get(),
 	    modelwall_.get(), modelwall_.get(), 
 		modelwall_.get(), modelwall_.get(), 
-	
+	    modelwall_.get()
 	};
 	
 	wall_->Initialize(wallModels);
