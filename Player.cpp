@@ -10,6 +10,8 @@ void Player::Initialize(Model* model,uint32_t textureHandle)
 
 	textureHandle_ = textureHandle;
 
+	worldTransform_.translation_ = {6.0f, 0.0f, -70.0f};
+
 	worldTransform_.Initialize();
 
 	// シングルトンインスタンスを取得する

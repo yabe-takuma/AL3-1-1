@@ -46,8 +46,25 @@ void GameScene::Initialize() {
 	wall_ = std::make_unique<Wall>();
 	modelwall_.reset (Model::Create());
 
-	std::vector<Model*> wallModels = {modelwall_.get()
-
+	std::vector<Model*> wallModels = {
+		modelwall_.get(), modelwall_.get(), 
+		modelwall_.get(), modelwall_.get(), 
+		modelwall_.get(), modelwall_.get(), 
+		modelwall_.get(), modelwall_.get(), 
+		modelwall_.get(), modelwall_.get(),
+		modelwall_.get(), modelwall_.get(), 
+		modelwall_.get(), modelwall_.get(), 
+		modelwall_.get(), modelwall_.get(),
+		modelwall_.get(), modelwall_.get(), 
+		modelwall_.get(), modelwall_.get(),
+	    modelwall_.get(), modelwall_.get(), 
+		modelwall_.get(), modelwall_.get(), 
+		modelwall_.get(), modelwall_.get(), 
+		modelwall_.get(), modelwall_.get(), 
+		modelwall_.get(), modelwall_.get(),
+	    modelwall_.get(), modelwall_.get(), 
+		modelwall_.get(), modelwall_.get(), 
+	
 	};
 	
 	wall_->Initialize(wallModels);
