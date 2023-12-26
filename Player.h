@@ -51,4 +51,6 @@ public:
 
 	Vector2 SpritePosition;
 
+	bool isSpeed = false;
+
 };

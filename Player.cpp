@@ -35,7 +35,7 @@ void Player::Update(ViewProjection& viewProjection) {
 
 	Attack();
 
-	
+	if (input_->IsPressMouse(WM_))
 
 	// 自機のワールド座標から3Dレティクルのワールド座標を計算
 
@@ -175,6 +175,9 @@ worldTransform3DReticle_.translation_ = Add(posNear, mouseDirection);
 void Player::Attack() 
 {
 	if (input_->PushKey(DIK_SPACE)) {
+
+		
+
 		// 弾の速度
 		const float kBulletSpeed = 5.0f;
 		Vector3 velocity(0, 0, kBulletSpeed);
