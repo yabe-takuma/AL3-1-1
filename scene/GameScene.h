@@ -18,6 +18,7 @@
 #include"Wall.h"
 #include"WeakEnemy.h"
 #include<list>
+#include <sstream>
 
 /// <summary>
 /// ゲームシーン
