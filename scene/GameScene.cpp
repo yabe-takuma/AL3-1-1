@@ -187,6 +187,21 @@ void GameScene::Draw() {
 #pragma endregion
 }
 
+void GameScene::EnemyGeneration(const Vector3& position) {
+	// 敵の生成
+	WeakEnemy* weakenemy = new WeakEnemy();
+
+	// 敵の初期化
+	const float kEnemySpeed = 0.01f;
+	Vector3 velocity_ = {0, 0, kEnemySpeed};
+
+	weakenemy->Initialize(position);
+	weakenemy->SetGameScene(this);
+
+
+	weakenemys_.push_back((static_cast std::unique_ptr<WeakEnemy>)weakenemy);
+}
+
 
 void GameScene::LoadEnemyPopData() {
 

@@ -51,6 +51,8 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
+	void EnemyGeneration(const Vector3& position);
+
 	void LoadEnemyPopData();
 
 	void UpdateEnemyPopCommands();
