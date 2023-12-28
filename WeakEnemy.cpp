@@ -1,8 +1,11 @@
 #include "WeakEnemy.h"
 
-void WeakEnemy::Initialize() 
+void WeakEnemy::Initialize(Vector3 position) 
 {
 	model_ = Model::Create(); 
+
+	worldTransform_.translation_ = position;
+
 	worldTransform_.Initialize();
 }
 

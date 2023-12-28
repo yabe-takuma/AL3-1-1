@@ -199,7 +199,7 @@ void GameScene::EnemyGeneration(const Vector3& position) {
 	weakenemy->SetGameScene(this);
 
 
-	weakenemys_.push_back((static_cast std::unique_ptr<WeakEnemy>)weakenemy);
+	weakenemys_.push_back(static_cast <std::unique_ptr<WeakEnemy>>(weakenemy));
 }
 
 

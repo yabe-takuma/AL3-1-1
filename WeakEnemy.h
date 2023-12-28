@@ -3,11 +3,13 @@
 #include"Model.h"
 class WeakEnemy {
 public:
-	void Initialize();
+	void Initialize(Vector3 position);
 
 	void Update();
 
 	void Draw(ViewProjection& viewProjection);
+
+
 
 private:
 	WorldTransform worldTransform_;
