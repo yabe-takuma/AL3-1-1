@@ -9,6 +9,7 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include"Player.h"
+#include"Stamina.h"
 #include<memory>
 
 /// <summary>
@@ -55,6 +56,8 @@ private: // メンバ変数
 
 	//自キャラ
 	std::unique_ptr<Player> player_;
+
+	std::unique_ptr<Stamina> stamina_;
 
 	/// <summary>
 	/// ゲームシーン用

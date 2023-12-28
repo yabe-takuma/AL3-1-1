@@ -35,7 +35,19 @@ void Player::Update(ViewProjection& viewProjection) {
 
 	Attack();
 
-	if (input_->IsPressMouse(WM_))
+	if (input_->IsPressMouse(WM_RBUTTONDOWN == 0))
+	{
+		isSpeed = true;
+	}
+
+	if (isSpeed == true)
+	{
+		velocity_.z = 0.0f;
+	}
+	else if (isSpeed == false)
+	{
+		velocity_.z = 1.0f;
+	}
 
 	// 自機のワールド座標から3Dレティクルのワールド座標を計算
 
@@ -174,12 +186,12 @@ worldTransform3DReticle_.translation_ = Add(posNear, mouseDirection);
 
 void Player::Attack() 
 {
-	if (input_->PushKey(DIK_SPACE)) {
+	if (input_->IsPressMouse(WM_RBUTTONDOWN == 0)) {
 
 		
 
 		// 弾の速度
-		const float kBulletSpeed = 5.0f;
+		const float kBulletSpeed = 1.0f;
 		Vector3 velocity(0, 0, kBulletSpeed);
 		// 速度ベクトルを自機の向きに合わせて回転させる(自キャラのワールド行列はmatWorld)
 		velocity = TransformNormal(velocity, worldTransform_.matWorld_);
@@ -221,4 +233,4 @@ Vector3 Player::GetWorldPosition() {
 	return worldPos;
 }
 
-void Player::DrawUI() { sprite2DReticle_->Draw(); }
+void Player::DrawUI() {  }

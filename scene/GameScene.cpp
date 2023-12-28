@@ -26,9 +26,16 @@ void GameScene::Initialize() {
 
 	//自キャラの初期化
 	player_->Initialize(model_.get(),textureHandle_);
+
+	stamina_ = std::make_unique<Stamina>();
+	stamina_->Initialize();
+
 }
 
-void GameScene::Update() { player_->Update(viewprojection_); }
+void GameScene::Update() { player_->Update(viewprojection_);
+	stamina_->Update();
+
+}
 
 void GameScene::Draw() {
 
@@ -60,6 +67,8 @@ void GameScene::Draw() {
 	/// </summary>
 
 	player_->Draw(viewprojection_);
+
+	stamina_->Draw(viewprojection_);
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
