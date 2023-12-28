@@ -16,6 +16,8 @@
 #include"FollowCamera.h"
 #include"Enemy.h"
 #include"Wall.h"
+#include"WeakEnemy.h"
+#include<list>
 
 /// <summary>
 /// ゲームシーン
@@ -77,6 +79,8 @@ private: // メンバ変数
 
 	std::unique_ptr<Wall> wall_;
 	std::unique_ptr<Model> modelwall_;
+
+   std::list<std::unique_ptr<WeakEnemy>> weakenemys_;
 
 	//デバッグカメラ
 	std::unique_ptr<DebugCamera> debugCamera_;
