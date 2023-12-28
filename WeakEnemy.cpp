@@ -1,4 +1,5 @@
 #include "WeakEnemy.h"
+#include"GameScene.h"
 
 void WeakEnemy::Initialize(Vector3 position) 
 {

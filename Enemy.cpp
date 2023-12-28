@@ -1,6 +1,7 @@
 #include "Enemy.h"
 #include"Player.h"
 
+
 void Enemy::Initialize() { 
 
 	worldTransform_.translation_ = {0.0f, 0.0f, 10.0f};
