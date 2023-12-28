@@ -87,6 +87,9 @@ private: // メンバ変数
 
    std::list<std::unique_ptr<WeakEnemy>> weakenemys_;
 
+    // 敵発生コマンド
+   std::stringstream enemyPopCommands;
+
 	//デバッグカメラ
 	std::unique_ptr<DebugCamera> debugCamera_;
 	// デバッグカメラ有効
