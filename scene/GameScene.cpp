@@ -70,6 +70,7 @@ void GameScene::Initialize() {
 	
 	wall_->Initialize(wallModels);
 	
+	LoadEnemyPopData();
 
 }
 
@@ -119,6 +120,8 @@ void GameScene::Update() {
 	{
 		wall_->Update();
 	}
+
+	UpdateEnemyPopCommands();
 
 }
 
