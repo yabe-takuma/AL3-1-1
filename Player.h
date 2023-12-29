@@ -5,6 +5,7 @@
 #include"Xinput.h"
 #include"BaseCharacter.h"
 #include"ImGuiManager.h"
+#include <optional>
 class Player : public BaseCharacter {
 
 	// 振るまい
