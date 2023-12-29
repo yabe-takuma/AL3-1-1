@@ -24,6 +24,12 @@ public:
 	//モデル
 	Model* model_=nullptr;
 
+	WorldTransform worldTransformBody_;
+	WorldTransform worldTransformHead_;
+	WorldTransform worldTransformL_arm_;
+	WorldTransform worldTransformR_arm_;
+	WorldTransform worldTransformHammer_;
+
 
 	//キーボード入力
 	Input* input_ = nullptr;

@@ -22,7 +22,7 @@ void GameScene::Initialize() {
 	//自キャラの生成
 	player_ =new Player();
 	//自キャラの初期化
-	player_->Initialize(model_.get(),textureHandle_);
+	player_->Initialize();
 	//天球の生成
 	skydome_ = std::make_unique<Skydome>();
 	modelskydome_.reset(Model::CreateFromOBJ("skydome", true));
