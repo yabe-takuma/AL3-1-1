@@ -6,7 +6,7 @@
 #include"BaseCharacter.h"
 class Player : public BaseCharacter {
 public:
-	void Initialize(Model* model,uint32_t textureHandle) override;
+	void Initialize(const std::vector<Model*>& models) override;
 
 	void Update() override;
 
@@ -23,8 +23,7 @@ public:
 	WorldTransform worldTransform_;
 	//モデル
 	Model* model_=nullptr;
-	//テクスチャハンドル
-	uint32_t textureHandle_ = 0u;
+
 
 	//キーボード入力
 	Input* input_ = nullptr;

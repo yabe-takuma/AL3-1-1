@@ -1,14 +1,10 @@
 #include "Player.h"
 #include<cassert>
 
-void Player::Initialize(Model* model,uint32_t textureHandle)
-{
-	//NULLポインタチェック
-	assert(model);
-
-	model_ = model;
-
-	textureHandle_ = textureHandle;
+void Player::Initialize(const std::vector<Model*>& models) {
+	
+	BaseCharacter::Initialize(models);
+	
 
 	worldTransform_.translation_ = {6.0f, 0.0f, -70.0f};
 
@@ -21,6 +17,8 @@ void Player::Initialize(Model* model,uint32_t textureHandle)
 
 void Player::Update()
 {
+
+	BaseCharacter::Update();
 	
 	////キャラクターの移動ベクトル
 	//Vector3 move = {0, 0, 0};
