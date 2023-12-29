@@ -125,7 +125,7 @@ void Player::BehaviorAttackUpdate()
 {
 	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_B) {
 		worldTransformL_arm_.rotation_.x = -1.5f;
-		worldTransformL_arm_.rotation_.y = -0.5f;
+		worldTransformL_arm_.rotation_.y = easeInSine(worldTransformL_arm_.rotation_.y);
 	}
 	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
 		behaviorRequest_ = Behavior::kRoot;
@@ -172,6 +172,7 @@ void (Player::*Player::pBehaviorUpdateTable[])() = {
 float Player::easeInSine(float x)
 { 
 	float PI = 3.14f;
-	return x= 1 - cos((x * PI) / 2); 
+	x = 1 - cos((x * PI) / 2); 
+	return x;
 
 }
