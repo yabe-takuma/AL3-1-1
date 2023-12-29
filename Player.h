@@ -4,6 +4,7 @@
 #include"Input.h"
 #include"Xinput.h"
 #include"BaseCharacter.h"
+#include"ImGuiManager.h"
 class Player : public BaseCharacter {
 public:
 	void Initialize(const std::vector<Model*>& models) override;

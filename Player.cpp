@@ -8,10 +8,10 @@ void Player::Initialize(const std::vector<Model*>& models) {
 	SetParent(&worldTransformBody_);
 
 	worldTransform_.translation_ = {6.0f, 0.0f, -70.0f};
-	worldTransformBody_.translation_ = {6.0f, 0.5f, -70.0f};
-	worldTransformHead_.translation_ = {6.0f, 1.5f, -70.0f};
-	worldTransformL_arm_.translation_ = {5.5f, 1.3f, -70.0f};
-	worldTransformR_arm_.translation_ = {6.5f, 1.3f, -70.0f};
+	worldTransformBody_.translation_ = {0.0f, 0.5f, -70.0f};
+	worldTransformHead_.translation_ = {0.0f, 1.5f, 0.0f};
+	worldTransformL_arm_.translation_ = {-0.5f, 1.3f, 0.0f};
+	worldTransformR_arm_.translation_ = {0.5f, 1.3f, 0.0f};
 
 	worldTransform_.Initialize();
 	worldTransformBody_.Initialize();
@@ -78,6 +78,13 @@ void Player::Update()
 	worldTransformHead_.UpdateMatrix();
 	worldTransformL_arm_.UpdateMatrix();
 	worldTransformR_arm_.UpdateMatrix();
+
+	ImGui::Begin("player");
+	ImGui::DragFloat3("position", &worldTransformBody_.translation_.x, 0.1f);
+	ImGui::DragFloat3("position", &worldTransformHead_.translation_.x, 0.1f);
+	ImGui::DragFloat3("position", &worldTransformR_arm_.translation_.x, 0.1f);
+	ImGui::DragFloat3("position", &worldTransformL_arm_.translation_.x, 0.1f);
+	ImGui::End();
 }
 
 void Player::Draw(ViewProjection& viewProjection)
