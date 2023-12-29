@@ -20,6 +20,7 @@ class Player : public BaseCharacter {
 		int32_t time;
 		int32_t kAnimMaxtime;
 		int32_t cooltime;
+		int32_t weponcooltime;
 	};
 
 public:
@@ -78,7 +79,7 @@ public:
 	// 次の振るまいをリクエスト
 	std::optional<Behavior> behaviorRequest_ = std::nullopt;
 
-
+	bool isWepon = false;
 
 	//キーボード入力
 	Input* input_ = nullptr;

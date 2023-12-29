@@ -22,11 +22,13 @@ void Player::Initialize(const std::vector<Model*>& models) {
 	// シングルトンインスタンスを取得する
 	input_ = Input::GetInstance();
 
+	attack_.weponcooltime = 100;
+
 }
 
 void Player::Update()
 {
-
+	attack_.weponcooltime++;
 	BaseCharacter::Update();
 
 	if (behaviorRequest_) {
@@ -78,6 +80,9 @@ void Player::Update()
 	ImGui::DragFloat3("position", &worldTransformL_arm_.translation_.x, 0.1f);
 	ImGui::DragFloat3("rotation", &worldTransformL_arm_.rotation_.x, 0.01f);
 	ImGui::DragFloat3("rotation", &worldTransformR_arm_.rotation_.x, 0.01f);
+	ImGui::DragInt("cooltime", &attack_.weponcooltime, 0.01f);
+
+
 	ImGui::End();
 }
 
@@ -126,16 +131,24 @@ void Player::BehaviorAttackUpdate()
 	const float kDegreeToRadian = 0.1f;
 	attack_.kAnimMaxtime = 20;
 	attack_.time++;
-	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_B && attack_.time <= attack_.kAnimMaxtime) {
+	
+	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_B && attack_.time <= attack_.kAnimMaxtime/*&&attack_.weponcooltime>=100*/) {
+		isWepon = true;
+		attack_.weponcooltime = 0;
 		float frame = (float)attack_.time / attack_.kAnimMaxtime;
-		float easeInBack = easeInSine(frame * frame);
+		float easeInSize = easeInSine(frame * frame);
 		//float weaponAngle = 45 * kDegreeToRadian * easeInBack;
-		float armAngle = 30 * kDegreeToRadian * easeInBack;
+		float armAngle = 30 * kDegreeToRadian * easeInSize;
 		worldTransformR_arm_.rotation_.x = -1.5f;
 		worldTransformR_arm_.rotation_.y = -armAngle;
 	}
-	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
-		behaviorRequest_ = Behavior::kRoot;
+	else if (attack_.time >= attack_.kAnimMaxtime) {
+		attack_.cooltime++;
+		if (attack_.cooltime >= 30) {
+			attack_.time = 0;
+			behaviorRequest_ = Behavior::kRoot;
+			attack_.cooltime = 0;
+		}
 	}
 
 	}
