@@ -14,6 +14,13 @@ class Player : public BaseCharacter {
 		kAttack, // 攻撃中
 	};
 
+		// 攻撃モーション
+	struct Attack {
+		int32_t time;
+		int32_t kAnimMaxtime;
+		int32_t cooltime;
+	};
+
 public:
 	void Initialize(const std::vector<Model*>& models) override;
 

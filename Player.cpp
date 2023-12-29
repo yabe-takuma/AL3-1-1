@@ -61,25 +61,7 @@ void Player::Update()
 	//	move.y -= kCharacterSpeed;
 	//};
 
-	if (Input::GetInstance()->GetJoystickState(0, joyState))
-	{
-		const float speed = 0.3f;
-		Vector3 move = {
-		    (float)joyState.Gamepad.sThumbLX * SHRT_MAX * speed, 0.0f,
-		    (float)joyState.Gamepad.sThumbLY * SHRT_MAX * speed};
-
-		// 移動量に速さを反映
-		move = Normalize(move);
-		move = Multiply(speed, move);
-		move = TransformNormal(move, MakeRotateYMatrix(viewProjection_->rotation_.y));
-		if (move.x != 0.0f) {
-
-			worldTransformBody_.rotation_.y = std::atan2(move.x, move.z);
-		}
-
-		// 座標移動(ベクトルの加算)
-		worldTransformBody_.translation_ = Add(worldTransformBody_.translation_, move);
-	}
+	
 
 	
 
@@ -109,6 +91,33 @@ void Player::Draw(ViewProjection& viewProjection)
 
 void Player::SetViewProjection(const ViewProjection* viewProjection) {
 	viewProjection_ = viewProjection;
+}
+
+void Player::BehaviorRootUpdate() 
+{
+	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
+		const float speed = 0.3f;
+		Vector3 move = {
+		    (float)joyState.Gamepad.sThumbLX * SHRT_MAX * speed, 0.0f,
+		    (float)joyState.Gamepad.sThumbLY * SHRT_MAX * speed};
+
+		// 移動量に速さを反映
+		move = Normalize(move);
+		move = Multiply(speed, move);
+		move = TransformNormal(move, MakeRotateYMatrix(viewProjection_->rotation_.y));
+		if (move.x != 0.0f) {
+
+			worldTransformBody_.rotation_.y = std::atan2(move.x, move.z);
+		}
+
+		// 座標移動(ベクトルの加算)
+		worldTransformBody_.translation_ = Add(worldTransformBody_.translation_, move);
+	}
+}
+
+void Player::BehaviorAttackUpdate() 
+{
+
 }
 
 Vector3 Player::GetWorldPosition() {
