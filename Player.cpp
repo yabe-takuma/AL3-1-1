@@ -8,6 +8,10 @@ void Player::Initialize(const std::vector<Model*>& models) {
 	SetParent(&worldTransformBody_);
 
 	worldTransform_.translation_ = {6.0f, 0.0f, -70.0f};
+	worldTransformBody_.translation_ = {0.0f, 0.5f, 0.0f};
+	worldTransformHead_.translation_ = {0.0f, 1.5f, 0.0f};
+	worldTransformL_arm_.translation_ = {-0.5f, 1.3f, 0.0f};
+	worldTransformR_arm_.translation_ = {0.5f, 1.3f, 0.0f};
 
 	worldTransform_.Initialize();
 	worldTransformBody_.Initialize();
