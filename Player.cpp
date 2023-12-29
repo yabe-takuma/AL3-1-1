@@ -69,7 +69,14 @@ void Player::Update()
 }
 
 void Player::Draw(ViewProjection& viewProjection)
-{ model_->Draw(worldTransform_, viewProjection); }
+{ 
+// 3Dモデルを描画
+	models_[0]->Draw(worldTransformBody_, viewProjection);
+	models_[1]->Draw(worldTransformHead_, viewProjection);
+	models_[2]->Draw(worldTransformL_arm_, viewProjection);
+	models_[3]->Draw(worldTransformR_arm_, viewProjection);
+
+}
 
 void Player::SetViewProjection(const ViewProjection* viewProjection) {
 	viewProjection_ = viewProjection;
