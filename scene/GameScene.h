@@ -93,6 +93,12 @@ private: // メンバ変数
 
    Vector3 velocity_;
 
+   // 3Dモデル
+   std::unique_ptr<Model> modelFighterBody_;
+   std::unique_ptr<Model> modelFighterHead_;
+   std::unique_ptr<Model> modelFighterL_arm_;
+   std::unique_ptr<Model> modelFighterR_arm_;
+
     // 敵発生コマンド
    std::stringstream enemyPopCommands;
 
