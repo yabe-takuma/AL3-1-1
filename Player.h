@@ -61,6 +61,10 @@ public:
 	WorldTransform worldTransformR_arm_;
 	WorldTransform worldTransformHammer_;
 
+	// 攻撃モーション
+	Attack attack_;
+	
+
 	// 振るまい
 	Behavior behavior_ = Behavior::kRoot;
 

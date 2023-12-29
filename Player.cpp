@@ -121,8 +121,14 @@ void Player::BehaviorRootUpdate()
 
 void Player::BehaviorAttackUpdate() 
 {
+	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_B) {
+		worldTransformL_arm_.rotation_.x += 1.0f;
+	}
+	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
+		behavior_ = Behavior::kRoot;
+	}
 
-}
+	}
 
 Vector3 Player::GetWorldPosition() {
 	// ワールド座標を入れる変数
