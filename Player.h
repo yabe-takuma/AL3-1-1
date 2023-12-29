@@ -3,13 +3,14 @@
 #include"Model.h"
 #include"Input.h"
 #include"Xinput.h"
-class Player {
+#include"BaseCharacter.h"
+class Player : public BaseCharacter {
 public:
-	void Initialize(Model* model,uint32_t textureHandle);
+	void Initialize(Model* model,uint32_t textureHandle) override;
 
-	void Update();
+	void Update() override;
 
-	void Draw(ViewProjection& viewProjection);
+	void Draw(ViewProjection& viewProjection) override;
 
 	void SetViewProjection(const ViewProjection* viewProjection);
 
