@@ -5,6 +5,7 @@ void Player::Initialize(const std::vector<Model*>& models) {
 	
 	BaseCharacter::Initialize(models);
 	
+	SetParent(&worldTransformBody_);
 
 	worldTransform_.translation_ = {6.0f, 0.0f, -70.0f};
 
