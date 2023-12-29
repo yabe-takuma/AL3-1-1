@@ -124,8 +124,12 @@ void Player::BehaviorRootUpdate()
 void Player::BehaviorAttackUpdate() 
 {
 	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_B) {
+		float frame = (float)attack_.time / attack_.kAnimMaxtime;
+		float easeInBack = easeInSine(frame * frame);
+		float weaponAngle = 45 * kDegreeToRadian * easeInBack;
+		float armAngle = 45 * kDegreeToRadian * easeInBack;
 		worldTransformL_arm_.rotation_.x = -1.5f;
-		worldTransformL_arm_.rotation_.y = easeInSine(worldTransformL_arm_.rotation_.y);
+		worldTransformL_arm_.rotation_.y = ;
 	}
 	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
 		behaviorRequest_ = Behavior::kRoot;
