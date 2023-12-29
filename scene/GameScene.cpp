@@ -21,6 +21,11 @@ void GameScene::Initialize() {
 
 	//自キャラの生成
 	player_ =new Player();
+	modelFighterBody_.reset(Model::CreateFromOBJ("float_Body", true));
+	modelFighterHead_.reset(Model::CreateFromOBJ("float_Head", true));
+	modelFighterL_arm_.reset(Model::CreateFromOBJ("float_L_arm", true));
+	modelFighterR_arm_.reset(Model::CreateFromOBJ("float_R_arm", true));
+
 	//自キャラの初期化
 	player_->Initialize();
 	//天球の生成
