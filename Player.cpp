@@ -126,7 +126,7 @@ void Player::BehaviorAttackUpdate()
 	const float kDegreeToRadian = 0.1f;
 	attack_.kAnimMaxtime = 50;
 	attack_.time++;
-	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_B) {
+	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_B && attack_.time <= attack_.kAnimMaxtime) {
 		float frame = (float)attack_.time / attack_.kAnimMaxtime;
 		float easeInBack = easeInSine(frame * frame);
 		float weaponAngle = 45 * kDegreeToRadian * easeInBack;
