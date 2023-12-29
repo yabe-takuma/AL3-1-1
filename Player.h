@@ -22,6 +22,15 @@ public:
 
 	void SetViewProjection(const ViewProjection* viewProjection);
 
+	// 通常行動更新
+	void BehaviorRootUpdate();
+	// 攻撃行動更新
+	void BehaviorAttackUpdate();
+	// 通常行動初期化
+	void BehaviorRootInitialize();
+	// 攻撃行動初期化
+	void BeheviorAttackInitialize();
+
 	Vector3 GetWorldPosition();
 
 	const WorldTransform& GetWorldTransform() { return worldTransformBody_; }
