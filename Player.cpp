@@ -76,6 +76,8 @@ void Player::Update()
 	ImGui::DragFloat3("position", &worldTransformHead_.translation_.x, 0.1f);
 	ImGui::DragFloat3("position", &worldTransformR_arm_.translation_.x, 0.1f);
 	ImGui::DragFloat3("position", &worldTransformL_arm_.translation_.x, 0.1f);
+	ImGui::DragFloat3("rotation", &worldTransformL_arm_.rotation_.x, 0.01f);
+	ImGui::DragFloat3("rotation", &worldTransformR_arm_.rotation_.x, 0.01f);
 	ImGui::End();
 }
 
@@ -122,7 +124,8 @@ void Player::BehaviorRootUpdate()
 void Player::BehaviorAttackUpdate() 
 {
 	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_B) {
-		worldTransformL_arm_.rotation_.x += 1.0f;
+		worldTransformL_arm_.rotation_.x = -1.5f;
+		worldTransformL_arm_.rotation_.y = -0.5f;
 	}
 	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
 		behaviorRequest_ = Behavior::kRoot;
@@ -165,3 +168,5 @@ void (Player::*Player::pBehaviorUpdateTable[])() = {
     &Player::BehaviorRootUpdate,
     &Player::BehaviorAttackUpdate,
 };
+
+function easeInSine(x : number) : number { return 1 - Math.cos((x * Math.PI) / 2); }
