@@ -26,8 +26,13 @@ void GameScene::Initialize() {
 	modelFighterL_arm_.reset(Model::CreateFromOBJ("float_L_arm", true));
 	modelFighterR_arm_.reset(Model::CreateFromOBJ("float_R_arm", true));
 
+	// 自キャラモデル
+	std::vector<Model*> playerModels = {
+	    modelFighterBody_.get(), modelFighterHead_.get(), modelFighterL_arm_.get(),
+	    modelFighterR_arm_.get()};
+
 	//自キャラの初期化
-	player_->Initialize();
+	player_->Initialize(playerModels);
 	//天球の生成
 	skydome_ = std::make_unique<Skydome>();
 	modelskydome_.reset(Model::CreateFromOBJ("skydome", true));
