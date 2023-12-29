@@ -28,6 +28,16 @@ void Player::Update()
 {
 
 	BaseCharacter::Update();
+
+	if (behaviorRequest_) {
+		// 振るまいを変更する
+		behavior_ = behaviorRequest_.value();
+		// 各振るまいごとの初期化の実行
+		(this->*pBehaviorInitializeTable[static_cast<size_t>(behavior_)])();
+		// 振るまいリクエストリセット
+		behaviorRequest_ = std::nullopt;
+	}
+	(this->*pBehaviorUpdateTable[static_cast<size_t>(behavior_)])();
 	
 	////キャラクターの移動ベクトル
 	//Vector3 move = {0, 0, 0};
