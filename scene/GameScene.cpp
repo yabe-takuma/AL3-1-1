@@ -121,6 +121,10 @@ void GameScene::Update() {
 		wall_->Update();
 	}
 
+		for (const std::unique_ptr<WeakEnemy>& weakenemy : weakenemys_) {
+		weakenemy->Update();
+	}
+
 	UpdateEnemyPopCommands();
 
 }
@@ -171,6 +175,9 @@ void GameScene::Draw() {
 		wall_->Draw(viewprojection_);
 	}
 	
+	for (const auto& weakenemy : weakenemys_) {
+		weakenemy->Draw(viewprojection_);
+	}
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
@@ -190,15 +197,13 @@ void GameScene::Draw() {
 #pragma endregion
 }
 
-void GameScene::EnemyGeneration(const Vector3& position) {
+void GameScene::EnemyGeneration(const Vector3& position, const Vector3& velocity) {
 	// 敵の生成
 	WeakEnemy* weakenemy = new WeakEnemy();
 
-	// 敵の初期化
-	const float kEnemySpeed = 0.01f;
-	Vector3 velocity_ = {0, 0, kEnemySpeed};
+	
 
-	weakenemy->Initialize(position);
+	weakenemy->Initialize(position,velocity);
 	weakenemy->SetGameScene(this);
 
 
@@ -224,6 +229,8 @@ void GameScene::LoadEnemyPopData() {
 void GameScene::UpdateEnemyPopCommands() {
 	bool iswait = false;
 	int32_t waitTimer = 0;
+
+
 
 	// 待機処理
 	if (iswait) {
@@ -251,22 +258,39 @@ void GameScene::UpdateEnemyPopCommands() {
 			continue;
 		}
 		// POPコマンド
-		if (word.find("POP") == 0) {
+		if (word.find("SPEED") == 0) {
 			// x座標
 			getline(line_stream, word, ',');
-			float x = (float)std::atof(word.c_str());
+			 velocity_.x = (float)std::atof(word.c_str());
 
 			// y座標
 			getline(line_stream, word, ',');
-			float y = (float)std::atof(word.c_str());
+			 velocity_.y = (float)std::atof(word.c_str());
 
 			// z座標
 			getline(line_stream, word, ',');
-			float z = (float)std::atof(word.c_str());
-
-			// 敵を発生させる
-			EnemyGeneration(Vector3(x, y, z));
+			 velocity_.z = (float)std::atof(word.c_str());
+		
+			
 		}
+			// POPコマンド
+			 if (word.find("POP") == 0) {
+				// x座標
+				getline(line_stream, word, ',');
+				float x = (float)std::atof(word.c_str());
+
+				// y座標
+				getline(line_stream, word, ',');
+				float y = (float)std::atof(word.c_str());
+
+				// z座標
+				getline(line_stream, word, ',');
+				float z = (float)std::atof(word.c_str());
+
+				// 敵を発生させる
+				EnemyGeneration(Vector3(x, y, z), velocity_);
+			}
+		
 
 		// WAITコマンド
 		else if (word.find("WAIT") == 0) {
@@ -284,3 +308,5 @@ void GameScene::UpdateEnemyPopCommands() {
 		}
 	}
 }
+
+

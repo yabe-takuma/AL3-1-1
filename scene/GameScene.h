@@ -51,11 +51,13 @@ public: // メンバ関数
 	/// </summary>
 	void Draw();
 
-	void EnemyGeneration(const Vector3& position);
+	void EnemyGeneration(const Vector3& position,const Vector3& velocity);
 
 	void LoadEnemyPopData();
 
 	void UpdateEnemyPopCommands();
+
+	
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
@@ -88,6 +90,8 @@ private: // メンバ変数
 	std::unique_ptr<Model> modelwall_;
 
    std::list<std::unique_ptr<WeakEnemy>> weakenemys_;
+
+   Vector3 velocity_;
 
     // 敵発生コマンド
    std::stringstream enemyPopCommands;
