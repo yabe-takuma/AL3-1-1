@@ -149,3 +149,13 @@ void Player::BehaviorRootInitialize() {
 }
 
 void Player::BeheviorAttackInitialize() { attack_.time = 0; }
+
+void (Player::*Player::pBehaviorInitializeTable[])() = {
+    &Player::BehaviorRootInitialize,
+    &Player::BeheviorAttackInitialize,
+};
+
+void (Player::*Player::pBehaviorUpdateTable[])() = {
+    &Player::BehaviorRootUpdate,
+    &Player::BehaviorAttackUpdate,
+};
