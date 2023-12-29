@@ -53,6 +53,17 @@ public:
 	WorldTransform worldTransformR_arm_;
 	WorldTransform worldTransformHammer_;
 
+	// 振るまい
+	Behavior behavior_ = Behavior::kRoot;
+
+	static void (Player::*pBehaviorInitializeTable[])();
+
+	static void (Player::*pBehaviorUpdateTable[])();
+
+	// 次の振るまいをリクエスト
+	std::optional<Behavior> behaviorRequest_ = std::nullopt;
+
+
 
 	//キーボード入力
 	Input* input_ = nullptr;
