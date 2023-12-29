@@ -171,6 +171,7 @@ void (Player::*Player::pBehaviorUpdateTable[])() = {
 
 float Player::easeInSine(float x)
 { 
-	return 1 - Math.cos((x * Math.PI) / 2); 
+	float PI = 3.14f;
+	return x= 1 - cos((x * PI) / 2); 
 
 }

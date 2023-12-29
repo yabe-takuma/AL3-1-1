@@ -6,6 +6,7 @@
 #include"BaseCharacter.h"
 #include"ImGuiManager.h"
 #include <optional>
+#include <cmath>
 class Player : public BaseCharacter {
 
 	// 振るまい
