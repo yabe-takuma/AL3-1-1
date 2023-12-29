@@ -10,6 +10,10 @@ void Player::Initialize(const std::vector<Model*>& models) {
 	worldTransform_.translation_ = {6.0f, 0.0f, -70.0f};
 
 	worldTransform_.Initialize();
+	worldTransformBody_.Initialize();
+	worldTransformHead_.Initialize();
+	worldTransformL_arm_.Initialize();
+	worldTransformR_arm_.Initialize();
 
 	// シングルトンインスタンスを取得する
 	input_ = Input::GetInstance();
@@ -56,17 +60,20 @@ void Player::Update()
 		move = TransformNormal(move, MakeRotateYMatrix(viewProjection_->rotation_.y));
 		if (move.x != 0.0f) {
 
-			worldTransform_.rotation_.y = std::atan2(move.x, move.z);
+			worldTransformBody_.rotation_.y = std::atan2(move.x, move.z);
 		}
 
 		// 座標移動(ベクトルの加算)
-		worldTransform_.translation_ = Add(worldTransform_.translation_, move);
+		worldTransformBody_.translation_ = Add(worldTransformBody_.translation_, move);
 	}
 
 	
 
 	worldTransform_.UpdateMatrix();
-
+	worldTransformBody_.UpdateMatrix();
+	worldTransformHead_.UpdateMatrix();
+	worldTransformL_arm_.UpdateMatrix();
+	worldTransformR_arm_.UpdateMatrix();
 }
 
 void Player::Draw(ViewProjection& viewProjection)
@@ -92,4 +99,11 @@ Vector3 Player::GetWorldPosition() {
 	worldPos.z = worldTransform_.matWorld_.m[3][2];
 
 	return worldPos;
+}
+
+void Player::SetParent(const WorldTransform* parent) {
+	worldTransformHead_.parent_ = parent;
+	worldTransformL_arm_.parent_ = parent;
+	worldTransformR_arm_.parent_ = parent;
+	worldTransformHammer_.parent_ = parent;
 }
