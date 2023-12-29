@@ -6,6 +6,13 @@
 #include"BaseCharacter.h"
 #include"ImGuiManager.h"
 class Player : public BaseCharacter {
+
+	// 振るまい
+	enum class Behavior {
+		kRoot,   // 通常攻撃
+		kAttack, // 攻撃中
+	};
+
 public:
 	void Initialize(const std::vector<Model*>& models) override;
 
