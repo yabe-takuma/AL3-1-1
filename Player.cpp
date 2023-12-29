@@ -113,6 +113,10 @@ void Player::BehaviorRootUpdate()
 		// 座標移動(ベクトルの加算)
 		worldTransformBody_.translation_ = Add(worldTransformBody_.translation_, move);
 	}
+
+	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_B) {
+		behavior_ = Behavior::kAttack;
+	}
 }
 
 void Player::BehaviorAttackUpdate() 
