@@ -125,7 +125,7 @@ void Player::BehaviorAttackUpdate()
 		worldTransformL_arm_.rotation_.x += 1.0f;
 	}
 	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
-		behavior_ = Behavior::kRoot;
+		behaviorRequest_ = Behavior::kRoot;
 	}
 
 	}
