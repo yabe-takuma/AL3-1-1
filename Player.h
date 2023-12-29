@@ -16,7 +16,7 @@ public:
 
 	Vector3 GetWorldPosition();
 
-	const WorldTransform& GetWorldTransform() { return worldTransform_; }
+	const WorldTransform& GetWorldTransform() { return worldTransformBody_; }
 
 	/// <summary>
 	/// 親となるワールドトランスフォームをセット
