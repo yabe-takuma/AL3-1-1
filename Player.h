@@ -41,6 +41,8 @@ public:
 
 	Vector3 GetWorldPosition();
 
+	float easeInSine(float x);
+
 	const WorldTransform& GetWorldTransform() { return worldTransformBody_; }
 
 	/// <summary>

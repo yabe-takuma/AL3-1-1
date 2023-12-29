@@ -169,4 +169,8 @@ void (Player::*Player::pBehaviorUpdateTable[])() = {
     &Player::BehaviorAttackUpdate,
 };
 
-function easeInSine(x : number) : number { return 1 - Math.cos((x * Math.PI) / 2); }
+float Player::easeInSine(float x)
+{ 
+	return 1 - Math.cos((x * Math.PI) / 2); 
+
+}
