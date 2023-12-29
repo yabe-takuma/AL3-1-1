@@ -128,3 +128,11 @@ void Player::SetParent(const WorldTransform* parent) {
 	worldTransformR_arm_.parent_ = parent;
 	worldTransformHammer_.parent_ = parent;
 }
+
+void Player::BehaviorRootInitialize() {
+
+	worldTransformL_arm_.rotation_ = {0.0f, 0.0f, 0.0f};
+	worldTransformR_arm_.rotation_ = {0.0f, 0.0f, 0.0f};
+}
+
+void Player::BeheviorAttackInitialize() { attack_.time = 0; }
