@@ -124,15 +124,15 @@ void Player::BehaviorRootUpdate()
 void Player::BehaviorAttackUpdate() 
 {
 	const float kDegreeToRadian = 0.1f;
-	attack_.kAnimMaxtime = 50;
+	attack_.kAnimMaxtime = 20;
 	attack_.time++;
 	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_B && attack_.time <= attack_.kAnimMaxtime) {
 		float frame = (float)attack_.time / attack_.kAnimMaxtime;
 		float easeInBack = easeInSine(frame * frame);
-		float weaponAngle = 45 * kDegreeToRadian * easeInBack;
-		float armAngle = 45 * kDegreeToRadian * easeInBack;
-		worldTransformL_arm_.rotation_.x = -1.5f;
-		worldTransformL_arm_.rotation_.y = ;
+		//float weaponAngle = 45 * kDegreeToRadian * easeInBack;
+		float armAngle = 30 * kDegreeToRadian * easeInBack;
+		worldTransformR_arm_.rotation_.x = -1.5f;
+		worldTransformR_arm_.rotation_.y = -armAngle;
 	}
 	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
 		behaviorRequest_ = Behavior::kRoot;
@@ -178,7 +178,7 @@ void (Player::*Player::pBehaviorUpdateTable[])() = {
 
 float Player::easeInSine(float x)
 { 
-	float PI = 3.14f;
+	float PI = 0.975f;
 	x = 1 - cos((x * PI) / 2); 
 	return x;
 
