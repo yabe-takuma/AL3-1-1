@@ -3,7 +3,7 @@
 #include"Model.h"
 class PlayerBullet {
 public:
-	void Initialize();
+	void Initialize(Vector3& position,Vector3&velocity);
 
 	void Update();
 
@@ -13,5 +13,7 @@ private:
 	WorldTransform worldTransform_;
 
 	Model* model_ = nullptr;
+
+	Vector3 velocity_;
 
 };
