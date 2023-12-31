@@ -95,6 +95,6 @@ public:
 	// カメラのビュープロジェクション
 	const ViewProjection* viewProjection_ = nullptr;
 
-	std::list<std::unique_ptr<PlayerBullet>> playerbullet_;
+	std::list<PlayerBullet*> playerbullet_;
 
 };

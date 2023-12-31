@@ -36,7 +36,7 @@ void Player::Update()
 
 	BulletAttack();
 
-		for (const std::unique_ptr<PlayerBullet>& playerbullet : playerbullet_) {
+		for (PlayerBullet* playerbullet : playerbullet_) {
 		playerbullet->Update();
 	}
 
@@ -116,7 +116,7 @@ void Player::Draw(ViewProjection& viewProjection)
 	if (behavior_ == Behavior::kAttack) {
 		models_[4]->Draw(worldTransformSord_, viewProjection);
 	}
-	for (const auto& playerbullet : playerbullet_) {
+	for (PlayerBullet*playerbullet : playerbullet_) {
 		playerbullet->Draw(viewProjection);
 	}
 }
@@ -239,10 +239,10 @@ float Player::easeInSine2(float x) {
 
 void Player::BulletAttack()
 {
-	if (input_->IsPressMouse(WM_RBUTTONDOWN == 0)) {
+	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
 
 		// 弾の速度
-		const float kBulletSpeed = 5.0f;
+		const float kBulletSpeed = 1.0f;
 		Vector3 velocity(0, 0, kBulletSpeed);
 		// 速度ベクトルを自機の向きに合わせて回転させる(自キャラのワールド行列はmatWorld)
 		velocity = TransformNormal(velocity, worldTransformBody_.matWorld_);
@@ -256,7 +256,7 @@ void Player::BulletAttack()
 		velocity = Normalize(velocity);
 		velocity = Multiply(kBulletSpeed, velocity);
 
-	playerbullet_.push_back(static_cast<std::unique_ptr<PlayerBullet>>(playerbullet));
+	playerbullet_.push_back(playerbullet);
 	}
 
 	
