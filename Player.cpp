@@ -217,3 +217,14 @@ float Player::easeInSine2(float x) {
 	x = -2.0f - cos((x * PI) / 2);
 	return x;
 }
+
+void Player::BulletAttack()
+{
+	// 敵の生成
+	PlayerBullet* playerbullet = new PlayerBullet();
+
+	playerbullet->Initialize(position, velocity);
+	
+
+	playerbullet_.push_back(static_cast<std::unique_ptr<PlayerBullet>>(playerbullet));
+}

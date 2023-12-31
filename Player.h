@@ -49,6 +49,8 @@ public:
 
 	float easeInSine2(float x);
 
+	void BulletAttack();
+
 	const WorldTransform& GetWorldTransform() { return worldTransformBody_; }
 
 	/// <summary>
@@ -93,6 +95,6 @@ public:
 	// カメラのビュープロジェクション
 	const ViewProjection* viewProjection_ = nullptr;
 
-	std::unique_ptr<PlayerBullet> playerbullet_;
+	std::list<std::unique_ptr<PlayerBullet>> playerbullet_;
 
 };
