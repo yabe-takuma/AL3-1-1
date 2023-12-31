@@ -9,11 +9,16 @@ public:
 
 	void Draw(ViewProjection& viewProjection);
 
+	bool IsDead() { return isDead_; }
+
 private:
 	WorldTransform worldTransform_;
 
 	Model* model_ = nullptr;
 
 	Vector3 velocity_;
+
+		// デスフラグ
+	bool isDead_ = false;
 
 };
