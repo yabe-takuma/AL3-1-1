@@ -1,9 +1,10 @@
 #include "PlayerBullet.h"
-
-void PlayerBullet::Initialize(Vector3& position, Vector3& velocity) { 
+#include<cassert>
+void PlayerBullet::Initialize(Model* model,Vector3& position, Vector3& velocity) { 
+	assert(model);
 	worldTransform_.translation_ = position;
 	worldTransform_.Initialize(); 
-	model_ = Model::Create();
+	model_ = model;
 	//model_ = Model::CreateFromOBJ("PlayerBullet", true);
 	velocity_ = velocity;
 }

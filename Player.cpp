@@ -149,6 +149,7 @@ void Player::BehaviorRootUpdate()
 	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_B) {
 		behavior_ = Behavior::kAttack;
 	}
+
 }
 
 void Player::BehaviorAttackUpdate() 
@@ -205,6 +206,8 @@ void Player::SetParent(const WorldTransform* parent) {
 	worldTransformSord_.parent_ = parent;
 }
 
+
+
 void Player::BehaviorRootInitialize() {
 
 	worldTransformL_arm_.rotation_ = {0.0f, 0.0f, 0.0f};
@@ -216,11 +219,13 @@ void Player::BeheviorAttackInitialize() { attack_.time = 0; }
 void (Player::*Player::pBehaviorInitializeTable[])() = {
     &Player::BehaviorRootInitialize,
     &Player::BeheviorAttackInitialize,
+
 };
 
 void (Player::*Player::pBehaviorUpdateTable[])() = {
     &Player::BehaviorRootUpdate,
     &Player::BehaviorAttackUpdate,
+	
 };
 
 float Player::easeInSine(float x)
@@ -240,26 +245,23 @@ float Player::easeInSine2(float x) {
 void Player::BulletAttack()
 {
 	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
-
 		// 弾の速度
 		const float kBulletSpeed = 1.0f;
 		Vector3 velocity(0, 0, kBulletSpeed);
 		// 速度ベクトルを自機の向きに合わせて回転させる(自キャラのワールド行列はmatWorld)
 		velocity = TransformNormal(velocity, worldTransformBody_.matWorld_);
 
-			// 敵の生成
+		// 敵の生成
 		PlayerBullet* playerbullet = new PlayerBullet();
+		modelbullet_.reset(Model::CreateFromOBJ("Player", true));
 
-		playerbullet->Initialize(worldTransformBody_.translation_, velocity);
+		playerbullet->Initialize(modelbullet_.get(),worldTransformBody_.translation_, velocity);
 
-	
 		velocity = Normalize(velocity);
 		velocity = Multiply(kBulletSpeed, velocity);
 
-	playerbullet_.push_back(playerbullet);
+		playerbullet_.push_back(playerbullet);
 	}
-
-	
 
 	
 }

@@ -15,6 +15,7 @@ class Player : public BaseCharacter {
 	enum class Behavior {
 		kRoot,   // 通常攻撃
 		kAttack, // 攻撃中
+	
 	};
 
 		// 攻撃モーション
@@ -42,6 +43,8 @@ public:
 	void BehaviorRootInitialize();
 	// 攻撃行動初期化
 	void BeheviorAttackInitialize();
+
+	
 
 	Vector3 GetWorldPosition();
 
@@ -96,5 +99,6 @@ public:
 	const ViewProjection* viewProjection_ = nullptr;
 
 	std::list<PlayerBullet*> playerbullet_;
+	std::unique_ptr<Model> modelbullet_;
 
 };
