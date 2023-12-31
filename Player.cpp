@@ -25,7 +25,7 @@ void Player::Initialize(const std::vector<Model*>& models) {
 	// シングルトンインスタンスを取得する
 	input_ = Input::GetInstance();
 
-	attack_.weponcooltime = 100;
+	attack_.bulletcooltime = 0;
 
 		modelbullet_.reset(Model::CreateFromOBJ("PlayerBullet", true));
 
@@ -33,7 +33,7 @@ void Player::Initialize(const std::vector<Model*>& models) {
 
 void Player::Update()
 {
-	attack_.weponcooltime++;
+
 	BaseCharacter::Update();
 
 	BulletAttack();
@@ -102,7 +102,7 @@ void Player::Update()
 	ImGui::DragFloat3("position", &worldTransformL_arm_.translation_.x, 0.1f);
 	ImGui::DragFloat3("rotation", &worldTransformSord_.rotation_.x, 0.01f);
 	ImGui::DragFloat3("rotation", &worldTransformSord_.rotation_.x, 0.01f);
-	ImGui::DragInt("cooltime", &attack_.weponcooltime, 0.01f);
+	
 
 
 	ImGui::End();
@@ -162,7 +162,7 @@ void Player::BehaviorAttackUpdate()
 	
 	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_B && attack_.time <= attack_.kAnimMaxtime/*&&attack_.weponcooltime>=100*/) {
 		isWepon = true;
-		attack_.weponcooltime = 0;
+		
 		float frame = (float)attack_.time / attack_.kAnimMaxtime;
 		float easeInSize = easeInSine(frame * frame);
 		//float weaponAngle = 45 * kDegreeToRadian * easeInBack;
@@ -246,7 +246,10 @@ float Player::easeInSine2(float x) {
 
 void Player::BulletAttack()
 {
-	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
+	if (attack_.bulletcooltime <= 10) {
+		attack_.bulletcooltime++;
+	}
+	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A&&attack_.bulletcooltime>=10) {
 		// 弾の速度
 		const float kBulletSpeed = 1.0f;
 		Vector3 velocity(0, 0, kBulletSpeed);
@@ -263,6 +266,7 @@ void Player::BulletAttack()
 		velocity = Multiply(kBulletSpeed, velocity);
 
 		playerbullet_.push_back(playerbullet);
+		attack_.bulletcooltime = 0;
 	}
 
 	

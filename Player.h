@@ -23,7 +23,7 @@ class Player : public BaseCharacter {
 		int32_t time;
 		int32_t kAnimMaxtime;
 		int32_t cooltime;
-		int32_t weponcooltime;
+		int32_t bulletcooltime;
 	};
 
 public:
