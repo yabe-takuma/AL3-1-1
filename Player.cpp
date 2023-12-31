@@ -40,6 +40,16 @@ void Player::Update()
 		playerbullet->Update();
 	}
 
+		// デスフラグの立った弾を削除
+	playerbullet_.remove_if([](PlayerBullet* bullet) {
+		if (bullet->IsDead()) {
+
+			delete bullet;
+			return true;
+		}
+		return false;
+	});
+
 	if (behaviorRequest_) {
 		// 振るまいを変更する
 		behavior_ = behaviorRequest_.value();

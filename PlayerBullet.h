@@ -9,7 +9,7 @@ public:
 
 	void Draw(ViewProjection& viewProjection);
 
-	bool IsDead() { return isDead_; }
+	bool IsDead() const { return isDead_; }
 
 private:
 	WorldTransform worldTransform_;
