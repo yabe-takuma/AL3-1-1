@@ -7,6 +7,8 @@
 #include"ImGuiManager.h"
 #include <optional>
 #include <cmath>
+#include"PlayerBullet.h"
+#include<memory>
 class Player : public BaseCharacter {
 
 	// 振るまい
@@ -90,5 +92,7 @@ public:
 
 	// カメラのビュープロジェクション
 	const ViewProjection* viewProjection_ = nullptr;
+
+	std::unique_ptr<PlayerBullet> playerbullet_;
 
 };
