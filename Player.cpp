@@ -73,7 +73,7 @@ void Player::Update()
 	worldTransformL_arm_.UpdateMatrix();
 	worldTransformR_arm_.UpdateMatrix();
 
-	ImGui::Begin("player");
+	/*ImGui::Begin("player");
 	ImGui::DragFloat3("position", &worldTransformBody_.translation_.x, 0.1f);
 	ImGui::DragFloat3("position", &worldTransformHead_.translation_.x, 0.1f);
 	ImGui::DragFloat3("position", &worldTransformR_arm_.translation_.x, 0.1f);
@@ -83,7 +83,7 @@ void Player::Update()
 	ImGui::DragInt("cooltime", &attack_.weponcooltime, 0.01f);
 
 
-	ImGui::End();
+	ImGui::End();*/
 }
 
 void Player::Draw(ViewProjection& viewProjection)

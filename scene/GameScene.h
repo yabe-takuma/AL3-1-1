@@ -19,6 +19,9 @@
 #include"WeakEnemy.h"
 #include<list>
 #include <sstream>
+#include"BreakWall.h"
+#include"FakeWall.h"
+#include"Item.h"
 
 /// <summary>
 /// ゲームシーン
@@ -90,6 +93,13 @@ private: // メンバ変数
 	std::unique_ptr<Model> modelwall_;
 
    std::list<std::unique_ptr<WeakEnemy>> weakenemys_;
+
+   std::unique_ptr<BreakWall> breakwall_;
+
+   std::unique_ptr<FakeWall> fakewall_;
+
+   std::unique_ptr<Item> item_;
+   std::unique_ptr<Model> modelitem_;
 
    Vector3 velocity_;
 

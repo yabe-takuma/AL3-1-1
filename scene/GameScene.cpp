@@ -82,6 +82,17 @@ void GameScene::Initialize() {
 	
 	LoadEnemyPopData();
 
+	breakwall_ = std::make_unique<BreakWall>();
+	breakwall_->Initialize();
+
+	fakewall_ = std::make_unique<FakeWall>();
+	fakewall_->Initialize();
+
+
+	modelitem_.reset(Model::CreateFromOBJ("Item", true));
+	item_ = std::make_unique<Item>();
+	item_->Initialize(modelitem_.get());
+
 }
 
 void GameScene::Update() { 
@@ -130,6 +141,19 @@ void GameScene::Update() {
 	{
 		wall_->Update();
 	}
+	if (breakwall_ != nullptr)
+	{
+		breakwall_->Update();
+	}
+	if (fakewall_ != nullptr)
+	{
+		fakewall_->Update();
+	}
+	if (item_ != nullptr)
+	{
+		item_->Update();
+	}
+
 
 		for (const std::unique_ptr<WeakEnemy>& weakenemy : weakenemys_) {
 		weakenemy->Update();
@@ -183,6 +207,18 @@ void GameScene::Draw() {
 	if (wall_ != nullptr)
 	{
 		wall_->Draw(viewprojection_);
+	}
+	if (breakwall_ != nullptr)
+	{
+		breakwall_->Draw(viewprojection_);
+	}
+	if (fakewall_ != nullptr)
+	{
+		fakewall_->Draw(viewprojection_);
+	}
+	if (item_ != nullptr)
+	{
+		item_->Draw(viewprojection_);
 	}
 	
 	for (const auto& weakenemy : weakenemys_) {
