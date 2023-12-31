@@ -45,6 +45,8 @@ public:
 
 	float easeInSine(float x);
 
+	float easeInSine2(float x);
+
 	const WorldTransform& GetWorldTransform() { return worldTransformBody_; }
 
 	/// <summary>
@@ -63,7 +65,7 @@ public:
 	WorldTransform worldTransformHead_;
 	WorldTransform worldTransformL_arm_;
 	WorldTransform worldTransformR_arm_;
-	WorldTransform worldTransformHammer_;
+	WorldTransform worldTransformSord_;
 
 	// 攻撃モーション
 	Attack attack_;

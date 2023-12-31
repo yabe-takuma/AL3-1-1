@@ -13,11 +13,14 @@ void Player::Initialize(const std::vector<Model*>& models) {
 	worldTransformL_arm_.translation_ = {-0.5f, 1.3f, 0.0f};
 	worldTransformR_arm_.translation_ = {0.5f, 1.3f, 0.0f};
 
+	worldTransformSord_.rotation_ = {0.0f, 1.6f, 0.0f};
+
 	worldTransform_.Initialize();
 	worldTransformBody_.Initialize();
 	worldTransformHead_.Initialize();
 	worldTransformL_arm_.Initialize();
 	worldTransformR_arm_.Initialize();
+	worldTransformSord_.Initialize();
 
 	// シングルトンインスタンスを取得する
 	input_ = Input::GetInstance();
@@ -72,18 +75,19 @@ void Player::Update()
 	worldTransformHead_.UpdateMatrix();
 	worldTransformL_arm_.UpdateMatrix();
 	worldTransformR_arm_.UpdateMatrix();
+	worldTransformSord_.UpdateMatrix();
 
-	/*ImGui::Begin("player");
+	ImGui::Begin("player");
 	ImGui::DragFloat3("position", &worldTransformBody_.translation_.x, 0.1f);
 	ImGui::DragFloat3("position", &worldTransformHead_.translation_.x, 0.1f);
 	ImGui::DragFloat3("position", &worldTransformR_arm_.translation_.x, 0.1f);
 	ImGui::DragFloat3("position", &worldTransformL_arm_.translation_.x, 0.1f);
-	ImGui::DragFloat3("rotation", &worldTransformL_arm_.rotation_.x, 0.01f);
-	ImGui::DragFloat3("rotation", &worldTransformR_arm_.rotation_.x, 0.01f);
+	ImGui::DragFloat3("rotation", &worldTransformSord_.rotation_.x, 0.01f);
+	ImGui::DragFloat3("rotation", &worldTransformSord_.rotation_.x, 0.01f);
 	ImGui::DragInt("cooltime", &attack_.weponcooltime, 0.01f);
 
 
-	ImGui::End();*/
+	ImGui::End();
 }
 
 void Player::Draw(ViewProjection& viewProjection)
@@ -93,7 +97,9 @@ void Player::Draw(ViewProjection& viewProjection)
 	models_[1]->Draw(worldTransformHead_, viewProjection);
 	models_[2]->Draw(worldTransformL_arm_, viewProjection);
 	models_[3]->Draw(worldTransformR_arm_, viewProjection);
-
+	if (behavior_ == Behavior::kAttack) {
+		models_[4]->Draw(worldTransformSord_, viewProjection);
+	}
 }
 
 void Player::SetViewProjection(const ViewProjection* viewProjection) {
@@ -139,8 +145,17 @@ void Player::BehaviorAttackUpdate()
 		float easeInSize = easeInSine(frame * frame);
 		//float weaponAngle = 45 * kDegreeToRadian * easeInBack;
 		float armAngle = 30 * kDegreeToRadian * easeInSize;
+
+		float frame2 = (float)attack_.time / attack_.kAnimMaxtime;
+		float easeInSize2 = easeInSine2(frame2 * frame2);
+		// float weaponAngle = 45 * kDegreeToRadian * easeInBack;
+		float armAngle2 = 30 * kDegreeToRadian * easeInSize2;
+
 		worldTransformR_arm_.rotation_.x = -1.5f;
 		worldTransformR_arm_.rotation_.y = -armAngle;
+
+		worldTransformSord_.rotation_.x = 0.0f;
+		worldTransformSord_.rotation_.y = -armAngle2;
 	}
 	else if (attack_.time >= attack_.kAnimMaxtime) {
 		attack_.cooltime++;
@@ -168,7 +183,7 @@ void Player::SetParent(const WorldTransform* parent) {
 	worldTransformHead_.parent_ = parent;
 	worldTransformL_arm_.parent_ = parent;
 	worldTransformR_arm_.parent_ = parent;
-	worldTransformHammer_.parent_ = parent;
+	worldTransformSord_.parent_ = parent;
 }
 
 void Player::BehaviorRootInitialize() {
@@ -195,4 +210,10 @@ float Player::easeInSine(float x)
 	x = 1 - cos((x * PI) / 2); 
 	return x;
 
+}
+
+float Player::easeInSine2(float x) {
+	float PI = 3.14f;
+	x = -2.0f - cos((x * PI) / 2);
+	return x;
 }
