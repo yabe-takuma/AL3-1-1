@@ -2,9 +2,10 @@
 #include<cassert>
 void PlayerBullet::Initialize(Model* model,Vector3& position, Vector3& velocity) { 
 	assert(model);
+	model_ = model;
 	worldTransform_.translation_ = position;
 	worldTransform_.Initialize(); 
-	model_ = model;
+	
 	//model_ = Model::CreateFromOBJ("PlayerBullet", true);
 	velocity_ = velocity;
 }

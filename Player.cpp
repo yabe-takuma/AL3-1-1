@@ -27,6 +27,8 @@ void Player::Initialize(const std::vector<Model*>& models) {
 
 	attack_.weponcooltime = 100;
 
+		modelbullet_.reset(Model::CreateFromOBJ("PlayerBullet", true));
+
 }
 
 void Player::Update()
@@ -253,7 +255,7 @@ void Player::BulletAttack()
 
 		// 敵の生成
 		PlayerBullet* playerbullet = new PlayerBullet();
-		modelbullet_.reset(Model::CreateFromOBJ("Player", true));
+	
 
 		playerbullet->Initialize(modelbullet_.get(),worldTransformBody_.translation_, velocity);
 
