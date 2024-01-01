@@ -357,3 +357,94 @@ void GameScene::UpdateEnemyPopCommands() {
 }
 
 
+void GameScene::CheckAllCollisions() {
+	// 判定対象AをBの座標
+	Vector3 posA, posB;
+
+	// 自弾リストの取得
+	const std::list<PlayerBullet*>& playerBullets = player_->GetBullets();
+	
+
+	// const std::list<Enemy*>& enemys = GetEnemys();
+
+#pragma region 自キャラと敵弾の当たり判定
+	// 自キャラの座標
+	posA = player_->GetWorldPosition();
+	Vector3 radiusA, radiusB;
+
+	// 自キャラと敵弾全ての当たり判定
+	for (EnemyBullet* bullet : enemybullets_) {
+		// 敵弾の座標
+
+		posB = bullet->GetWorldPosition();
+		radiusA = player_->GetWorldRadius();
+		radiusB = bullet->GetWorldRadius();
+
+		// 球と球の交差
+		if (CollisionDot(posA, posB, radiusA, radiusB)) {
+			// 自キャラの衝突時のコールバックを呼び出す
+			player_->OnCollision();
+			playerhp_->OnCollision();
+			// 敵弾の衝突時コールバックを呼び出す
+			bullet->OnCollision();
+		}
+	}
+
+#pragma endregion
+
+#pragma region 自弾と敵キャラの当たり判定
+
+	// 敵キャラと自弾全ての当たり判定
+	for (PlayerBullet* bullet : playerBullets) {
+		for (Enemy* enemy : enemys_) {
+
+			// 自弾の座標
+			posA = bullet->GetWorldPosition();
+
+			posB = enemy->GetWorldPosition();
+			radiusB = enemy->GetWorldRadius();
+
+			radiusA = bullet->GetWorldRadius();
+
+			if (CollisionDot(posB, posA, radiusB, radiusA)) {
+
+				// 自弾の衝突時のコールバックを呼び出す
+				bullet->OnCollision();
+				// 敵キャラの衝突時コールバックを呼び出す
+
+				enemy->OnCollision();
+
+				if (enemy->IsExplosion() == false) {
+
+					enemyhp_->OnCollision();
+				}
+			}
+		}
+	}
+
+#pragma endregion
+
+#pragma region 自弾と敵弾の当たり判定
+
+	// 敵弾と自弾全ての当たり判定
+	for (PlayerBullet* playerbullet : playerBullets) {
+		for (EnemyBullet* enemybullet : enemybullets_) {
+			// 自弾の座標
+			posA = playerbullet->GetWorldPosition();
+			// 敵弾の座標
+			posB = enemybullet->GetWorldPosition();
+
+			radiusA = playerbullet->GetWorldRadius();
+			radiusB = enemybullet->GetWorldRadius();
+
+			if (CollisionDot(posA, posB, radiusA, radiusB)) {
+
+				// 自弾の衝突時のコールバックを呼び出す
+				playerbullet->OnCollision();
+				// 敵弾の衝突時コールバックを呼び出す
+				enemybullet->OnCollision();
+			}
+		}
+	}
+#pragma endregion
+}

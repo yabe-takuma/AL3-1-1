@@ -60,7 +60,7 @@ public: // メンバ関数
 
 	void UpdateEnemyPopCommands();
 
-	
+	void CheckAllCollisions();
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
