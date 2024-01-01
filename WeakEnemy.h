@@ -17,7 +17,11 @@ public:
 
 	void OnCollision();
 
-	
+	// ワールド座標を取得
+	Vector3 GetWorldPosition();
+
+	// ワールドradiusを取得
+	Vector3 GetWorldRadius();
 
 private:
 	WorldTransform worldTransform_;

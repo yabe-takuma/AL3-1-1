@@ -11,6 +11,12 @@ public:
 
 	void OnCollision();
 
+	// ワールド座標を取得
+	Vector3 GetWorldPosition();
+
+	// ワールドradiusを取得
+	Vector3 GetWorldRadius();
+
 	bool IsDead() const { return isDead_; }
 
 private:

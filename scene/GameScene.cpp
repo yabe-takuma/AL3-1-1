@@ -426,25 +426,25 @@ void GameScene::CheckAllCollisions() {
 
 #pragma region 自武器と敵の当たり判定
 
-	// 敵弾と自弾全ての当たり判定
-	for (PlayerBullet* playerbullet : playerBullets) {
-		for (EnemyBullet* enemybullet : enemybullets_) {
-			// 自弾の座標
-			posA = playerbullet->GetWorldPosition();
-			// 敵弾の座標
-			posB = enemybullet->GetWorldPosition();
+	//// 敵弾と自弾全ての当たり判定
+	//for (PlayerBullet* playerbullet : playerBullets) {
+	//	for (EnemyBullet* enemybullet : enemybullets_) {
+	//		// 自弾の座標
+	//		posA = playerbullet->GetWorldPosition();
+	//		// 敵弾の座標
+	//		posB = enemybullet->GetWorldPosition();
 
-			radiusA = playerbullet->GetWorldRadius();
-			radiusB = enemybullet->GetWorldRadius();
+	//		radiusA = playerbullet->GetWorldRadius();
+	//		radiusB = enemybullet->GetWorldRadius();
 
-			if (CollisionDot(posA, posB, radiusA, radiusB)) {
+	//		if (CollisionDot(posA, posB, radiusA, radiusB)) {
 
-				// 自弾の衝突時のコールバックを呼び出す
-				playerbullet->OnCollision();
-				// 敵弾の衝突時コールバックを呼び出す
-				enemybullet->OnCollision();
-			}
-		}
-	}
+	//			// 自弾の衝突時のコールバックを呼び出す
+	//			playerbullet->OnCollision();
+	//			// 敵弾の衝突時コールバックを呼び出す
+	//			enemybullet->OnCollision();
+	//		}
+	//	}
+	//}
 #pragma endregion
 }
