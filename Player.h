@@ -54,8 +54,7 @@ public:
 
 	void BulletAttack();
 
-	// ワールド座標を取得
-	Vector3 GetWorldPosition();
+	
 
 	// ワールドradiusを取得
 	Vector3 GetWorldRadius();
