@@ -365,28 +365,28 @@ void GameScene::CheckAllCollisions() {
 	const std::list<PlayerBullet*>& playerBullets = player_->GetBullets();
 	
 
-	// const std::list<Enemy*>& enemys = GetEnemys();
+	const std::list<std::unique_ptr<WeakEnemy>>& weakenemys = GetWeakEnemys();
 
-#pragma region 自キャラと敵弾の当たり判定
+#pragma region 自キャラと敵の当たり判定
 	// 自キャラの座標
 	posA = player_->GetWorldPosition();
 	Vector3 radiusA, radiusB;
 
 	// 自キャラと敵弾全ての当たり判定
-	for (EnemyBullet* bullet : enemybullets_) {
+	for (const std::unique_ptr<WeakEnemy>& weakenemy : weakenemys_) {
 		// 敵弾の座標
 
-		posB = bullet->GetWorldPosition();
+		posB = weakenemy->GetWorldPosition();
 		radiusA = player_->GetWorldRadius();
-		radiusB = bullet->GetWorldRadius();
+		radiusB = weakenemy->GetWorldRadius();
 
 		// 球と球の交差
 		if (CollisionDot(posA, posB, radiusA, radiusB)) {
 			// 自キャラの衝突時のコールバックを呼び出す
 			player_->OnCollision();
-			playerhp_->OnCollision();
+			//playerhp_->OnCollision();
 			// 敵弾の衝突時コールバックを呼び出す
-			bullet->OnCollision();
+			weakenemy->OnCollision();
 		}
 	}
 
@@ -396,13 +396,13 @@ void GameScene::CheckAllCollisions() {
 
 	// 敵キャラと自弾全ての当たり判定
 	for (PlayerBullet* bullet : playerBullets) {
-		for (Enemy* enemy : enemys_) {
+		for (const std::unique_ptr<WeakEnemy>& weakenemy : weakenemys_) {
 
 			// 自弾の座標
 			posA = bullet->GetWorldPosition();
 
-			posB = enemy->GetWorldPosition();
-			radiusB = enemy->GetWorldRadius();
+			posB = weakenemy->GetWorldPosition();
+			radiusB = weakenemy->GetWorldRadius();
 
 			radiusA = bullet->GetWorldRadius();
 
@@ -412,19 +412,19 @@ void GameScene::CheckAllCollisions() {
 				bullet->OnCollision();
 				// 敵キャラの衝突時コールバックを呼び出す
 
-				enemy->OnCollision();
+				weakenemy->OnCollision();
 
-				if (enemy->IsExplosion() == false) {
+				/*if (weakenemy->IsExplosion() == false) {
 
 					enemyhp_->OnCollision();
-				}
+				}*/
 			}
 		}
 	}
 
 #pragma endregion
 
-#pragma region 自弾と敵弾の当たり判定
+#pragma region 自武器と敵の当たり判定
 
 	// 敵弾と自弾全ての当たり判定
 	for (PlayerBullet* playerbullet : playerBullets) {

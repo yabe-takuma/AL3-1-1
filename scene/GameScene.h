@@ -62,6 +62,9 @@ public: // メンバ関数
 
 	void CheckAllCollisions();
 
+	// 弾リストを取得
+	const std::list <std::unique_ptr<WeakEnemy>>& GetWeakEnemys() const { return weakenemys_; }
+
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
