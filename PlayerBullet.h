@@ -9,6 +9,8 @@ public:
 
 	void Draw(ViewProjection& viewProjection);
 
+	void OnCollision();
+
 	bool IsDead() const { return isDead_; }
 
 private:

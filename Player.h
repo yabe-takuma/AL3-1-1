@@ -44,7 +44,7 @@ public:
 	// 攻撃行動初期化
 	void BeheviorAttackInitialize();
 
-	
+	void OnCollision();
 
 	Vector3 GetWorldPosition();
 
@@ -53,6 +53,8 @@ public:
 	float easeInSine2(float x);
 
 	void BulletAttack();
+
+	
 
 	const WorldTransform& GetWorldTransform() { return worldTransformBody_; }
 

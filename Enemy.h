@@ -17,6 +17,8 @@ public:
 
 	Vector3 GetWorldPosition();
 
+	void OnCollision();
+
 private:
 	WorldTransform worldTransform_;
 

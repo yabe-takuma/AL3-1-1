@@ -25,3 +25,5 @@ void PlayerBullet::Draw(ViewProjection& viewProjection)
 {
 	model_->Draw(worldTransform_, viewProjection);
 }
+
+void PlayerBullet::OnCollision() {}

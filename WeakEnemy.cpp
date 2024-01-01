@@ -55,3 +55,5 @@ void WeakEnemy::Draw(ViewProjection& viewProjection)
 {
 	model_->Draw(worldTransform_, viewProjection);
 }
+
+void WeakEnemy::OnCollision() {}

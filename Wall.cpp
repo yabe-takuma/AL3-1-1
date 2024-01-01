@@ -246,4 +246,6 @@ void Wall::Draw(ViewProjection& viewProjection) {
 	models_[33]->Draw(worldTransform_[33], viewProjection, textureHandle_);
 	models_[34]->Draw(worldTransform_[34], viewProjection, textureHandle_);
 }
+
+void Wall::OnCollision() {}
 	

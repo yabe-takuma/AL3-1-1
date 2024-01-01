@@ -10,6 +10,8 @@ public:
 
 	void Draw(ViewProjection& viewProjection);
 
+	void OnCollision();
+
 	private:
 	WorldTransform worldTransform_;
 

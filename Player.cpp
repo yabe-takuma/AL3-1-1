@@ -271,3 +271,5 @@ void Player::BulletAttack()
 
 	
 }
+
+void Player::OnCollision() {}

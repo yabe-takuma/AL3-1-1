@@ -15,6 +15,8 @@ public:
 
 	void SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; }
 
+	void OnCollision();
+
 	
 
 private:

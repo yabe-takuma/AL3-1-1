@@ -24,3 +24,5 @@ void Item::Draw(ViewProjection& viewProjection)
 	model_->Draw(worldTransform_, viewProjection);
 
 }
+
+void Item::OnCollision() {}
