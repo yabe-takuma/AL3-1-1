@@ -58,6 +58,9 @@ public:
 
 	const WorldTransform& GetWorldTransform() { return worldTransformBody_; }
 
+	// 弾リストを取得
+	const std::list<PlayerBullet*>& GetBullets() const { return playerbullet_; }
+
 	/// <summary>
 	/// 親となるワールドトランスフォームをセット
 	/// </summary>
