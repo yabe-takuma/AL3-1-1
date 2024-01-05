@@ -70,4 +70,4 @@ void GameExplanationScene::Draw() {
 #pragma endregion
 }
 
-void GameExplanationScene::DrawUI() { //titlesprite_->Draw(); }
+void GameExplanationScene::DrawUI() { /*titlesprite_->Draw();*/ }

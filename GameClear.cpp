@@ -73,4 +73,4 @@ void GameClear::Draw() {
 #pragma endregion
 }
 
-void GameClear::DrawUI() { //titlesprite_->Draw(); }
+void GameClear::DrawUI() {/* titlesprite_->Draw();*/ }

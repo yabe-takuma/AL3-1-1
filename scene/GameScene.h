@@ -135,6 +135,8 @@ private: // メンバ変数
 	// デバッグカメラ有効
 	bool isDebugCameraAcctive_ = false;
 
+	bool isGameClear_ = false;
+
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>

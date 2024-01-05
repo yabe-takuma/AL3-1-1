@@ -110,12 +110,9 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			// ゲームシーンの毎フレーム処理
 			gameScene->Update();
 
-			if (gameScene->IsSceneEnd()) {
-				sceneNo = gameScene->NextScene();
+			
 
-			}
-
-			else if (gameScene->IsGameClear()) {
+			 if (gameScene->IsGameClear()) {
 				sceneNo = gameScene->NextGameScene();
 			}
 
