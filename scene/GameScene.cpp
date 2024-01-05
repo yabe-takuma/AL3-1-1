@@ -21,10 +21,10 @@ void GameScene::Initialize() {
 
 	//自キャラの生成
 	player_ =new Player();
-	modelFighterBody_.reset(Model::CreateFromOBJ("float_Body", true));
+	modelFighterBody_.reset(Model::CreateFromOBJ("Player2", true));
 	modelFighterHead_.reset(Model::CreateFromOBJ("float_Head", true));
-	modelFighterL_arm_.reset(Model::CreateFromOBJ("float_L_arm", true));
-	modelFighterR_arm_.reset(Model::CreateFromOBJ("float_R_arm", true));
+	modelFighterL_arm_.reset(Model::CreateFromOBJ("Player2L_arm", true));
+	modelFighterR_arm_.reset(Model::CreateFromOBJ("Player2R_arm", true));
 	modelsord_.reset(Model::CreateFromOBJ("Sord", true));
 
 	// 自キャラモデル
@@ -55,10 +55,9 @@ void GameScene::Initialize() {
 	enemy_->Initialize();
 	enemy_->SetPlayer(player_);
 
-	wall_ = std::make_unique<Wall>();
-	modelwall_.reset (Model::Create());
+	
 
-	std::vector<Model*> wallModels = {
+	/*std::vector<Model*> wallModels = {
 		modelwall_.get(), modelwall_.get(), 
 		modelwall_.get(), modelwall_.get(), 
 		modelwall_.get(), modelwall_.get(), 
@@ -77,11 +76,13 @@ void GameScene::Initialize() {
 	    modelwall_.get(), modelwall_.get(), 
 		modelwall_.get(), modelwall_.get(), 
 	    modelwall_.get()
-	};
+	};*/
 	
-	wall_->Initialize(wallModels);
+
 	
 	LoadEnemyPopData();
+
+	LoadWallPopData();
 
 	breakwall_ = std::make_unique<BreakWall>();
 	breakwall_->Initialize();
@@ -98,7 +99,16 @@ void GameScene::Initialize() {
 
 void GameScene::Update() { 
 	
-
+		// デスフラグの立った弾を削除
+	weakenemys_.remove_if([](std::unique_ptr<WeakEnemy>& weakenemys) {
+		if (weakenemys->IsDead()) {
+			
+			
+			return true;
+		}
+		return false;
+	});
+	
 	debugCamera_->Update();
 #ifdef _DEBUG
 	if (input_->TriggerKey(DIK_SPACE)) {
@@ -138,9 +148,10 @@ void GameScene::Update() {
 	{
 		enemy_->Update();
 	}
-	if (wall_ != nullptr)
-	{
-		wall_->Update();
+	for (const std::unique_ptr<Wall>& wall : walls_) {
+		if (wall != nullptr) {
+			wall->Update();
+		}
 	}
 	if (breakwall_ != nullptr)
 	{
@@ -161,6 +172,10 @@ void GameScene::Update() {
 	}
 
 	UpdateEnemyPopCommands();
+
+	UpdateWallPopCommands();
+
+	CheckAllCollisions();
 
 }
 
@@ -205,9 +220,10 @@ void GameScene::Draw() {
 	{
 		enemy_->Draw(viewprojection_);
 	}
-	if (wall_ != nullptr)
-	{
-		wall_->Draw(viewprojection_);
+	for (const auto& wall : walls_) {
+		
+			wall->Draw(viewprojection_);
+		
 	}
 	if (breakwall_ != nullptr)
 	{
@@ -372,21 +388,21 @@ void GameScene::CheckAllCollisions() {
 	posA = player_->GetWorldPosition();
 	Vector3 radiusA, radiusB;
 
-	// 自キャラと敵弾全ての当たり判定
-	for (const std::unique_ptr<WeakEnemy>& weakenemy : weakenemys_) {
+	// 自キャラと敵全ての当たり判定
+	for (const std::unique_ptr<WeakEnemy>& weakenemy : weakenemys) {
 		// 敵弾の座標
 
 		posB = weakenemy->GetWorldPosition();
-		radiusA = player_->GetWorldRadius();
+		radiusA = player_->GetSordWorldRadius();
 		radiusB = weakenemy->GetWorldRadius();
 
 		// 球と球の交差
 		if (CollisionDot(posA, posB, radiusA, radiusB)) {
 			// 自キャラの衝突時のコールバックを呼び出す
-			player_->OnCollision();
+			//player_->OnCollision();
 			//playerhp_->OnCollision();
 			// 敵弾の衝突時コールバックを呼び出す
-			weakenemy->OnCollision();
+			//weakenemy->OnCollision();
 		}
 	}
 
@@ -396,7 +412,7 @@ void GameScene::CheckAllCollisions() {
 
 	// 敵キャラと自弾全ての当たり判定
 	for (PlayerBullet* bullet : playerBullets) {
-		for (const std::unique_ptr<WeakEnemy>& weakenemy : weakenemys_) {
+		for (const std::unique_ptr<WeakEnemy>& weakenemy : weakenemys) {
 
 			// 自弾の座標
 			posA = bullet->GetWorldPosition();
@@ -426,25 +442,266 @@ void GameScene::CheckAllCollisions() {
 
 #pragma region 自武器と敵の当たり判定
 
-	//// 敵弾と自弾全ての当たり判定
-	//for (PlayerBullet* playerbullet : playerBullets) {
-	//	for (EnemyBullet* enemybullet : enemybullets_) {
-	//		// 自弾の座標
-	//		posA = playerbullet->GetWorldPosition();
-	//		// 敵弾の座標
-	//		posB = enemybullet->GetWorldPosition();
+	
 
-	//		radiusA = playerbullet->GetWorldRadius();
-	//		radiusB = enemybullet->GetWorldRadius();
+	// 自キャラと敵全ての当たり判定
+	for (const std::unique_ptr<WeakEnemy>& weakenemy : weakenemys) {
+		// 自弾の座標
+		posA = player_->GetSordWorldPosition();
+		// 敵弾の座標
 
-	//		if (CollisionDot(posA, posB, radiusA, radiusB)) {
+		posB = weakenemy->GetWorldPosition();
+		radiusA = player_->GetSordWorldRadius();
+		radiusB = weakenemy->GetWorldRadius();
 
-	//			// 自弾の衝突時のコールバックを呼び出す
-	//			playerbullet->OnCollision();
-	//			// 敵弾の衝突時コールバックを呼び出す
-	//			enemybullet->OnCollision();
-	//		}
-	//	}
-	//}
+		// 球と球の交差
+		if (CollisionDot(posA, posB, radiusA, radiusB)&&player_->IsSordAlive()) {
+			// 自キャラの衝突時のコールバックを呼び出す
+			//player_->OnCollision();
+			// playerhp_->OnCollision();
+			//  敵弾の衝突時コールバックを呼び出す
+			weakenemy->OnCollision();
+		}
+	}
 #pragma endregion
+
+	#pragma region 壊す壁と武器の当たり判定
+
+	
+			// 自弾の座標
+			posA = player_->GetSordWorldPosition();
+			// 敵弾の座標
+			posB = breakwall_->GetWorldPosition();
+
+			radiusA = player_->GetWorldRadius();
+			radiusB = breakwall_->GetWorldRadius();
+
+			if (CollisionDot(posA, posB, radiusA, radiusB)) {
+	       
+				// 自弾の衝突時のコールバックを呼び出す
+				//player_->OnCollision();
+				// 敵弾の衝突時コールバックを呼び出す
+				//breakwall_->OnCollision();
+			}
+		
+#pragma endregion
+	
+	#pragma region 壁と自機の当たり判定
+
+		for (const std::unique_ptr<Wall>& wall : walls_) {
+		        // 自弾の座標
+		        posA = player_->GetWorldPosition();
+		        // 敵弾の座標
+		        posB = wall->GetWorldPosition();
+
+		        radiusA = player_->GetWorldRadius();
+		        radiusB = wall->GetWorldRadius();
+
+		        // if (CollisionDot(posA, posB, radiusA, radiusB)) {
+		        if (posA.x <= posB.x + radiusB.x && posB.x <= posA.x + radiusA.x &&
+		                posA.y <= posB.y + radiusB.y && posB.y <= posA.y + radiusA.y &&
+		                posA.z <= posB.z + radiusB.z && posB.z <= posA.z + radiusA.z ||
+		            posA.x >= posB.x - radiusB.x && posB.x >= posA.x - radiusA.x &&
+		                posA.y >= posB.y - radiusB.y && posB.y >= posA.y - radiusA.y &&
+		                posA.z >= posB.z - radiusB.z && posB.z >= posA.z - radiusA.z) {
+
+			// 自弾の衝突時のコールバックを呼び出す
+			player_->OnCollision();
+			// 敵弾の衝突時コールバックを呼び出す
+			wall->OnCollision();
+		        }
+	        }
+		
+#pragma endregion
+
+			#pragma region 壊す壁と自機の当たり判定
+
+	       
+		        // 自弾の座標
+		        posA = player_->GetWorldPosition();
+		        // 敵弾の座標
+		        posB = breakwall_->GetWorldPosition();
+
+		        radiusA = player_->GetWorldRadius();
+		        radiusB = breakwall_->GetWorldRadius();
+
+		        // if (CollisionDot(posA, posB, radiusA, radiusB)) {
+		        if (posA.x <= posB.x + radiusB.x && posB.x <= posA.x + radiusA.x &&
+		                posA.y <= posB.y + radiusB.y && posB.y <= posA.y + radiusA.y &&
+		                posA.z <= posB.z + radiusB.z && posB.z <= posA.z + radiusA.z ||
+		            posA.x >= posB.x - radiusB.x && posB.x >= posA.x - radiusA.x &&
+		                posA.y >= posB.y - radiusB.y && posB.y >= posA.y - radiusA.y &&
+		                posA.z >= posB.z - radiusB.z && posB.z >= posA.z - radiusA.z) {
+
+			// 自弾の衝突時のコールバックを呼び出す
+			player_->OnCollision2();
+			// 敵弾の衝突時コールバックを呼び出す
+			//breakwall_->OnCollision();
+		        }
+	        
+
+#pragma endregion
+
+				#pragma region 自機とアイテムの当たり判定
+
+	            // 自弾の座標
+	            posA = player_->GetWorldPosition();
+	            // 敵弾の座標
+	            posB = item_->GetWorldPosition();
+
+	            radiusA = player_->GetWorldRadius();
+	            radiusB = item_->GetWorldRadius();
+
+	            // if (CollisionDot(posA, posB, radiusA, radiusB)) {
+	            if (posA.x <= posB.x + radiusB.x && posB.x <= posA.x + radiusA.x &&
+	                    posA.y <= posB.y + radiusB.y && posB.y <= posA.y + radiusA.y &&
+	                    posA.z <= posB.z + radiusB.z && posB.z <= posA.z + radiusA.z ||
+	                posA.x >= posB.x - radiusB.x && posB.x >= posA.x - radiusA.x &&
+	                    posA.y >= posB.y - radiusB.y && posB.y >= posA.y - radiusA.y &&
+	                    posA.z >= posB.z - radiusB.z && posB.z >= posA.z - radiusA.z) {
+
+		    // 自弾の衝突時のコールバックを呼び出す
+		    item_->OnCollision();
+		    // 敵弾の衝突時コールバックを呼び出す
+		    // breakwall_->OnCollision();
+	            }
+
+#pragma endregion
+
+				#pragma region 自機とハンターの当たり判定
+
+	            // 自弾の座標
+	            posA = player_->GetWorldPosition();
+	            // 敵弾の座標
+	            posB = enemy_->GetWorldPosition();
+
+	            radiusA = player_->GetWorldRadius();
+	            radiusB = enemy_->GetWorldRadius();
+
+	            // if (CollisionDot(posA, posB, radiusA, radiusB)) {
+	            if (posA.x <= posB.x + radiusB.x && posB.x <= posA.x + radiusA.x &&
+	                    posA.y <= posB.y + radiusB.y && posB.y <= posA.y + radiusA.y &&
+	                    posA.z <= posB.z + radiusB.z && posB.z <= posA.z + radiusA.z ||
+	                posA.x >= posB.x - radiusB.x && posB.x >= posA.x - radiusA.x &&
+	                    posA.y >= posB.y - radiusB.y && posB.y >= posA.y - radiusA.y &&
+	                    posA.z >= posB.z - radiusB.z && posB.z >= posA.z - radiusA.z&&enemy_->IsOnCollision()==false) {
+
+		    // 自弾の衝突時のコールバックを呼び出す
+		   player_->OnCollision();
+		    // 敵弾の衝突時コールバックを呼び出す
+		    enemy_->OnCollision();
+	            }
+
+#pragma endregion
+
+
 }
+
+void GameScene::WallGeneration(const Vector3& position, const Vector3& scale) {
+	        // 敵の生成
+	        Wall* wall = new Wall();
+	       
+
+	        wall->Initialize(position, scale);
+	        wall->SetGameScene(this);
+
+	        walls_.push_back(static_cast<std::unique_ptr<Wall>>(wall));
+}
+
+void GameScene::LoadWallPopData() 
+{
+	        // ファイルを開く
+	        std::ifstream file2;
+	        std::string filename2 = "Resources//wallPop.csv";
+	        file2.open(filename2);
+	        assert(file2.is_open());
+
+	        // ファイルの内容を文字列ストリームにコピー
+	        wallPopCommands << file2.rdbuf();
+
+	        // ファイルを閉じる
+	        file2.close();
+
+}
+
+void GameScene::UpdateWallPopCommands() 
+{
+	        bool iswait = false;
+	        int32_t waitTimer = 0;
+
+	        // 待機処理
+	        if (iswait) {
+		        waitTimer--;
+		        if (waitTimer <= 0) {
+			// 待機完了
+			iswait = false;
+		        }
+		        return;
+	        }
+	        // 1行分の文字列を入れる変数
+	        std::string line2;
+
+	        // コマンド実行ループ
+	        while (getline(wallPopCommands, line2)) {
+		        // 1行分の文字列をストリームに変換して解析しやすくなる
+		        std::istringstream line_stream(line2);
+
+		        std::string word2;
+		        //,区切りで行の先頭文字列を取得
+		        getline(line_stream, word2, ',');
+		        //"//"から始まる行はコメント
+		        if (word2.find("//") == 0) {
+			// コメント行は飛ばす
+			continue;
+		        }
+		        // POPコマンド
+		        if (word2.find("SCALE") == 0) {
+			// x座標
+			getline(line_stream, word2, ',');
+			scale_.x = (float)std::atof(word2.c_str());
+
+			// y座標
+			getline(line_stream, word2, ',');
+			scale_.y = (float)std::atof(word2.c_str());
+
+			// z座標
+			getline(line_stream, word2, ',');
+			scale_.z = (float)std::atof(word2.c_str());
+		        }
+		        // POPコマンド
+		        if (word2.find("POP") == 0) {
+			// x座標
+			getline(line_stream, word2, ',');
+			float x = (float)std::atof(word2.c_str());
+
+			// y座標
+			getline(line_stream, word2, ',');
+			float y = (float)std::atof(word2.c_str());
+
+			// z座標
+			getline(line_stream, word2, ',');
+			float z = (float)std::atof(word2.c_str());
+
+			// 敵を発生させる
+			WallGeneration(Vector3(x, y, z),scale_ );
+		        }
+
+		 //       // WAITコマンド
+		 //       else if (word.find("WAIT") == 0) {
+			//getline(line_stream, word, ',');
+
+			//// 待ち時間
+			//int32_t waitTime = atoi(word.c_str());
+
+			//// 待機開始
+			//iswait = true;
+			//waitTimer = waitTime;
+
+			//// コマンドループを抜ける
+			//break;
+		 //       }
+	        }
+}
+
+
+

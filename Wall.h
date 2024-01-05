@@ -3,20 +3,33 @@
 #include "WorldTransform.h"
 #include"BaseWall.h"
 #include"ImGuiManager.h"
+
+class GameScene;
+
 class Wall : public BaseWall {
 public:
-	void Initialize(const std::vector<Model*>& models) override;
+	void Initialize(Vector3 position, Vector3 scale);
 
-	void Update() override;
+	void Update() ;
 
-	void Draw(ViewProjection& viewProjection) override;
+	void Draw(ViewProjection& viewProjection) ;
 
 	void OnCollision();
 
+	void SetGameScene(GameScene* gameScene) { gameScene_ = gameScene; }
+
+		// ワールド座標を取得
+	Vector3 GetWorldPosition();
+
+	// ワールドradiusを取得
+	Vector3 GetWorldRadius();
+
 private:
-	WorldTransform worldTransform_[35];
+	WorldTransform worldTransform_;
 	
 	uint32_t textureHandle_;
 
 	Model* model_ = nullptr;
+
+	GameScene* gameScene_ = nullptr;
 };

@@ -23,6 +23,8 @@ public:
 	// ワールドradiusを取得
 	Vector3 GetWorldRadius();
 
+	bool IsDead() const { return isDead_; }
+
 private:
 	WorldTransform worldTransform_;
 
@@ -37,5 +39,7 @@ private:
 	float Radius_ = 10.0f; 
 
 	Vector3 velocity_;
+
+	bool isDead_ = false;
 
 };

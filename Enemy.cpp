@@ -7,25 +7,28 @@ void Enemy::Initialize() {
 	worldTransform_.translation_ = {0.0f, 5.0f, 10.0f};
 
 	worldTransform_.Initialize();
-	model_ = Model::Create();
+	model_ = Model::CreateFromOBJ("Hanter",true);
 	
 }
 
 void Enemy::Update() { 
 	
-	const float kSpeed = 0.3f;
-	Vector3 velocity(0, 0, kSpeed);
-
+	
+	Vector3 velocity(0, 0, kSpeed_);
+	
 	GetWorldPosition();
 	velocity = Subtract(player_->GetWorldPosition(), GetWorldPosition());
 
 	velocity = Normalize(velocity);
-	velocity = Multiply(kSpeed, velocity);
-
-	worldTransform_.translation_ = Add(worldTransform_.translation_, velocity);
-
+	velocity = Multiply(kSpeed_, velocity);
+	if (isOnCollision_==false) {
+		worldTransform_.translation_ = Add(worldTransform_.translation_, velocity);
+	}
 	worldTransform_.UpdateMatrix();
 
+	ImGui::Begin("Enemy");
+	ImGui::DragInt("timer", &timer_, 1);
+	ImGui::End();
 }
 
 void Enemy::Draw(ViewProjection& viewProjection) { model_->Draw(worldTransform_, viewProjection); }
@@ -41,4 +44,26 @@ Vector3 Enemy::GetWorldPosition() {
 	return worldPos;
 }
 
-void Enemy::OnCollision() {}
+void Enemy::OnCollision() { isOnCollision_ = true; 
+if (isOnCollision_ == true)
+{
+		timer_++;
+	}
+
+ if (timer_ >= 31)
+{
+		timer_ = 0;
+		isOnCollision_ = false;
+
+}
+
+}
+
+Vector3 Enemy::GetWorldRadius() { 
+	Vector3 worldRadius;
+
+	worldRadius.x = worldTransform_.scale_.x;
+	worldRadius.y = worldTransform_.scale_.y;
+	worldRadius.z = worldTransform_.scale_.z;
+	return worldRadius;
+}

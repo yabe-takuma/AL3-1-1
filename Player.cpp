@@ -1,6 +1,12 @@
 #include "Player.h"
 #include<cassert>
 
+Player::~Player() {
+	for (PlayerBullet* playerbullet : playerbullet_) {
+		delete playerbullet;
+	}
+}
+
 void Player::Initialize(const std::vector<Model*>& models) {
 	
 	BaseCharacter::Initialize(models);
@@ -10,9 +16,10 @@ void Player::Initialize(const std::vector<Model*>& models) {
 	worldTransform_.translation_ = {6.0f, 0.0f, -70.0f};
 	worldTransformBody_.translation_ = {0.0f, 0.5f, -70.0f};
 	worldTransformHead_.translation_ = {0.0f, 1.5f, 0.0f};
-	worldTransformL_arm_.translation_ = {-0.5f, 1.3f, 0.0f};
-	worldTransformR_arm_.translation_ = {0.5f, 1.3f, 0.0f};
-
+	worldTransformL_arm_.translation_ = {-1.5f, 1.3f, 0.0f};
+	worldTransformL_arm_.rotation_ = {-0.5f, 0.0f, 0.0f};
+	worldTransformR_arm_.translation_ = {1.5f, 1.3f, 0.0f};
+	worldTransformR_arm_.rotation_ = {0.5f, 0.0f, 0.0f};
 	worldTransformSord_.rotation_ = {0.0f, 1.6f, 0.0f};
 
 	worldTransform_.Initialize();
@@ -102,7 +109,7 @@ void Player::Update()
 	ImGui::DragFloat3("position", &worldTransformL_arm_.translation_.x, 0.1f);
 	ImGui::DragFloat3("rotation", &worldTransformSord_.rotation_.x, 0.01f);
 	ImGui::DragFloat3("rotation", &worldTransformSord_.rotation_.x, 0.01f);
-	
+	ImGui::DragInt("HP", &HP, 1);
 
 
 	ImGui::End();
@@ -112,7 +119,7 @@ void Player::Draw(ViewProjection& viewProjection)
 { 
 // 3Dモデルを描画
 	models_[0]->Draw(worldTransformBody_, viewProjection);
-	models_[1]->Draw(worldTransformHead_, viewProjection);
+	//models_[1]->Draw(worldTransformHead_, viewProjection);
 	models_[2]->Draw(worldTransformL_arm_, viewProjection);
 	models_[3]->Draw(worldTransformR_arm_, viewProjection);
 	if (behavior_ == Behavior::kAttack) {
@@ -130,8 +137,9 @@ void Player::SetViewProjection(const ViewProjection* viewProjection) {
 void Player::BehaviorRootUpdate() 
 {
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
-		const float speed = 0.3f;
-		Vector3 move = {
+		speed = 0.2f;
+		
+		move = {
 		    (float)joyState.Gamepad.sThumbLX * SHRT_MAX * speed, 0.0f,
 		    (float)joyState.Gamepad.sThumbLY * SHRT_MAX * speed};
 
@@ -162,7 +170,7 @@ void Player::BehaviorAttackUpdate()
 	
 	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_B && attack_.time <= attack_.kAnimMaxtime/*&&attack_.weponcooltime>=100*/) {
 		isWepon = true;
-		
+		isSordAlive_ = true;
 		float frame = (float)attack_.time / attack_.kAnimMaxtime;
 		float easeInSize = easeInSine(frame * frame);
 		//float weaponAngle = 45 * kDegreeToRadian * easeInBack;
@@ -182,6 +190,7 @@ void Player::BehaviorAttackUpdate()
 	else if (attack_.time >= attack_.kAnimMaxtime) {
 		attack_.cooltime++;
 		if (attack_.cooltime >= 30) {
+			isSordAlive_ = false;
 			attack_.time = 0;
 			behaviorRequest_ = Behavior::kRoot;
 			attack_.cooltime = 0;
@@ -272,4 +281,47 @@ void Player::BulletAttack()
 	
 }
 
-void Player::OnCollision() {}
+void Player::OnCollision() { 
+
+
+	HP = HP - 1;
+
+}
+
+void Player::OnCollision2()
+{
+	worldTransformBody_.translation_.z = worldTransformBody_.translation_.z - 1.0f;
+	speed =  0;
+}
+
+Vector3 Player::GetWorldRadius()
+{
+	Vector3 worldRadius;
+
+	worldRadius.x = worldTransformBody_.scale_.x;
+	worldRadius.y = worldTransformBody_.scale_.y;
+	worldRadius.z = worldTransformBody_.scale_.z;
+	return worldRadius;
+}
+
+Vector3 Player::GetSordWorldPosition()
+{
+	// ワールド座標を入れる変数
+	Vector3 worldPos;
+	// ワールド行列の平行移動成分を取得(ワールド座標)
+	worldPos.x = worldTransformSord_.matWorld_.m[3][0];
+	worldPos.y = worldTransformSord_.matWorld_.m[3][1];
+	worldPos.z = worldTransformSord_.matWorld_.m[3][2];
+
+	return worldPos;
+}
+
+Vector3 Player::GetSordWorldRadius()
+{
+	Vector3 worldRadius;
+
+	worldRadius.x = worldTransformSord_.scale_.x+3.0f;
+	worldRadius.y = worldTransformSord_.scale_.y+5.0f;
+	worldRadius.z = worldTransformSord_.scale_.z+50.0f;
+	return worldRadius;
+}

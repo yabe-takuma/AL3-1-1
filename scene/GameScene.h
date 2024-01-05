@@ -62,6 +62,12 @@ public: // メンバ関数
 
 	void CheckAllCollisions();
 
+	void LoadWallPopData();
+
+	void UpdateWallPopCommands();
+
+	void WallGeneration(const Vector3& position, const Vector3& scale);
+
 	// 弾リストを取得
 	const std::list <std::unique_ptr<WeakEnemy>>& GetWeakEnemys() const { return weakenemys_; }
 
@@ -92,7 +98,7 @@ private: // メンバ変数
 
 	std::unique_ptr<Enemy> enemy_;
 
-	std::unique_ptr<Wall> wall_;
+	std::list<std::unique_ptr<Wall>> walls_;
 	std::unique_ptr<Model> modelwall_;
 
    std::list<std::unique_ptr<WeakEnemy>> weakenemys_;
@@ -115,6 +121,11 @@ private: // メンバ変数
 
     // 敵発生コマンド
    std::stringstream enemyPopCommands;
+
+    // 敵発生コマンド
+   std::stringstream wallPopCommands;
+
+   Vector3 scale_;
 
 	//デバッグカメラ
 	std::unique_ptr<DebugCamera> debugCamera_;

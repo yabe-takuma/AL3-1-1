@@ -27,6 +27,9 @@ class Player : public BaseCharacter {
 	};
 
 public:
+
+	~Player();
+
 	void Initialize(const std::vector<Model*>& models) override;
 
 	void Update() override;
@@ -46,6 +49,8 @@ public:
 
 	void OnCollision();
 
+	void OnCollision2();
+
 	Vector3 GetWorldPosition();
 
 	float easeInSine(float x);
@@ -59,6 +64,11 @@ public:
 	// ワールドradiusを取得
 	Vector3 GetWorldRadius();
 
+	Vector3 GetSordWorldPosition();
+
+		// ワールドradiusを取得
+	Vector3 GetSordWorldRadius();
+
 	const WorldTransform& GetWorldTransform() { return worldTransformBody_; }
 
 	// 弾リストを取得
@@ -69,6 +79,8 @@ public:
 	/// </summary>
 	/// <param name="parent">親となるワールドトランスフォーム</param>
 	void SetParent(const WorldTransform* parent);
+
+	bool IsSordAlive() const { return isSordAlive_; }
 
 	private:
 	//ワールド変換データ
@@ -108,5 +120,13 @@ public:
 
 	std::list<PlayerBullet*> playerbullet_;
 	std::unique_ptr<Model> modelbullet_;
+
+	bool isSordAlive_ = false;
+
+	Vector3 move;
+
+	float speed = 0.3f;
+
+	int32_t HP = 10;
 
 };
