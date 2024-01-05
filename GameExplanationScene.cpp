@@ -1,50 +1,73 @@
 #include "GameExplanationScene.h"
-#include "Audio.h"
-#include "DirectXCommon.h"
-#include "Input.h"
-#include "Model.h"
-#include "SafeDelete.h"
-#include "Scene.h"
-#include "Sprite.h"
-#include "ViewProjection.h"
-#include "WorldTransform.h"
-class GameExplanationScene {
-public: // メンバ関数
-	/// <summary>
-	/// コンストラクタ
-	/// </summary>
-	GameExplanationScene();
 
-	/// <summary>
-	/// デストラクタ
-	/// </summary>
-	~GameExplanationScene();
+GameExplanationScene::GameExplanationScene() {}
 
-	/// <summary>
-	/// 初期化
-	/// </summary>
-	void Initialize();
+GameExplanationScene::~GameExplanationScene(){
 
-	/// <summary>
-	/// 毎フレーム処理
-	/// </summary>
-	void Update();
-
-	///< summary>
-	/// 描画
-	/// </summary>
-	void Draw();
-
-	void DrawUI();
-
-	bool IsSceneEnd() { return isSceneEnd_; }
-	Scene::SceneType NextScene() { return Scene::SceneType::kGamePlay; }
-
-private: // メンバ変数
-	DirectXCommon* dxCommon_ = nullptr;
-	Input* input_ = nullptr;
-	Audio* audio_ = nullptr;
-	bool isSceneEnd_ = false;
-
-	//Sprite* titlesprite_ = nullptr;
 };
+
+void GameExplanationScene::Initialize() {
+	dxCommon_ = DirectXCommon::GetInstance();
+	input_ = Input::GetInstance();
+	audio_ = Audio::GetInstance();
+
+	//uint32_t textureTitle = TextureManager::Load("GameExplanation.png");
+
+	/*titlesprite_ =
+	    Sprite::Create(textureTitle, {640.0f, 360.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.5f, 0.5f});*/
+}
+
+void GameExplanationScene::Update() {
+
+	if (input_->PushKey(DIK_SPACE)) {
+		isSceneEnd_ = true;
+	}
+}
+
+void GameExplanationScene::Draw() {
+	// コマンドリストの取得
+	ID3D12GraphicsCommandList* commandList = dxCommon_->GetCommandList();
+
+#pragma region 背景スプライト描画
+	// 背景スプライト描画前処理
+	Sprite::PreDraw(commandList);
+
+	/// <summary>
+	/// ここに背景スプライトの描画処理を追加できる
+	/// </summary>
+
+	// スプライト描画後処理
+	Sprite::PostDraw();
+	// 深度バッファクリア
+	dxCommon_->ClearDepthBuffer();
+#pragma endregion
+
+#pragma region 3Dオブジェクト描画
+	// 3Dオブジェクト描画前処理
+	Model::PreDraw(commandList);
+
+	/// <summary>
+	/// ここに3Dオブジェクトの描画処理を追加できる
+	/// </summary>
+
+	// 3Dオブジェクト描画後処理
+	Model::PostDraw();
+#pragma endregion
+
+#pragma region 前景スプライト描画
+	// 前景スプライト描画前処理
+	Sprite::PreDraw(commandList);
+
+	/// <summary>
+	/// ここに前景スプライトの描画処理を追加できる
+	/// </summary>
+
+	DrawUI();
+
+	// スプライト描画後処理
+	Sprite::PostDraw();
+
+#pragma endregion
+}
+
+void GameExplanationScene::DrawUI() { //titlesprite_->Draw(); }
