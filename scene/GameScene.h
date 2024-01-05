@@ -71,6 +71,9 @@ public: // メンバ関数
 	// 弾リストを取得
 	const std::list <std::unique_ptr<WeakEnemy>>& GetWeakEnemys() const { return weakenemys_; }
 
+	bool IsGameClear() { return isGameClear_; }
+	Scene::SceneType NextGameScene() { return Scene::SceneType::kGameClear; }
+
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
