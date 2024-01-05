@@ -88,8 +88,48 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		imguiManager->Begin();
 		// 入力関連の毎フレーム処理
 		input->Update();
-		// ゲームシーンの毎フレーム処理
-		gameScene->Update();
+		switch (sceneNo) {
+		case Scene::SceneType::kTitle:
+
+			titleScene->Update();
+
+			if (titleScene->IsSceneEnd()) {
+				// 次のシーンの値を代入してシーンを切り替え
+				sceneNo = titleScene->NextScene();
+			}
+
+			break;
+		case Scene::SceneType::kGameExplanation:
+			gameexplanationScene->Update();
+
+			if (gameexplanationScene->IsSceneEnd()) {
+				sceneNo = gameexplanationScene->NextScene();
+			}
+			break;
+		case Scene::SceneType::kGamePlay:
+			// ゲームシーンの毎フレーム処理
+			gameScene->Update();
+
+			if (gameScene->IsSceneEnd()) {
+				sceneNo = gameScene->NextScene();
+
+			}
+
+			else if (gameScene->IsGameClear()) {
+				sceneNo = gameScene->NextGameScene();
+			}
+
+			break;
+
+		
+
+		case Scene::SceneType::kGameClear:
+
+			gameclear->Update();
+
+			break;
+		}
+	
 		// 軸表示の更新
 		axisIndicator->Update();
 		// ImGui受付終了
