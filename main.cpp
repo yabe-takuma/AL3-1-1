@@ -60,6 +60,20 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	// ゲームシーンの初期化
 	gameScene = new GameScene();
 	gameScene->Initialize();
+	// タイトルシーンの初期化
+	TitleScene* titleScene = new TitleScene();
+	titleScene->Initialize();
+
+	GameClear* gameclear = new GameClear();
+	gameclear->Initialize();
+
+	GameOverScene* gameOverScene = new GameOverScene();
+	gameOverScene->Initialize();
+
+	GameExplanation* gameexplanation = new GameExplanation();
+	gameexplanation->Initialize();
+
+	Scene::SceneType sceneNo = Scene::SceneType::kTitle;
 
 	// メインループ
 	while (true) {
