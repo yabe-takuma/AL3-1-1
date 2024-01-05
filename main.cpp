@@ -70,11 +70,10 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	GameClear* gameclear = new GameClear();
 	gameclear->Initialize();
 
-	GameOverScene* gameOverScene = new GameOverScene();
-	gameOverScene->Initialize();
 
-	GameExplanation* gameexplanation = new GameExplanation();
-	gameexplanation->Initialize();
+
+	GameExplanationScene* gameexplanationScene = new GameExplanationScene();
+	gameexplanationScene->Initialize();
 
 	Scene::SceneType sceneNo = Scene::SceneType::kTitle;
 
