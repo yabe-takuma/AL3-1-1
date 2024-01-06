@@ -13,13 +13,15 @@ void Player::Initialize(const std::vector<Model*>& models) {
 	
 	SetParent(&worldTransformBody_);
 
+	 InitializeFloatingGimmick();
+
 	worldTransform_.translation_ = {6.0f, 0.0f, -70.0f};
 	worldTransformBody_.translation_ = {0.0f, 0.5f, -70.0f};
 	worldTransformHead_.translation_ = {0.0f, 1.5f, 0.0f};
 	worldTransformL_arm_.translation_ = {-1.5f, 1.3f, 0.0f};
-	worldTransformL_arm_.rotation_ = {-0.5f, 0.0f, -1.0f};
+	
 	worldTransformR_arm_.translation_ = {1.5f, 1.3f, 0.0f};
-	worldTransformR_arm_.rotation_ = {0.5f, 0.0f, 1.0f};
+
 	worldTransformSord_.rotation_ = {0.0f, 1.6f, 0.0f};
 
 	worldTransform_.Initialize();
@@ -92,7 +94,7 @@ void Player::Update()
 	//};
 
 	
-
+	
 	
 
 	worldTransform_.UpdateMatrix();
@@ -159,6 +161,8 @@ void Player::BehaviorRootUpdate()
 	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_B) {
 		behavior_ = Behavior::kAttack;
 	}
+
+	UpdateFloatingGimmick();
 
 }
 
@@ -282,9 +286,17 @@ void Player::BulletAttack()
 }
 
 void Player::OnCollision() { 
-
+	isOnCollision_ = true;
 
 	HP = HP - 1;
+	if (isOnCollision_ == true) {
+		timer_++;
+	}
+
+	if (timer_ >= 31) {
+		timer_ = 0;
+		isOnCollision_ = false;
+	}
 
 }
 

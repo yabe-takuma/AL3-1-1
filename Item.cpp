@@ -13,10 +13,10 @@ void Item::Initialize(Model* model)
 void Item::Update() 
 { 
 	worldTransform_.UpdateMatrix(); 
-	ImGui::Begin("Item");
+	/*ImGui::Begin("Item");
 	ImGui::DragFloat3("position", &worldTransform_.translation_.x, 0.1f);
 	ImGui::DragFloat3("scale", &worldTransform_.scale_.x, 0.1f);
-	ImGui::End();
+	ImGui::End();*/
 }
 
 void Item::Draw(ViewProjection& viewProjection) 

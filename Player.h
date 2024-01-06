@@ -74,6 +74,10 @@ public:
 	// 弾リストを取得
 	const std::list<PlayerBullet*>& GetBullets() const { return playerbullet_; }
 
+	void InitializeFloatingGimmick();
+
+	void UpdateFloatingGimmick();
+
 	/// <summary>
 	/// 親となるワールドトランスフォームをセット
 	/// </summary>
@@ -81,6 +85,8 @@ public:
 	void SetParent(const WorldTransform* parent);
 
 	bool IsSordAlive() const { return isSordAlive_; }
+
+	bool IsOnCollision() const { return isOnCollision_; }
 
 	private:
 	//ワールド変換データ
@@ -128,5 +134,13 @@ public:
 	float speed = 0.3f;
 
 	int32_t HP = 10;
+
+	// 浮遊ギミックの媒介変数
+	float floatingParameter_ = 0.0f;
+	float floatingParameterHead_ = 0.0f;
+
+	bool isOnCollision_ = false;
+
+	int32_t timer_;
 
 };

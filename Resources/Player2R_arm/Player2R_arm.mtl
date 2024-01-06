@@ -1,4 +1,4 @@
-# Blender MTL File: 'None'
+# Blender MTL File: 'Arm.blend'
 # Material Count: 1
 
 newmtl マテリアル.001
@@ -10,4 +10,4 @@ Ke 0.000000 0.000000 0.000000
 Ni 1.450000
 d 1.000000
 illum 2
-map_Kd texture.001.png
+map_Kd C:\\Users\\矢部巧磨\\Desktop\\学校の教科\\2年後期の教科\\AL4\\KamataEngine20230413\\DirectXGame\\Resources\\Player2L_arm\\texture.001.png

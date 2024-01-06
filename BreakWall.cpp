@@ -14,10 +14,10 @@ void BreakWall::Update()
 { 
 	worldTransform_.UpdateMatrix(); 
 
-	ImGui::Begin("Window");
+	/*ImGui::Begin("Window");
 	ImGui::DragFloat3("position", &worldTransform_.translation_.x, 0.1f);
 	ImGui::DragFloat3("scale", &worldTransform_.scale_.x, 0.1f);
-	ImGui::End();
+	ImGui::End();*/
 
 }
 

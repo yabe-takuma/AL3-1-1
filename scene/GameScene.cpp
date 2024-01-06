@@ -397,9 +397,9 @@ void GameScene::CheckAllCollisions() {
 		radiusB = weakenemy->GetWorldRadius();
 
 		// 球と球の交差
-		if (CollisionDot(posA, posB, radiusA, radiusB)) {
+		if (CollisionDot(posA, posB, radiusA, radiusB)&&player_->IsOnCollision()==false) {
 			// 自キャラの衝突時のコールバックを呼び出す
-			//player_->OnCollision();
+			player_->OnCollision();
 			//playerhp_->OnCollision();
 			// 敵弾の衝突時コールバックを呼び出す
 			//weakenemy->OnCollision();
@@ -503,7 +503,8 @@ void GameScene::CheckAllCollisions() {
 		                posA.z <= posB.z + radiusB.z && posB.z <= posA.z + radiusA.z ||
 		            posA.x >= posB.x - radiusB.x && posB.x >= posA.x - radiusA.x &&
 		                posA.y >= posB.y - radiusB.y && posB.y >= posA.y - radiusA.y &&
-		                posA.z >= posB.z - radiusB.z && posB.z >= posA.z - radiusA.z) {
+		                posA.z >= posB.z - radiusB.z && posB.z >= posA.z - radiusA.z &&
+		                player_->IsOnCollision() == false) {
 
 			// 自弾の衝突時のコールバックを呼び出す
 			player_->OnCollision();

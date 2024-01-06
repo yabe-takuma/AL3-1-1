@@ -44,10 +44,10 @@ void WeakEnemy::Update()
 
 	worldTransform_.UpdateMatrix(); 
 
-	ImGui::Begin("position");
+	/*ImGui::Begin("position");
 	ImGui::DragFloat3("position", &worldTransform_.translation_.x, 0.1f);
 	ImGui::DragFloat3("move", &velocity_.x, 0.1f);
-	ImGui::End();
+	ImGui::End();*/
 
 }
 

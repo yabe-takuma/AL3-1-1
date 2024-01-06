@@ -21,14 +21,14 @@ void Enemy::Update() {
 
 	velocity = Normalize(velocity);
 	velocity = Multiply(kSpeed_, velocity);
-	if (isOnCollision_==false) {
+	
 		worldTransform_.translation_ = Add(worldTransform_.translation_, velocity);
-	}
+	
 	worldTransform_.UpdateMatrix();
 
-	ImGui::Begin("Enemy");
-	ImGui::DragInt("timer", &timer_, 1);
-	ImGui::End();
+	//ImGui::Begin("Enemy");
+	//ImGui::DragInt("timer", &timer_, 1);
+	//ImGui::End();
 }
 
 void Enemy::Draw(ViewProjection& viewProjection) { model_->Draw(worldTransform_, viewProjection); }
