@@ -325,3 +325,23 @@ Vector3 Player::GetSordWorldRadius()
 	worldRadius.z = worldTransformSord_.scale_.z+50.0f;
 	return worldRadius;
 }
+
+void Player::UpdateFloatingGimmick() {
+	// 浮遊移動のサイクル<frame>
+	const uint16_t fream = 70;
+	// 1フレームでのパラメータ加算値
+	const float step = 2.0f * 3.14f / fream;
+	// パラメータを1ステップ分加算
+	floatingParameter_ += step;
+
+	// 2πを超えたら0に戻す
+	floatingParameter_ = std::fmod(floatingParameter_, 2.0f * 3.14f);
+
+	// 浮遊の振幅<π>
+	const float floatingAmplitude = 0.3f;
+	// 浮遊を座標に反映
+	worldTransformBody_.translation_.y = std::sin(floatingParameter_) * floatingAmplitude - 0.5f;
+
+	worldTransformL_arm_.rotation_.x = std::sin(floatingParameter_) * floatingAmplitude;
+	worldTransformR_arm_.rotation_.x = std::sin(floatingParameter_) * floatingAmplitude;
+}
