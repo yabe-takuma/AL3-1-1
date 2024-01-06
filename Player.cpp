@@ -326,6 +326,11 @@ Vector3 Player::GetSordWorldRadius()
 	return worldRadius;
 }
 
+void Player::InitializeFloatingGimmick() {
+	floatingParameter_ = 0.5f;
+	floatingParameterHead_ = 2.0f;
+}
+
 void Player::UpdateFloatingGimmick() {
 	// 浮遊移動のサイクル<frame>
 	const uint16_t fream = 70;
