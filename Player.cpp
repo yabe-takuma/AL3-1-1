@@ -17,9 +17,9 @@ void Player::Initialize(const std::vector<Model*>& models) {
 	worldTransformBody_.translation_ = {0.0f, 0.5f, -70.0f};
 	worldTransformHead_.translation_ = {0.0f, 1.5f, 0.0f};
 	worldTransformL_arm_.translation_ = {-1.5f, 1.3f, 0.0f};
-	worldTransformL_arm_.rotation_ = {-0.5f, 0.0f, 0.0f};
+	worldTransformL_arm_.rotation_ = {-0.5f, 0.0f, -1.0f};
 	worldTransformR_arm_.translation_ = {1.5f, 1.3f, 0.0f};
-	worldTransformR_arm_.rotation_ = {0.5f, 0.0f, 0.0f};
+	worldTransformR_arm_.rotation_ = {0.5f, 0.0f, 1.0f};
 	worldTransformSord_.rotation_ = {0.0f, 1.6f, 0.0f};
 
 	worldTransform_.Initialize();
@@ -105,8 +105,8 @@ void Player::Update()
 	ImGui::Begin("player");
 	ImGui::DragFloat3("position", &worldTransformBody_.translation_.x, 0.1f);
 	ImGui::DragFloat3("position", &worldTransformHead_.translation_.x, 0.1f);
-	ImGui::DragFloat3("position", &worldTransformR_arm_.translation_.x, 0.1f);
-	ImGui::DragFloat3("position", &worldTransformL_arm_.translation_.x, 0.1f);
+	ImGui::DragFloat3("position", &worldTransformR_arm_.rotation_.x, 0.01f);
+	ImGui::DragFloat3("position", &worldTransformL_arm_.rotation_.x, 0.01f);
 	ImGui::DragFloat3("rotation", &worldTransformSord_.rotation_.x, 0.01f);
 	ImGui::DragFloat3("rotation", &worldTransformSord_.rotation_.x, 0.01f);
 	ImGui::DragInt("HP", &HP, 1);

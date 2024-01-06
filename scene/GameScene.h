@@ -22,6 +22,7 @@
 #include"BreakWall.h"
 #include"FakeWall.h"
 #include"Item.h"
+#include "Scene.h"
 
 /// <summary>
 /// ゲームシーン

@@ -40,7 +40,7 @@ void GameScene::Initialize() {
 	skydome_->Initialize(modelskydome_.get());
 	//フィールドの生成
 	ground_ = std::make_unique<Ground>();
-	modelground_.reset(Model::CreateFromOBJ("ground", true));
+	modelground_.reset(Model::CreateFromOBJ("ground2", true));
 	ground_->Initialize(modelground_.get());
 
 	debugCamera_ = std::make_unique<DebugCamera>(1280, 720);
@@ -209,9 +209,9 @@ void GameScene::Draw() {
 
 		player_->Draw(viewprojection_);
 	}
-	if (skydome_ != nullptr) {
-		skydome_->Draw(viewprojection_);
-	}
+	//if (skydome_ != nullptr) {
+	//	skydome_->Draw(viewprojection_);
+	//}
 	if (ground_ != nullptr){
 	
 		ground_->Draw(viewprojection_);

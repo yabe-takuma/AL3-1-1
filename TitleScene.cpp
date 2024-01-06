@@ -69,4 +69,4 @@ void TitleScene::Draw() {
 #pragma endregion
 }
 
-void TitleScene::DrawUI() { //titlesprite_->Draw(); }
+void TitleScene::DrawUI() {/* titlesprite_->Draw();*/ }

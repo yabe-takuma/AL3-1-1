@@ -8,6 +8,7 @@
 #include "Sprite.h"
 #include "ViewProjection.h"
 #include "WorldTransform.h"
+#include "Scene.h"
 class GameExplanationScene {
 public: // メンバ関数
 	/// <summary>
