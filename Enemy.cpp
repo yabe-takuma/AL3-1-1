@@ -24,6 +24,15 @@ void Enemy::Update() {
 	
 		worldTransform_.translation_ = Add(worldTransform_.translation_, velocity);
 	
+		if (isOnCollision_ == true) {
+		    timer_++;
+	    }
+
+	    if (timer_ >= 31) {
+		    timer_ = 0;
+		    isOnCollision_ = false;
+	    }
+
 	worldTransform_.UpdateMatrix();
 
 	//ImGui::Begin("Enemy");
@@ -45,17 +54,7 @@ Vector3 Enemy::GetWorldPosition() {
 }
 
 void Enemy::OnCollision() { isOnCollision_ = true; 
-if (isOnCollision_ == true)
-{
-		timer_++;
-	}
 
- if (timer_ >= 31)
-{
-		timer_ = 0;
-		isOnCollision_ = false;
-
-}
 
 }
 

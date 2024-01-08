@@ -86,6 +86,7 @@ void GameScene::Initialize() {
 
 	breakwall_ = std::make_unique<BreakWall>();
 	breakwall_->Initialize();
+	breakwall_->SetPlayer(player_);
 
 	fakewall_ = std::make_unique<FakeWall>();
 	fakewall_->Initialize();
@@ -95,6 +96,10 @@ void GameScene::Initialize() {
 	item_ = std::make_unique<Item>();
 	item_->Initialize(modelitem_.get());
 
+	fakebullet_ = std::make_unique<FakeBullet>();
+	modelfakebullet_.reset(Model::CreateFromOBJ("PlayerBullet", true));
+	fakebullet_->Initialize(modelfakebullet_.get());
+	player_->SetFakeBullet(fakebullet_.get());
 }
 
 void GameScene::Update() { 
@@ -105,9 +110,12 @@ void GameScene::Update() {
 			
 			
 			return true;
+		
 		}
 		return false;
 	});
+
+	
 	
 	debugCamera_->Update();
 #ifdef _DEBUG
@@ -165,7 +173,10 @@ void GameScene::Update() {
 	{
 		item_->Update();
 	}
-
+	if (fakebullet_ != nullptr)
+	{
+		fakebullet_->Update();
+	}
 
 		for (const std::unique_ptr<WeakEnemy>& weakenemy : weakenemys_) {
 		weakenemy->Update();
@@ -176,6 +187,11 @@ void GameScene::Update() {
 	UpdateWallPopCommands();
 
 	CheckAllCollisions();
+
+	if (player_->IsClear())
+	{
+		isGameClear_ = true;
+	}
 
 }
 
@@ -241,6 +257,12 @@ void GameScene::Draw() {
 	for (const auto& weakenemy : weakenemys_) {
 		weakenemy->Draw(viewprojection_);
 	}
+	if (fakebullet_ != nullptr)
+	{
+		fakebullet_->Draw(viewprojection_);
+	}
+
+	
 
 	// 3Dオブジェクト描画後処理
 	Model::PostDraw();
@@ -393,11 +415,18 @@ void GameScene::CheckAllCollisions() {
 		// 敵弾の座標
 
 		posB = weakenemy->GetWorldPosition();
-		radiusA = player_->GetSordWorldRadius();
+		radiusA = player_->GetWorldRadius();
 		radiusB = weakenemy->GetWorldRadius();
 
 		// 球と球の交差
-		if (CollisionDot(posA, posB, radiusA, radiusB)&&player_->IsOnCollision()==false) {
+		/*if (CollisionDot(posA, posB, radiusA, radiusB)&&player_->IsOnCollision()==false) {*/
+			if (posA.x <= posB.x + radiusB.x && posB.x <= posA.x + radiusA.x &&
+		                posA.y <= posB.y + radiusB.y && posB.y <= posA.y + radiusA.y &&
+		                posA.z <= posB.z + radiusB.z && posB.z <= posA.z + radiusA.z ||
+		            posA.x >= posB.x - radiusB.x && posB.x >= posA.x - radiusA.x &&
+		                posA.y >= posB.y - radiusB.y && posB.y >= posA.y - radiusA.y &&
+		        posA.z >= posB.z - radiusB.z && posB.z >= posA.z - radiusA.z &&
+		        player_->IsOnCollision() == false) {
 			// 自キャラの衝突時のコールバックを呼び出す
 			player_->OnCollision();
 			//playerhp_->OnCollision();
@@ -424,6 +453,7 @@ void GameScene::CheckAllCollisions() {
 
 			if (CollisionDot(posB, posA, radiusB, radiusA)) {
 
+
 				// 自弾の衝突時のコールバックを呼び出す
 				bullet->OnCollision();
 				// 敵キャラの衝突時コールバックを呼び出す
@@ -434,6 +464,7 @@ void GameScene::CheckAllCollisions() {
 
 					enemyhp_->OnCollision();
 				}*/
+				player_->Pow();
 			}
 		}
 	}
@@ -444,7 +475,7 @@ void GameScene::CheckAllCollisions() {
 
 	
 
-	// 自キャラと敵全ての当たり判定
+	// 武器と敵全ての当たり判定
 	for (const std::unique_ptr<WeakEnemy>& weakenemy : weakenemys) {
 		// 自弾の座標
 		posA = player_->GetSordWorldPosition();
@@ -461,6 +492,8 @@ void GameScene::CheckAllCollisions() {
 			// playerhp_->OnCollision();
 			//  敵弾の衝突時コールバックを呼び出す
 			weakenemy->OnCollision();
+
+			player_->Pow();
 		}
 	}
 #pragma endregion
@@ -476,12 +509,12 @@ void GameScene::CheckAllCollisions() {
 			radiusA = player_->GetWorldRadius();
 			radiusB = breakwall_->GetWorldRadius();
 
-			if (CollisionDot(posA, posB, radiusA, radiusB)) {
+			if (CollisionDot(posA, posB, radiusA, radiusB)&&breakwall_->IsOnCollision()==false) {
 	       
 				// 自弾の衝突時のコールバックを呼び出す
 				//player_->OnCollision();
 				// 敵弾の衝突時コールバックを呼び出す
-				//breakwall_->OnCollision();
+				breakwall_->OnCollision();
 			}
 		
 #pragma endregion
@@ -585,7 +618,7 @@ void GameScene::CheckAllCollisions() {
 	                    posA.z <= posB.z + radiusB.z && posB.z <= posA.z + radiusA.z ||
 	                posA.x >= posB.x - radiusB.x && posB.x >= posA.x - radiusA.x &&
 	                    posA.y >= posB.y - radiusB.y && posB.y >= posA.y - radiusA.y &&
-	                    posA.z >= posB.z - radiusB.z && posB.z >= posA.z - radiusA.z&&enemy_->IsOnCollision()==false) {
+	                    posA.z >= posB.z - radiusB.z && posB.z >= posA.z - radiusA.z&&enemy_->IsOnCollision()==false && player_->IsOnCollision() == false) {
 
 		    // 自弾の衝突時のコールバックを呼び出す
 		   player_->OnCollision();
@@ -595,6 +628,63 @@ void GameScene::CheckAllCollisions() {
 
 #pragma endregion
 
+				#pragma region 自弾と壊す壁の当たり判定
+	            // 敵キャラと自弾全ての当たり判定
+	            for (PlayerBullet* bullet : playerBullets) {
+		    // 自弾の座標
+		    posA = bullet->GetWorldPosition();
+		    // 敵弾の座標
+		    posB = breakwall_->GetWorldPosition();
+
+		    radiusA = bullet->GetWorldRadius();
+		    radiusB = breakwall_->GetWorldRadius();
+
+		    // if (CollisionDot(posA, posB, radiusA, radiusB)) {
+		    if (posA.x <= posB.x + radiusB.x && posB.x <= posA.x + radiusA.x &&
+		            posA.y <= posB.y + radiusB.y && posB.y <= posA.y + radiusA.y &&
+		            posA.z <= posB.z + radiusB.z && posB.z <= posA.z + radiusA.z ||
+		        posA.x >= posB.x - radiusB.x && posB.x >= posA.x - radiusA.x &&
+		            posA.y >= posB.y - radiusB.y && posB.y >= posA.y - radiusA.y &&
+		            posA.z >= posB.z - radiusB.z && posB.z >= posA.z - radiusA.z &&
+		            enemy_->IsOnCollision() == false && player_->IsOnCollision() == false) {
+
+			// 自弾の衝突時のコールバックを呼び出す
+			bullet->OnCollision();
+			// 敵弾の衝突時コールバックを呼び出す
+			breakwall_->OnCollision();
+		    }
+	            }
+
+#pragma endregion
+
+#pragma endregion
+
+#pragma region 自弾と壊す壁の当たり判定
+	            // 敵キャラと自弾全ての当たり判定
+	         
+		    // 自弾の座標
+		    posA = player_->GetWorldPosition();
+		    // 敵弾の座標
+		    posB = fakebullet_->GetWorldPosition();
+
+		    radiusA = player_->GetWorldRadius();
+		    radiusB = fakebullet_->GetWorldRadius();
+
+		    // if (CollisionDot(posA, posB, radiusA, radiusB)) {
+		    if (posA.x <= posB.x + radiusB.x && posB.x <= posA.x + radiusA.x &&
+		            posA.y <= posB.y + radiusB.y && posB.y <= posA.y + radiusA.y &&
+		            posA.z <= posB.z + radiusB.z && posB.z <= posA.z + radiusA.z ||
+		        posA.x >= posB.x - radiusB.x && posB.x >= posA.x - radiusA.x &&
+		            posA.y >= posB.y - radiusB.y && posB.y >= posA.y - radiusA.y &&
+		            posA.z >= posB.z - radiusB.z && posB.z >= posA.z - radiusA.z ) {
+
+			// 自弾の衝突時のコールバックを呼び出す
+		     fakebullet_->OnCollision();
+		
+		    }
+	            
+
+#pragma endregion
 
 }
 

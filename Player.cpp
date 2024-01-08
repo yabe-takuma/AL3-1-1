@@ -1,4 +1,5 @@
 #include "Player.h"
+#include"FakeBullet.h"
 #include<cassert>
 
 Player::~Player() {
@@ -37,7 +38,7 @@ void Player::Initialize(const std::vector<Model*>& models) {
 	attack_.bulletcooltime = 0;
 
 		modelbullet_.reset(Model::CreateFromOBJ("PlayerBullet", true));
-
+	pow_ = 0;
 }
 
 void Player::Update()
@@ -45,12 +46,13 @@ void Player::Update()
 
 	BaseCharacter::Update();
 
-	BulletAttack();
-
+	
+	if (fakebullet_->IsDead()) {
+		BulletAttack();
 		for (PlayerBullet* playerbullet : playerbullet_) {
-		playerbullet->Update();
+			playerbullet->Update();
+		}
 	}
-
 		// デスフラグの立った弾を削除
 	playerbullet_.remove_if([](PlayerBullet* bullet) {
 		if (bullet->IsDead()) {
@@ -60,7 +62,7 @@ void Player::Update()
 		}
 		return false;
 	});
-
+	
 	if (behaviorRequest_) {
 		// 振るまいを変更する
 		behavior_ = behaviorRequest_.value();
@@ -94,8 +96,25 @@ void Player::Update()
 	//};
 
 	
+
+	if (isOnCollision_ == true) {
+		timer_++;
+	}
+
+	if (timer_ >= 100) {
+		timer_ = 0;
+		isOnCollision_ = false;
+	}
 	
-	
+	if (HP <= 0)
+	{
+		isDead_ = true;
+	}
+
+	if (worldTransformBody_.translation_.x >= -2.5f && worldTransformBody_.translation_.x <= 13 && worldTransformBody_.translation_.z >= 123)
+	{
+		isClear_ = true;
+	}
 
 	worldTransform_.UpdateMatrix();
 	worldTransformBody_.UpdateMatrix();
@@ -112,7 +131,7 @@ void Player::Update()
 	ImGui::DragFloat3("rotation", &worldTransformSord_.rotation_.x, 0.01f);
 	ImGui::DragFloat3("rotation", &worldTransformSord_.rotation_.x, 0.01f);
 	ImGui::DragInt("HP", &HP, 1);
-
+	ImGui::DragInt("Pow", &pow_, 1);
 
 	ImGui::End();
 }
@@ -127,8 +146,11 @@ void Player::Draw(ViewProjection& viewProjection)
 	if (behavior_ == Behavior::kAttack) {
 		models_[4]->Draw(worldTransformSord_, viewProjection);
 	}
-	for (PlayerBullet*playerbullet : playerbullet_) {
-		playerbullet->Draw(viewProjection);
+	if (fakebullet_->IsDead()) {
+
+		for (PlayerBullet* playerbullet : playerbullet_) {
+			playerbullet->Draw(viewProjection);
+		}
 	}
 }
 
@@ -221,6 +243,8 @@ void Player::SetParent(const WorldTransform* parent) {
 	worldTransformSord_.parent_ = parent;
 }
 
+void Player::Pow() { pow_ = pow_ + 1; }
+
 
 
 void Player::BehaviorRootInitialize() {
@@ -286,17 +310,11 @@ void Player::BulletAttack()
 }
 
 void Player::OnCollision() { 
-	isOnCollision_ = true;
-
+	if (timer_ <= 0) {
+		isOnCollision_ = true;
+	}
 	HP = HP - 1;
-	if (isOnCollision_ == true) {
-		timer_++;
-	}
-
-	if (timer_ >= 31) {
-		timer_ = 0;
-		isOnCollision_ = false;
-	}
+	
 
 }
 

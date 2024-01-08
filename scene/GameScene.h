@@ -23,6 +23,7 @@
 #include"FakeWall.h"
 #include"Item.h"
 #include "Scene.h"
+#include"FakeBullet.h"
 
 /// <summary>
 /// ゲームシーン
@@ -113,6 +114,9 @@ private: // メンバ変数
 
    std::unique_ptr<Item> item_;
    std::unique_ptr<Model> modelitem_;
+
+   std::unique_ptr<FakeBullet> fakebullet_;
+   std::unique_ptr<Model> modelfakebullet_;
 
    Vector3 velocity_;
 

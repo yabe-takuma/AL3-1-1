@@ -1,4 +1,5 @@
 #include "BreakWall.h"
+#include"Player.h"
 
 void BreakWall::Initialize() 
 { 
@@ -6,27 +7,54 @@ void BreakWall::Initialize()
 	worldTransform_.translation_ = {5.9f, 0.0f, 119.8f};
 	worldTransform_.scale_ = {10.0f, 20.0f, 1.0f};
 
+	worldTransformhp_.translation_ = {5.9f, 2.0f, 118.8f};
+	worldTransformhp_.scale_ = {10.0f, 1.0f, 1.0f};
+		
+
 	worldTransform_.Initialize();
+	worldTransformhp_.Initialize();
 	model_ = Model::Create();
+	modelhp_ = Model::Create();
+	hp_ = 100;
 }
 
 void BreakWall::Update() 
 { 
 	worldTransform_.UpdateMatrix(); 
-
-	/*ImGui::Begin("Window");
+	worldTransformhp_.UpdateMatrix();
+	ImGui::Begin("Window");
 	ImGui::DragFloat3("position", &worldTransform_.translation_.x, 0.1f);
 	ImGui::DragFloat3("scale", &worldTransform_.scale_.x, 0.1f);
-	ImGui::End();*/
+	ImGui::DragInt("HP", &hp_, 1);
+	ImGui::End();
 
+	if (isOnCollision_ == true) {
+		timer_++;
+	}
+
+	if (timer_ >= 100) {
+		timer_ = 0;
+		isOnCollision_ = false;
+	}
+
+	
 }
 
 void BreakWall::Draw(ViewProjection& viewProjection) 
 {
 	model_->Draw(worldTransform_, viewProjection);
+	if (hp_ >= 1) {
+
+		modelhp_->Draw(worldTransformhp_, viewProjection);
+	}
 }
 
-void BreakWall::OnCollision() { worldTransform_.scale_.x=worldTransform_.scale_.x - 1.0f; }
+void BreakWall::OnCollision() { hp_ = hp_ -player_->GetPow();
+	worldTransformhp_.scale_.x = worldTransformhp_.scale_.x - 0.1f*player_->GetPow();
+	if (timer_ <= 0) {
+		isOnCollision_ = true;
+	}
+}
 
 Vector3 BreakWall::GetWorldPosition() {
 	// ワールド座標を入れる変数

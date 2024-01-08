@@ -9,6 +9,9 @@
 #include <cmath>
 #include"PlayerBullet.h"
 #include<memory>
+
+class FakeBullet;
+
 class Player : public BaseCharacter {
 
 	// 振るまい
@@ -88,6 +91,14 @@ public:
 
 	bool IsOnCollision() const { return isOnCollision_; }
 
+	bool IsClear() const { return isClear_; }
+
+    int32_t GetPow() {return pow_;}
+
+	void Pow();
+
+	void SetFakeBullet(FakeBullet* fakebullet) { fakebullet_ = fakebullet; }
+
 	private:
 	//ワールド変換データ
 	WorldTransform worldTransform_;
@@ -142,5 +153,13 @@ public:
 	bool isOnCollision_ = false;
 
 	int32_t timer_;
+
+	bool isDead_ = false;
+
+	bool isClear_ = false;
+
+	int32_t pow_;
+
+	FakeBullet* fakebullet_ = nullptr;
 
 };

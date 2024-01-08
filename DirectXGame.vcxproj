@@ -113,6 +113,7 @@
     <ClCompile Include="base\WinApp.cpp" />
     <ClCompile Include="BreakWall.cpp" />
     <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="FakeBullet.cpp" />
     <ClCompile Include="FakeWall.cpp" />
     <ClCompile Include="FollowCamera.cpp" />
     <ClCompile Include="GameClear.cpp" />
@@ -157,6 +158,7 @@
     <ClInclude Include="base\WinApp.h" />
     <ClInclude Include="BreakWall.h" />
     <ClInclude Include="Enemy.h" />
+    <ClInclude Include="FakeBullet.h" />
     <ClInclude Include="FakeWall.h" />
     <ClInclude Include="FollowCamera.h" />
     <ClInclude Include="GameClear.h" />
