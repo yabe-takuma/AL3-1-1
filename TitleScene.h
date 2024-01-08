@@ -52,5 +52,5 @@ private: // メンバ変数
 	Audio* audio_ = nullptr;
 	bool isSceneEnd_ = false;
 
-	//Sprite* titlesprite_ = nullptr;
+	Sprite* titlesprite_ = nullptr;
 };
