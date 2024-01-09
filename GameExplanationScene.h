@@ -38,6 +38,8 @@ public: // メンバ関数
 
 	void DrawUI();
 
+	void Reset();
+
 	bool IsSceneEnd() { return isSceneEnd_; }
 	Scene::SceneType NextScene() { return Scene::SceneType::kGamePlay; }
 
@@ -47,5 +49,8 @@ private: // メンバ変数
 	Audio* audio_ = nullptr;
 	bool isSceneEnd_ = false;
 
-	// Sprite* titlesprite_ = nullptr;
+	Sprite* titlesprite_ = nullptr;
+
+	XINPUT_STATE joyState;
+	XINPUT_STATE prevjoyState;
 };

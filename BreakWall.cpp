@@ -7,7 +7,7 @@ void BreakWall::Initialize()
 	worldTransform_.translation_ = {5.9f, 0.0f, 119.8f};
 	worldTransform_.scale_ = {10.0f, 20.0f, 1.0f};
 
-	worldTransformhp_.translation_ = {5.9f, 2.0f, 118.8f};
+	worldTransformhp_.translation_ = {5.9f, 5.0f, 118.8f};
 	worldTransformhp_.scale_ = {10.0f, 1.0f, 1.0f};
 		
 
@@ -16,6 +16,11 @@ void BreakWall::Initialize()
 	model_ = Model::Create();
 	modelhp_ = Model::Create();
 	hp_ = 100;
+	isDead_ = false;
+
+	texture_[0] = TextureManager::Load("ge-ji.png");
+	texture_[1] = TextureManager::Load("doa.png");
+
 }
 
 void BreakWall::Update() 
@@ -37,15 +42,21 @@ void BreakWall::Update()
 		isOnCollision_ = false;
 	}
 
+	if (hp_ <= 0)
+	{
+		isDead_ = true;
+	}
 	
 }
 
 void BreakWall::Draw(ViewProjection& viewProjection) 
 {
-	model_->Draw(worldTransform_, viewProjection);
+	if (isDead_ == false) {
+		model_->Draw(worldTransform_, viewProjection, texture_[1]);
+	}
 	if (hp_ >= 1) {
 
-		modelhp_->Draw(worldTransformhp_, viewProjection);
+		modelhp_->Draw(worldTransformhp_, viewProjection, texture_[0]);
 	}
 }
 

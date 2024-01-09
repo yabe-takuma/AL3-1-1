@@ -28,6 +28,7 @@ void Item::Draw(ViewProjection& viewProjection)
 void Item::OnCollision() { worldTransform_.scale_.x = 0.0f;
 	worldTransform_.scale_.y = 0.0f;
 	worldTransform_.scale_.z = 0.0f;
+	isDead_ = true;
 }
 
 Vector3 Item::GetWorldPosition() {

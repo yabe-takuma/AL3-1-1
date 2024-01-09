@@ -12,6 +12,8 @@ public:
 
 	void OnCollision();
 
+	bool IsDead_() const { return isDead_; }
+
 	// ワールド座標を取得
 	Vector3 GetWorldPosition();
 
@@ -22,5 +24,7 @@ public:
 	WorldTransform worldTransform_;
 
 	Model* model_ = nullptr;
+
+	bool isDead_ = false;
 
 };

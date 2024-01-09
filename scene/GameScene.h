@@ -24,6 +24,7 @@
 #include"Item.h"
 #include "Scene.h"
 #include"FakeBullet.h"
+#include"Sprite.h"
 
 /// <summary>
 /// ゲームシーン
@@ -70,11 +71,22 @@ public: // メンバ関数
 
 	void WallGeneration(const Vector3& position, const Vector3& scale);
 
+	void Reset();
+
+	void GameReset();
+
+	void DrawUI();
+
+	void ScoreInitialize();
+
 	// 弾リストを取得
 	const std::list <std::unique_ptr<WeakEnemy>>& GetWeakEnemys() const { return weakenemys_; }
 
 	bool IsGameClear() { return isGameClear_; }
 	Scene::SceneType NextGameScene() { return Scene::SceneType::kGameClear; }
+
+	bool IsGameOver() { return isGameOver_; }
+	Scene::SceneType NextGameOverScene() { return Scene::SceneType::kGameOver; }
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
@@ -107,6 +119,7 @@ private: // メンバ変数
 	std::unique_ptr<Model> modelwall_;
 
    std::list<std::unique_ptr<WeakEnemy>> weakenemys_;
+	std::unique_ptr<Model> modelweakenemys_;
 
    std::unique_ptr<BreakWall> breakwall_;
 
@@ -117,6 +130,9 @@ private: // メンバ変数
 
    std::unique_ptr<FakeBullet> fakebullet_;
    std::unique_ptr<Model> modelfakebullet_;
+
+   	// 自キャラモデル
+   std::vector<Model*> playerModels;
 
    Vector3 velocity_;
 
@@ -141,6 +157,15 @@ private: // メンバ変数
 	bool isDebugCameraAcctive_ = false;
 
 	bool isGameClear_ = false;
+	bool isGameOver_ = false;
+
+	int32_t isoncollision_=0;
+
+	std::unique_ptr<Sprite> uiSprite_;
+	std::unique_ptr<Sprite> ui2Sprite_;
+
+	std::unique_ptr<Sprite> scoresprite_[12];
+	uint32_t scoretexture_[10];
 
 	/// <summary>
 	/// ゲームシーン用

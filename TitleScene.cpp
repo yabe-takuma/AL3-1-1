@@ -15,11 +15,18 @@ void TitleScene::Initialize() {
 
 	titlesprite_ =
 	    Sprite::Create(textureTitle, {640.0f, 360.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.5f, 0.5f});
+	
 }
 
 void TitleScene::Update() {
-	if (input_->PushKey(DIK_A)) {
-		isSceneEnd_ = true;
+	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
+		if (Input::GetInstance()->GetJoystickStatePrevious(0, prevjoyState)) {
+			if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A&&
+				    !(prevjoyState.Gamepad.wButtons & XINPUT_GAMEPAD_A)) {
+				isSceneEnd_ = true;
+			
+			}
+		}
 	}
 }
 
@@ -70,3 +77,5 @@ void TitleScene::Draw() {
 }
 
 void TitleScene::DrawUI() { titlesprite_->Draw(); }
+
+void TitleScene::Reset() { isSceneEnd_ = false; }

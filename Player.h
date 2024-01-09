@@ -12,6 +12,8 @@
 
 class FakeBullet;
 
+class Item;
+
 class Player : public BaseCharacter {
 
 	// 振るまい
@@ -99,6 +101,10 @@ public:
 
 	void SetFakeBullet(FakeBullet* fakebullet) { fakebullet_ = fakebullet; }
 
+	bool IsDead() const { return isDead_; }
+
+	void SetItem(Item* item) { item_ = item; }
+
 	private:
 	//ワールド変換データ
 	WorldTransform worldTransform_;
@@ -161,5 +167,9 @@ public:
 	int32_t pow_;
 
 	FakeBullet* fakebullet_ = nullptr;
+
+	Item* item_ = nullptr;
+
+	int32_t sevepow_;
 
 };

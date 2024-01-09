@@ -8,20 +8,28 @@ void GameClear::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 
-	//uint32_t textureTitle = TextureManager::Load("GameClear.png");
+	uint32_t textureTitle = TextureManager::Load("ゲームクリア.png");
 
-	/*titlesprite_ =
-	    Sprite::Create(textureTitle, {640.0f, 360.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.5f, 0.5f});*/
+	titlesprite_ =
+	    Sprite::Create(textureTitle, {640.0f, 360.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.5f, 0.5f});
 
 	// mojisprite_ = new MojiSprite();
 	// mojisprite_->Initialize();
 }
 
 void GameClear::Update() {
-	/*if (mojisprite_ != nullptr) {
-
-	    mojisprite_->Update();
-	}*/
+	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
+		if (Input::GetInstance()->GetJoystickStatePrevious(0, prevjoyState)) {
+			if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_X &&
+			    !(prevjoyState.Gamepad.wButtons & XINPUT_GAMEPAD_X)) {
+				isSceneEnd_ = true;
+			} else if (
+			    joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A &&
+			    !(prevjoyState.Gamepad.wButtons & XINPUT_GAMEPAD_A)) {
+				isTitleScene_ = true;
+			}
+		}
+	}
 }
 
 void GameClear::Draw() {
@@ -73,4 +81,8 @@ void GameClear::Draw() {
 #pragma endregion
 }
 
-void GameClear::DrawUI() {/* titlesprite_->Draw();*/ }
+void GameClear::DrawUI() { titlesprite_->Draw(); }
+
+void GameClear::Reset() { isSceneEnd_ = false;
+	isTitleScene_ = false;
+}

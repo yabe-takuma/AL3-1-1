@@ -25,6 +25,8 @@ public:
 
 	bool IsOnCollision() const { return isOnCollision_; }
 
+	bool IsDead() const { return isDead_; }
+
 	private:
 	WorldTransform worldTransform_;
 
@@ -41,5 +43,9 @@ public:
 	int32_t timer_;
 
 	Player* player_ = nullptr;
+
+	bool isDead_ = false;
+
+	uint32_t texture_[2];
 
 };

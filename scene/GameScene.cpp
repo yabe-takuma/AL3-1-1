@@ -27,8 +27,7 @@ void GameScene::Initialize() {
 	modelFighterR_arm_.reset(Model::CreateFromOBJ("Player2R_arm", true));
 	modelsord_.reset(Model::CreateFromOBJ("Sord", true));
 
-	// 自キャラモデル
-	std::vector<Model*> playerModels = {
+	playerModels = {
 	    modelFighterBody_.get(), modelFighterHead_.get(), modelFighterL_arm_.get(),
 	    modelFighterR_arm_.get(),modelsord_.get()};
 
@@ -80,7 +79,7 @@ void GameScene::Initialize() {
 	
 
 	
-	LoadEnemyPopData();
+	//LoadEnemyPopData();
 
 	LoadWallPopData();
 
@@ -92,7 +91,7 @@ void GameScene::Initialize() {
 	fakewall_->Initialize();
 
 
-	modelitem_.reset(Model::CreateFromOBJ("Item", true));
+	modelitem_.reset(Model::CreateFromOBJ("Pow", true));
 	item_ = std::make_unique<Item>();
 	item_->Initialize(modelitem_.get());
 
@@ -100,6 +99,21 @@ void GameScene::Initialize() {
 	modelfakebullet_.reset(Model::CreateFromOBJ("PlayerBullet", true));
 	fakebullet_->Initialize(modelfakebullet_.get());
 	player_->SetFakeBullet(fakebullet_.get());
+
+		uint32_t textureTitle = TextureManager::Load("UI.png");
+
+	uiSprite_.reset(
+	    Sprite::Create(textureTitle, {640.0f, 360.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.5f, 0.5f}));
+
+	uint32_t textureUi = TextureManager::Load("UI2.png");
+
+	ui2Sprite_.reset(
+	    Sprite::Create(textureUi, {640.0f, 360.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.5f, 0.5f}));
+
+	ScoreInitialize();
+
+	player_->SetItem(item_.get());
+
 }
 
 void GameScene::Update() { 
@@ -115,7 +129,10 @@ void GameScene::Update() {
 		return false;
 	});
 
-	
+	if (player_->IsDead())
+	{
+		isGameOver_ = true;
+	}
 	
 	debugCamera_->Update();
 #ifdef _DEBUG
@@ -276,6 +293,8 @@ void GameScene::Draw() {
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
 
+	DrawUI();
+
 	// スプライト描画後処理
 	Sprite::PostDraw();
 
@@ -298,6 +317,8 @@ void GameScene::EnemyGeneration(const Vector3& position, const Vector3& velocity
 
 void GameScene::LoadEnemyPopData() {
 
+	enemyPopCommands.clear();
+
 	// ファイルを開く
 	std::ifstream file;
 	std::string filename = "Resources//enemyPop.csv";
@@ -312,6 +333,9 @@ void GameScene::LoadEnemyPopData() {
 }
 
 void GameScene::UpdateEnemyPopCommands() {
+
+
+
 	bool iswait = false;
 	int32_t waitTimer = 0;
 
@@ -426,13 +450,16 @@ void GameScene::CheckAllCollisions() {
 		            posA.x >= posB.x - radiusB.x && posB.x >= posA.x - radiusA.x &&
 		                posA.y >= posB.y - radiusB.y && posB.y >= posA.y - radiusA.y &&
 		        posA.z >= posB.z - radiusB.z && posB.z >= posA.z - radiusA.z &&
-		        player_->IsOnCollision() == false) {
+		        player_->IsOnCollision()) {
+			isoncollision_ =0;
 			// 自キャラの衝突時のコールバックを呼び出す
 			player_->OnCollision();
+			
 			//playerhp_->OnCollision();
 			// 敵弾の衝突時コールバックを呼び出す
 			//weakenemy->OnCollision();
-		}
+			}
+			
 	}
 
 #pragma endregion
@@ -568,7 +595,9 @@ void GameScene::CheckAllCollisions() {
 		                posA.z >= posB.z - radiusB.z && posB.z >= posA.z - radiusA.z) {
 
 			// 自弾の衝突時のコールバックを呼び出す
+		        if (breakwall_->IsDead() == false) {
 			player_->OnCollision2();
+		        }
 			// 敵弾の衝突時コールバックを呼び出す
 			//breakwall_->OnCollision();
 		        }
@@ -659,7 +688,7 @@ void GameScene::CheckAllCollisions() {
 
 #pragma endregion
 
-#pragma region 自弾と壊す壁の当たり判定
+#pragma region 自弾とアイテムの弾の当たり判定
 	            // 敵キャラと自弾全ての当たり判定
 	         
 		    // 自弾の座標
@@ -697,6 +726,101 @@ void GameScene::WallGeneration(const Vector3& position, const Vector3& scale) {
 	        wall->SetGameScene(this);
 
 	        walls_.push_back(static_cast<std::unique_ptr<Wall>>(wall));
+}
+
+void GameScene::Reset() 
+{ 
+	isGameClear_ = false;
+	isGameOver_ = false;
+	
+}
+
+void GameScene::GameReset() 
+{ 
+	player_->Initialize(playerModels); 
+			for (const std::unique_ptr<WeakEnemy>& weakenemy : weakenemys_) {
+		     weakenemy->OnCollision();
+	}
+	LoadEnemyPopData();
+
+	enemy_->Initialize();
+	breakwall_->Initialize();
+	fakebullet_->Initialize(modelfakebullet_.get());
+}
+
+void GameScene::DrawUI() { 
+	if (fakebullet_->IsDead() == false) {
+		     uiSprite_->Draw();
+	}
+	else if (fakebullet_->IsDead())
+	{
+		     ui2Sprite_->Draw();
+	}
+	if (player_->GetPow()==1||player_->GetPow()==11)
+	{
+		scoresprite_[0]->Draw();
+	} else if (player_->GetPow() == 2 || player_->GetPow() == 12) {
+		scoresprite_[1]->Draw();
+	} else if (player_->GetPow() == 3 || player_->GetPow() == 13) {
+		scoresprite_[2]->Draw();
+	} else if (player_->GetPow() == 4 || player_->GetPow() == 14) {
+		scoresprite_[3]->Draw();
+	} else if (player_->GetPow() == 5 || player_->GetPow() == 15) {
+		scoresprite_[4]->Draw();
+	} else if (player_->GetPow() == 6 || player_->GetPow() == 16) {
+		scoresprite_[5]->Draw();
+	} else if (player_->GetPow() == 7 || player_->GetPow() == 17) {
+		scoresprite_[6]->Draw();
+	} else if (player_->GetPow() == 8 || player_->GetPow() == 18) {
+		scoresprite_[7]->Draw();
+	} else if (player_->GetPow() == 9 || player_->GetPow() == 19) {
+		scoresprite_[8]->Draw();
+	} else if (player_->GetPow() == 10 || player_->GetPow() == 20) {
+		scoresprite_[9]->Draw();
+	} 
+	if (player_->GetPow() >= 10&&player_->GetPow() <= 19) {
+		scoresprite_[10]->Draw();
+	} else if (player_->GetPow() >= 20 &&player_->GetPow() <= 29) {
+		scoresprite_[11]->Draw();
+	}
+}
+
+void GameScene::ScoreInitialize() 
+{ 
+	scoretexture_[0] = TextureManager::Load("1.png"); 
+	scoretexture_[1] = TextureManager::Load("2.png");
+	scoretexture_[2] = TextureManager::Load("3.png");
+	scoretexture_[3] = TextureManager::Load("4.png");
+	scoretexture_[4] = TextureManager::Load("5.png");
+	scoretexture_[5] = TextureManager::Load("6.png");
+	scoretexture_[6] = TextureManager::Load("7.png");
+	scoretexture_[7] = TextureManager::Load("8.png");
+	scoretexture_[8] = TextureManager::Load("9.png");
+	scoretexture_[9] = TextureManager::Load("0.png");
+	scoresprite_[0].reset(
+	    Sprite::Create(scoretexture_[0], {1200.0f, 54.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.5f, 0.5f}));
+	scoresprite_[1].reset(
+	    Sprite::Create(scoretexture_[1], {1200.0f, 54.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.5f, 0.5f}));
+	scoresprite_[2].reset(
+	    Sprite::Create(scoretexture_[2], {1200.0f, 54.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.5f, 0.5f}));
+	scoresprite_[3].reset(
+	    Sprite::Create(scoretexture_[3], {1200.0f, 54.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.5f, 0.5f}));
+	scoresprite_[4].reset(
+	    Sprite::Create(scoretexture_[4], {1200.0f, 54.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.5f, 0.5f}));
+	scoresprite_[5].reset(
+	    Sprite::Create(scoretexture_[5], {1200.0f, 54.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.5f, 0.5f}));
+	scoresprite_[6].reset(
+	    Sprite::Create(scoretexture_[6], {1200.0f, 54.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.5f, 0.5f}));
+	scoresprite_[7].reset(
+	    Sprite::Create(scoretexture_[7], {1200.0f, 54.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.5f, 0.5f}));
+	scoresprite_[8].reset(
+	    Sprite::Create(scoretexture_[8], {1200.0f, 54.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.5f, 0.5f}));
+	scoresprite_[9].reset(
+	    Sprite::Create(scoretexture_[9], {1200.0f, 54.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.5f, 0.5f}));
+	scoresprite_[10].reset(
+	    Sprite::Create(scoretexture_[0], {1170.0f, 54.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.5f, 0.5f}));
+	scoresprite_[11].reset(
+	    Sprite::Create(scoretexture_[1], {1170.0f, 54.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.5f, 0.5f}));
 }
 
 void GameScene::LoadWallPopData() 

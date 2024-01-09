@@ -2,10 +2,11 @@
 
 void FakeWall::Initialize() 
 { 
-	worldTransform_.translation_ = {0.0f, 0.0f, 94.8f};
+	worldTransform_.translation_ = {0.0f, 0.0f, 93.8f};
 	worldTransform_.scale_ = {8.0f, 20.0f, 1.0f};
 	worldTransform_.Initialize(); 
 	model_ = Model::Create();
+	texture_ = TextureManager::Load("wall.png");
 }
 
 void FakeWall::Update() 
@@ -19,5 +20,5 @@ void FakeWall::Update()
 
 void FakeWall::Draw(ViewProjection& viewProjection) 
 {
-	model_->Draw(worldTransform_, viewProjection);
+	model_->Draw(worldTransform_, viewProjection,texture_);
 }

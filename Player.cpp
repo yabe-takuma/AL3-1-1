@@ -1,6 +1,7 @@
 #include "Player.h"
 #include"FakeBullet.h"
 #include<cassert>
+#include"Item.h"
 
 Player::~Player() {
 	for (PlayerBullet* playerbullet : playerbullet_) {
@@ -17,7 +18,7 @@ void Player::Initialize(const std::vector<Model*>& models) {
 	 InitializeFloatingGimmick();
 
 	worldTransform_.translation_ = {6.0f, 0.0f, -70.0f};
-	worldTransformBody_.translation_ = {0.0f, 0.5f, -70.0f};
+	worldTransformBody_.translation_ = {3.0f, 0.5f, -65.0f};
 	worldTransformHead_.translation_ = {0.0f, 1.5f, 0.0f};
 	worldTransformL_arm_.translation_ = {-1.5f, 1.3f, 0.0f};
 	
@@ -38,13 +39,23 @@ void Player::Initialize(const std::vector<Model*>& models) {
 	attack_.bulletcooltime = 0;
 
 		modelbullet_.reset(Model::CreateFromOBJ("PlayerBullet", true));
-	pow_ = 0;
+	pow_ = 10;
+	   
+	isDead_ = false;
+	isClear_ = false;
+	sevepow_ = 0;
 }
 
 void Player::Update()
 {
 
 	BaseCharacter::Update();
+
+	if (item_->IsDead_()&&sevepow_==0)
+	{
+		Pow();
+		sevepow_ = 1;
+	}
 
 	
 	if (fakebullet_->IsDead()) {
@@ -97,7 +108,7 @@ void Player::Update()
 
 	
 
-	if (isOnCollision_ == true) {
+	if (isOnCollision_ ==true) {
 		timer_++;
 	}
 
@@ -106,10 +117,8 @@ void Player::Update()
 		isOnCollision_ = false;
 	}
 	
-	if (HP <= 0)
-	{
-		isDead_ = true;
-	}
+	
+
 
 	if (worldTransformBody_.translation_.x >= -2.5f && worldTransformBody_.translation_.x <= 13 && worldTransformBody_.translation_.z >= 123)
 	{
@@ -247,6 +256,7 @@ void Player::Pow() { pow_ = pow_ + 1; }
 
 
 
+
 void Player::BehaviorRootInitialize() {
 
 	worldTransformL_arm_.rotation_ = {0.0f, 0.0f, 0.0f};
@@ -310,12 +320,8 @@ void Player::BulletAttack()
 }
 
 void Player::OnCollision() { 
-	if (timer_ <= 0) {
-		isOnCollision_ = true;
-	}
-	HP = HP - 1;
-	
-
+	isDead_ = true;
+	//HP = HP - 1;
 }
 
 void Player::OnCollision2()

@@ -1,34 +1,38 @@
-#include "GameExplanationScene.h"
+#include "GameOverScene.h"
 
-GameExplanationScene::GameExplanationScene() {}
+GameOverScene::GameOverScene() {}
 
-GameExplanationScene::~GameExplanationScene(){
+GameOverScene::~GameOverScene(){
 
 };
 
-void GameExplanationScene::Initialize() {
+void GameOverScene::Initialize() {
 	dxCommon_ = DirectXCommon::GetInstance();
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 
-	uint32_t textureTitle = TextureManager::Load("ゲーム説明.png");
+	uint32_t textureTitle = TextureManager::Load("ゲームオーバー.png");
 
 	titlesprite_ =
 	    Sprite::Create(textureTitle, {640.0f, 360.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.5f, 0.5f});
 }
 
-void GameExplanationScene::Update() {
+void GameOverScene::Update() {
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
 		if (Input::GetInstance()->GetJoystickStatePrevious(0, prevjoyState)) {
 			if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A &&
 			    !(prevjoyState.Gamepad.wButtons & XINPUT_GAMEPAD_A)) {
 				isSceneEnd_ = true;
 			}
+			else if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_X &&
+			    !(prevjoyState.Gamepad.wButtons & XINPUT_GAMEPAD_X)) {
+				isGameScene_ = true;
+			}
 		}
 	}
 }
 
-void GameExplanationScene::Draw() {
+void GameOverScene::Draw() {
 	// コマンドリストの取得
 	ID3D12GraphicsCommandList* commandList = dxCommon_->GetCommandList();
 
@@ -74,6 +78,8 @@ void GameExplanationScene::Draw() {
 #pragma endregion
 }
 
-void GameExplanationScene::DrawUI() { titlesprite_->Draw(); }
+void GameOverScene::DrawUI() { titlesprite_->Draw(); }
 
-void GameExplanationScene::Reset() { isSceneEnd_ = false; }
+void GameOverScene::Reset() { isSceneEnd_ = false; 
+isGameScene_ = false;
+}

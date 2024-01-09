@@ -6,6 +6,7 @@
 	 worldTransform_.translation_ = {0.0f, 0.0f, 31.0f};
 	worldTransform_.Initialize();
 	 model_ = model;
+	isDead_ = false;
  }
 
 void FakeBullet::Update() 

@@ -40,18 +40,26 @@ public: // メンバ関数
 
 	void DrawUI();
 
+	void Reset();
+
 	bool IsSceneEnd() { return isSceneEnd_; }
 	Scene::SceneType NextScene() { return Scene::SceneType::kGamePlay; }
+
+	bool IsTitleScene() { return isTitleScene_; }
+	Scene::SceneType NextTitleScene() { return Scene::SceneType::kTitle; }
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
 	bool isSceneEnd_ = false;
+	bool isTitleScene_ = false;
 
-	//Sprite* titlesprite_ = nullptr;
+	Sprite* titlesprite_ = nullptr;
 
-	// Sprite* mojisprite_ = nullptr;
+	XINPUT_STATE joyState;
+	XINPUT_STATE prevjoyState;
 
+	
 	
 };

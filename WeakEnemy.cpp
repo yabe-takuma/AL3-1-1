@@ -1,8 +1,9 @@
 #include "WeakEnemy.h"
 #include"GameScene.h"
-
+#include<cassert>
 void WeakEnemy::Initialize(Vector3 position, Vector3 velocity) {
-	model_ = Model::CreateFromOBJ("WeakEnemy",true); 
+	
+	model_ = Model::CreateFromOBJ("WeakEnemy", true) ;
 
 	worldTransform_.translation_ = position;
 	seveposition_ = position;
@@ -10,6 +11,8 @@ void WeakEnemy::Initialize(Vector3 position, Vector3 velocity) {
 	velocity_ = velocity;
 
 	worldTransform_.Initialize();
+
+	isDead_ = false;
 }
 
 void WeakEnemy::Update() 
