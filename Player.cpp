@@ -39,11 +39,14 @@ void Player::Initialize(const std::vector<Model*>& models) {
 	attack_.bulletcooltime = 0;
 
 		modelbullet_.reset(Model::CreateFromOBJ("PlayerBullet", true));
-	pow_ = 10;
+	pow_ = 1;
 	   
 	isDead_ = false;
 	isClear_ = false;
 	sevepow_ = 0;
+
+	behavior_ = Behavior::kRoot;
+	
 }
 
 void Player::Update()
@@ -132,7 +135,7 @@ void Player::Update()
 	worldTransformR_arm_.UpdateMatrix();
 	worldTransformSord_.UpdateMatrix();
 
-	ImGui::Begin("player");
+	/*ImGui::Begin("player");
 	ImGui::DragFloat3("position", &worldTransformBody_.translation_.x, 0.1f);
 	ImGui::DragFloat3("position", &worldTransformHead_.translation_.x, 0.1f);
 	ImGui::DragFloat3("position", &worldTransformR_arm_.rotation_.x, 0.01f);
@@ -142,7 +145,7 @@ void Player::Update()
 	ImGui::DragInt("HP", &HP, 1);
 	ImGui::DragInt("Pow", &pow_, 1);
 
-	ImGui::End();
+	ImGui::End();*/
 }
 
 void Player::Draw(ViewProjection& viewProjection)
@@ -358,7 +361,7 @@ Vector3 Player::GetSordWorldRadius()
 
 	worldRadius.x = worldTransformSord_.scale_.x+3.0f;
 	worldRadius.y = worldTransformSord_.scale_.y+5.0f;
-	worldRadius.z = worldTransformSord_.scale_.z+50.0f;
+	worldRadius.z = worldTransformSord_.scale_.z+60.0f;
 	return worldRadius;
 }
 

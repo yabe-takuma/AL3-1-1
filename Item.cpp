@@ -7,7 +7,7 @@ void Item::Initialize(Model* model)
 	worldTransform_.Initialize();
 	worldTransform_.translation_ = {4.6f, 0.0f, 56.8f};
 	worldTransform_.rotation_ = {0.0f, 1.0f, 0.0f};
-	
+	isDead_ = false;
 }
 
 void Item::Update() 

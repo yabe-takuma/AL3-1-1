@@ -114,6 +114,22 @@ void GameScene::Initialize() {
 
 	player_->SetItem(item_.get());
 
+	explanation_ = std::make_unique<Explanation>();
+	explanation_->Initialize();
+
+	explanation_->SetFakeBullet(fakebullet_.get());
+	explanation_->SetItem(item_.get());
+
+	soundDataHandle_[0] = audio_->LoadWave("ゲーム中.wav");
+
+	audio_->PlayWave(soundDataHandle_[0]);
+
+	soundDataHandle_[1] = audio_->LoadWave("SE1.wav");
+
+	soundDataHandle_[2] = audio_->LoadWave("SE2.wav");
+
+	soundDataHandle_[3] = audio_->LoadWave("SE3.wav");
+
 }
 
 void GameScene::Update() { 
@@ -146,69 +162,77 @@ void GameScene::Update() {
 		// ビュープロジェクション行列の転送
 		viewprojection_.TransferMatrix();
 	} else {
-		viewprojection_.matView = followcamera_->GetViewProjection().matView;
-		viewprojection_.matProjection = followcamera_->GetViewProjection().matProjection;
-
-		viewprojection_.TransferMatrix();
+		
 		// ビュープロジェクション行列の更新と転送
 		//viewprojection_.UpdateMatrix();
 	}
 #endif
+	viewprojection_.matView = followcamera_->GetViewProjection().matView;
+	viewprojection_.matProjection = followcamera_->GetViewProjection().matProjection;
 
-	if (followcamera_ != nullptr) {
-		followcamera_->Update();
-	}
-
-	if (player_ != nullptr) {
-
-		player_->Update();
-	}
-	if (skydome_ != nullptr) {
-		skydome_->Update();
-	}
+	viewprojection_.TransferMatrix();
 	if (ground_ != nullptr) {
 		ground_->Update();
-	}
-	if (enemy_ != nullptr)
-	{
-		enemy_->Update();
 	}
 	for (const std::unique_ptr<Wall>& wall : walls_) {
 		if (wall != nullptr) {
 			wall->Update();
 		}
 	}
-	if (breakwall_ != nullptr)
-	{
+	if (followcamera_ != nullptr) {
+		followcamera_->Update();
+	}
+	if (breakwall_ != nullptr) {
 		breakwall_->Update();
 	}
-	if (fakewall_ != nullptr)
-	{
+	if (fakewall_ != nullptr) {
 		fakewall_->Update();
 	}
-	if (item_ != nullptr)
-	{
+	if (item_ != nullptr) {
 		item_->Update();
 	}
-	if (fakebullet_ != nullptr)
-	{
+	if (fakebullet_ != nullptr) {
 		fakebullet_->Update();
 	}
-
-		for (const std::unique_ptr<WeakEnemy>& weakenemy : weakenemys_) {
-		weakenemy->Update();
-	}
-
 	UpdateEnemyPopCommands();
 
 	UpdateWallPopCommands();
 
-	CheckAllCollisions();
+	
+	if (player_ != nullptr) {
 
-	if (player_->IsClear())
-	{
-		isGameClear_ = true;
+		player_->Update();
 	}
+	CheckAllCollisions();
+	if (explanation_->IsInput()) {
+		
+		if (skydome_ != nullptr) {
+			skydome_->Update();
+		}
+		
+		if (enemy_ != nullptr) {
+			enemy_->Update();
+		}
+		
+		
+
+		for (const std::unique_ptr<WeakEnemy>& weakenemy : weakenemys_) {
+			weakenemy->Update();
+		}
+
+		
+
+		if (player_->IsClear()) {
+			isGameClear_ = true;
+		}
+	}
+
+	if (explanation_->IsInput() == false)
+	{
+		explanation_->Update();
+	}
+
+	explanation_->PowExplanationUpdate();
 
 }
 
@@ -294,6 +318,13 @@ void GameScene::Draw() {
 	/// </summary>
 
 	DrawUI();
+
+	if (explanation_->IsInput()==false)
+	{
+		explanation_->DrawUI();
+	}
+
+	explanation_->PowExplanationDraw();
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
@@ -521,6 +552,7 @@ void GameScene::CheckAllCollisions() {
 			weakenemy->OnCollision();
 
 			player_->Pow();
+			audio_->PlayWave(soundDataHandle_[1]);
 		}
 	}
 #pragma endregion
@@ -533,15 +565,16 @@ void GameScene::CheckAllCollisions() {
 			// 敵弾の座標
 			posB = breakwall_->GetWorldPosition();
 
-			radiusA = player_->GetWorldRadius();
+			radiusA = player_->GetSordWorldRadius();
 			radiusB = breakwall_->GetWorldRadius();
 
-			if (CollisionDot(posA, posB, radiusA, radiusB)&&breakwall_->IsOnCollision()==false) {
+			if (CollisionDot(posA, posB, radiusA, radiusB)&&breakwall_->IsOnCollision()==false&&player_->IsSordAlive()) {
 	       
 				// 自弾の衝突時のコールバックを呼び出す
 				//player_->OnCollision();
 				// 敵弾の衝突時コールバックを呼び出す
 				breakwall_->OnCollision();
+		audio_->PlayWave(soundDataHandle_[1]);
 			}
 		
 #pragma endregion
@@ -627,6 +660,8 @@ void GameScene::CheckAllCollisions() {
 		    item_->OnCollision();
 		    // 敵弾の衝突時コールバックを呼び出す
 		    // breakwall_->OnCollision();
+
+			audio_->PlayWave(soundDataHandle_[2]);
 	            }
 
 #pragma endregion
@@ -681,6 +716,8 @@ void GameScene::CheckAllCollisions() {
 			bullet->OnCollision();
 			// 敵弾の衝突時コールバックを呼び出す
 			breakwall_->OnCollision();
+
+			audio_->PlayWave(soundDataHandle_[1]);
 		    }
 	            }
 
@@ -710,6 +747,7 @@ void GameScene::CheckAllCollisions() {
 			// 自弾の衝突時のコールバックを呼び出す
 		     fakebullet_->OnCollision();
 		
+			 audio_->PlayWave(soundDataHandle_[3]);
 		    }
 	            
 
@@ -746,6 +784,8 @@ void GameScene::GameReset()
 	enemy_->Initialize();
 	breakwall_->Initialize();
 	fakebullet_->Initialize(modelfakebullet_.get());
+	item_->Initialize(modelitem_.get());
+	explanation_->Initialize();
 }
 
 void GameScene::DrawUI() { 

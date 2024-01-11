@@ -25,6 +25,7 @@
 #include "Scene.h"
 #include"FakeBullet.h"
 #include"Sprite.h"
+#include"Explanation.h"
 
 /// <summary>
 /// ゲームシーン
@@ -166,6 +167,10 @@ private: // メンバ変数
 
 	std::unique_ptr<Sprite> scoresprite_[12];
 	uint32_t scoretexture_[10];
+
+	std::unique_ptr<Explanation> explanation_;
+
+	uint32_t soundDataHandle_[4] = {0, 0,0,0};
 
 	/// <summary>
 	/// ゲームシーン用

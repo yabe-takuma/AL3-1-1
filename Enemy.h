@@ -32,7 +32,7 @@ private:
 
 	Player* player_=nullptr;
 
-	float kSpeed_ = 0.1f;
+	float kSpeed_ = 0.13f;
 
 	bool isOnCollision_ = false;
 

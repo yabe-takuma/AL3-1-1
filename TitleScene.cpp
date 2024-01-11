@@ -12,9 +12,11 @@ void TitleScene::Initialize() {
 	audio_ = Audio::GetInstance();
 
 	uint32_t textureTitle = TextureManager::Load("タイトル.png");
+	
 
 	titlesprite_ =
 	    Sprite::Create(textureTitle, {640.0f, 360.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.5f, 0.5f});
+	
 	
 }
 
@@ -28,6 +30,8 @@ void TitleScene::Update() {
 			}
 		}
 	}
+	
+
 }
 
 void TitleScene::Draw() {
@@ -76,6 +80,11 @@ void TitleScene::Draw() {
 #pragma endregion
 }
 
-void TitleScene::DrawUI() { titlesprite_->Draw(); }
+void TitleScene::DrawUI() { titlesprite_->Draw();
+	
+
+}
 
 void TitleScene::Reset() { isSceneEnd_ = false; }
+
+

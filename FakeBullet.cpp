@@ -12,9 +12,9 @@
 void FakeBullet::Update() 
 { 
 	worldTransform_.UpdateMatrix(); 
-	ImGui::Begin("FakeBullet");
-	ImGui::DragFloat3("position", &worldTransform_.translation_.x, 0.1f);
-	ImGui::End();
+	//ImGui::Begin("FakeBullet");
+	//ImGui::DragFloat3("position", &worldTransform_.translation_.x, 0.1f);
+	//ImGui::End();
 }
 
 void FakeBullet::Draw(ViewProjection& viewProjection) 

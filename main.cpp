@@ -24,7 +24,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 	// ゲームウィンドウの作成
 	win = WinApp::GetInstance();
-	win->CreateGameWindow(L"LE2C_23_ヤベ_タクマ_AL4");
+	win->CreateGameWindow(L"LE2C_23_ヤベ_タクマ_ハンターから逃げろ");
 
 	// DirectX初期化処理
 	dxCommon = DirectXCommon::GetInstance();
@@ -134,6 +134,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			}
 			if (gameOverScene_->IsGameScene()) {
 				sceneNo = gameOverScene_->NextGameScene();
+				gameScene->GameReset();
 			}
 			break;
 
@@ -142,6 +143,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			gameclear->Update();
 			if (gameclear->IsSceneEnd()) {
 				sceneNo = gameclear->NextScene();
+				gameScene->GameReset();
 			}
 			if (gameclear->IsTitleScene()) {
 				sceneNo = gameclear->NextTitleScene();

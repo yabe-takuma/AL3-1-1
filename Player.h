@@ -10,6 +10,7 @@
 #include"PlayerBullet.h"
 #include<memory>
 
+
 class FakeBullet;
 
 class Item;
@@ -171,5 +172,7 @@ public:
 	Item* item_ = nullptr;
 
 	int32_t sevepow_;
+
+	
 
 };

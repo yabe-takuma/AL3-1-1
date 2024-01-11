@@ -9,6 +9,7 @@
 #include "ViewProjection.h"
 #include "WorldTransform.h"
 #include "Scene.h"
+#include"ImGuiManager.h"
 
 /// <summary>
 /// タイトルシーン
@@ -53,8 +54,15 @@ private: // メンバ変数
 	Input* input_ = nullptr;
 	Audio* audio_ = nullptr;
 	bool isSceneEnd_ = false;
+	bool isfadeout_ = false;
+
+	float fadeourposX = 640.0f;
+	float fadeourposY = -720.0f;
+
+	float velocity = 10.0f;
 
 	Sprite* titlesprite_ = nullptr;
+	Sprite* fadeout_ = nullptr;
 
 	XINPUT_STATE joyState;
 	XINPUT_STATE prevjoyState;
