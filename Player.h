@@ -12,6 +12,7 @@ class Player : public BaseCharacter {
 	enum class Behavior {
 		kRoot,//通常攻撃
 		kAttack,//攻撃中
+		kJump, //ジャンプ中
 	};
 
 	//攻撃モーション
@@ -41,6 +42,10 @@ public:
 	void BehaviorRootInitialize();
 	//攻撃行動初期化
 	void BeheviorAttackInitialize();
+	//ジャンプ行動初期化
+	void BehaviorJumpInitialize();
+	//ジャンプ行動更新
+	void BehaviorJumpUpdate();
 
 	void CameraSake();
 
@@ -100,5 +105,7 @@ public:
 	//次の振るまいをリクエスト
 	std::optional<Behavior> behaviorRequest_ = std::nullopt;
 
+	//速度
+	Vector3 velocity_ = {};
 	
 };

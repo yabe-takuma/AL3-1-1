@@ -161,6 +161,10 @@ void Player::BehaviorRootUpdate() {
 			behavior_ = Behavior::kAttack;
 		}
 
+		if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
+			behavior_ = Behavior::kJump;
+		}
+
 	}
 
 	// 座標移動(ベクトルの加算)
@@ -211,6 +215,36 @@ void Player::BeheviorAttackInitialize()
 
 }
 
+void Player::BehaviorJumpInitialize() {
+worldTransformBody_.translation_.y = 0;
+worldTransformL_arm_.rotation_.x = 0;
+worldTransformR_arm_.rotation_.x = 0;
+
+// ジャンプ初速
+const float kJumpFirstSpeed = 1.0f;
+// ジャンプ初速を与える
+velocity_ = {0.0f, kJumpFirstSpeed, 0.0f};
+}
+
+void Player::BehaviorJumpUpdate() 
+{
+	//移動
+worldTransformBody_.translation_ = Add(worldTransformBody_.translation_, velocity_);
+//重力加速度
+const float kGravilyAcceleration = 0.05f;
+//加速度ベクトル
+Vector3 accelerationVector = {0, -kGravilyAcceleration, 0};
+//加速する
+Add(velocity_, accelerationVector);
+//着地
+if (worldTransformBody_.translation_.y <= 0.0f)
+{
+		worldTransformBody_.translation_.y = 0;
+		//ジャンプ終了
+		behaviorRequest_ = Behavior::kRoot;
+}
+}
+
 
 
 float Player::EaseInBack(float x) { 
@@ -234,9 +268,11 @@ void Player::SetParent(const WorldTransform* parent) {
 void (Player::*Player::pBehaviorInitializeTable[])() = {
     &Player::BehaviorRootInitialize,
     &Player::BeheviorAttackInitialize,
+	&Player::BehaviorJumpInitialize,
 };
 
 void (Player::*Player::pBehaviorUpdateTable[])() = {
     &Player::BehaviorRootUpdate,
     &Player::BehaviorAttackUpdate,
+	&Player::BehaviorJumpUpdate,
 };
