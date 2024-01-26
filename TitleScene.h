@@ -24,4 +24,7 @@ private:
 	Audio* audio_ = nullptr;
 
 	bool isSceneEnd_ = false;
+
+	XINPUT_STATE joyState;
+	XINPUT_STATE prevjoyState;
 };
