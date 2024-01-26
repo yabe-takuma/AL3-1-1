@@ -1,6 +1,9 @@
 #pragma once
 class Scene {
 public:
-	enum class 
+	enum class SceneType { 
+		kTitle, 
+		kGamePlay,
+	};
 
 };
