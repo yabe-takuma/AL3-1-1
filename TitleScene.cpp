@@ -13,7 +13,7 @@ void TitleScene::Initialize() {
 
 	uint32_t textureTitle = TextureManager::Load("タイトルなし.png");
 
-	pos_ = {640.0f,0.0f};
+	pos_ = {640.0f,-360.0f};
 
 	velocity_ = {0.0f, 0.5f};
 

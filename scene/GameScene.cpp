@@ -60,9 +60,11 @@ void GameScene::Initialize() {
 		enemymodelR_arm_.get()};
 	enemy_->Initialize(enemymodels);
 
+	pos_ = {640.0f, 360.0f};
+
 	uint32_t textureTitle = TextureManager::Load("タイトルなし.png");
 	titlesprite_ =
-	    Sprite::Create(textureTitle, {640.0f, 360.0f}, {0.0f, 0.0f, 0.0f,1.0f}, {0.5f, 0.5f});
+	    Sprite::Create(textureTitle, pos_, {0.0f, 0.0f, 0.0f,1.0f}, {0.5f, 0.5f});
 
 }
 
@@ -109,7 +111,7 @@ void GameScene::Update() {
 	if (followcamera_ != nullptr) {
 		followcamera_->Update();
 	}
-	/*if (pos_.y >= -360.0f) {
+	if (pos_.y >= -360.0f) {
 		easing_.kAnimMaxtime = 50;
 		
 
@@ -119,7 +121,9 @@ void GameScene::Update() {
 
 		pos_.y -= easeoutbounce;
 		titlesprite_->SetPosition(pos_);
-	}*/
+	}
+
+	
 
 }
 
@@ -136,7 +140,7 @@ void GameScene::Draw() {
 	/// ここに背景スプライトの描画処理を追加できる
 	/// </summary>
 	
-	DrawUI();
+
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
@@ -179,7 +183,7 @@ void GameScene::Draw() {
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
 
-	
+		DrawUI();
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
