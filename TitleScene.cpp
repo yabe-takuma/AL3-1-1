@@ -36,10 +36,16 @@ void TitleScene::Update() {
 	}
 	
 	if (isFead_) {
-		
-		pos_.y += velocity_.y;
+		easing_.kAnimMaxtime = 50;
+	/*	pos_.y += velocity_.y;
+		titlesprite_[1]->SetPosition(pos_);*/
+		easing_.time++;
+		float frame = (float)easing_.time / easing_.kAnimMaxtime;
+		float easeoutbounce = easeOutBounce(frame * frame);
+
+		pos_.y += easeoutbounce;
 		titlesprite_[1]->SetPosition(pos_);
-		if (pos_.y >= 360.0f)
+		if (pos_.y >= 355.0f)
 		{
 			isFead_ = false;
 			isSceneEnd_ = true;
@@ -99,4 +105,20 @@ void TitleScene::Draw() {
 void TitleScene::DrawUI() 
 { titlesprite_[0]->Draw();
 	titlesprite_[1]->Draw();
+}
+
+float TitleScene::easeOutBounce(float x ) {
+	const float n1 = 7.5625f;
+	const float d1 = 2.75f;
+
+	if (x < 1 / d1) {
+		return n1 * x * x;
+	} else if (x < 2 / d1) {
+		return n1 * (x -= 1.5f / d1) * x + 0.75f;
+	} else if (x < 2.5f / d1) {
+		return n1 * (x -= 2.25f / d1) * x + 0.9375f;
+	} else {
+		return n1 * (x -= 2.625f / d1) * x + 0.984375f;
+	}
+	
 }

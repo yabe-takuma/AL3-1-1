@@ -7,6 +7,13 @@
 #include"Model.h"
 #include"Scene.h"
 class TitleScene {
+
+	struct Easing {
+		int32_t time;
+		int32_t kAnimMaxtime;
+	
+	};
+
 public:
 
 	TitleScene();
@@ -20,6 +27,8 @@ public:
 	void Draw();
 
 	void DrawUI();
+
+	float easeOutBounce(float x);
 
 	bool IsSceneEnd() { return isSceneEnd_; }
 	Scene::SceneType NextScene() { return Scene::SceneType::kGamePlay; }
@@ -39,6 +48,8 @@ private:
 	Vector2 velocity_;
 
 	Vector4 color_;
+	//モーション
+	Easing easing_;
 
 	XINPUT_STATE joyState;
 	XINPUT_STATE prevjoyState;

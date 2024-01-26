@@ -22,6 +22,11 @@
 /// </summary>
 class GameScene {
 
+	struct Easing {
+		int32_t time;
+		int32_t kAnimMaxtime;
+	};
+
 public: // メンバ関数
 	/// <summary>
 	/// コンストクラタ
@@ -47,6 +52,10 @@ public: // メンバ関数
 	/// 描画
 	/// </summary>
 	void Draw();
+
+	void DrawUI();
+
+	float easeOutBounce(float x);
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
@@ -91,6 +100,13 @@ private: // メンバ変数
 	std::unique_ptr<DebugCamera> debugCamera_;
 	// デバッグカメラ有効
 	bool isDebugCameraAcctive_ = false;
+
+	Sprite* titlesprite_ = nullptr;
+
+	// モーション
+	Easing easing_;
+
+	Vector2 pos_;
 
 	/// <summary>
 	/// ゲームシーン用

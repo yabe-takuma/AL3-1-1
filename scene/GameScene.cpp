@@ -60,18 +60,17 @@ void GameScene::Initialize() {
 		enemymodelR_arm_.get()};
 	enemy_->Initialize(enemymodels);
 
-	
+	uint32_t textureTitle = TextureManager::Load("タイトルなし.png");
+	titlesprite_ =
+	    Sprite::Create(textureTitle, {640.0f, 360.0f}, {0.0f, 0.0f, 0.0f,1.0f}, {0.5f, 0.5f});
 
 }
 
-void GameScene::Update() { 
-	
-	
+void GameScene::Update() {
 
 	if (player_ != nullptr) {
 
 		player_->Update();
-		
 	}
 	if (skydome_ != nullptr) {
 		skydome_->Update();
@@ -83,8 +82,6 @@ void GameScene::Update() {
 	if (enemy_ != nullptr) {
 		enemy_->Update();
 	}
-	
-	
 
 	debugCamera_->Update();
 #ifdef _DEBUG
@@ -99,22 +96,30 @@ void GameScene::Update() {
 		// ビュープロジェクション行列の転送
 		viewprojection_.TransferMatrix();
 	} else {
-		
+
 		viewprojection_.matProjection = followcamera_->GetViewProjection().matProjection;
 		viewprojection_.matView = followcamera_->GetViewProjection().matView;
 
 		viewprojection_.TransferMatrix();
 		// ビュープロジェクション行列の更新と転送
-		//viewprojection_.UpdateMatrix();
+		// viewprojection_.UpdateMatrix();
 	}
-
-	
 
 	// 追従カメラの更新
 	if (followcamera_ != nullptr) {
 		followcamera_->Update();
 	}
-	
+	/*if (pos_.y >= -360.0f) {
+		easing_.kAnimMaxtime = 50;
+		
+
+		easing_.time++;
+		float frame = (float)easing_.time / easing_.kAnimMaxtime;
+		float easeoutbounce = easeOutBounce(frame * frame);
+
+		pos_.y -= easeoutbounce;
+		titlesprite_->SetPosition(pos_);
+	}*/
 
 }
 
@@ -130,6 +135,8 @@ void GameScene::Draw() {
 	/// <summary>
 	/// ここに背景スプライトの描画処理を追加できる
 	/// </summary>
+	
+	DrawUI();
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
@@ -172,8 +179,28 @@ void GameScene::Draw() {
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
 
+	
+
 	// スプライト描画後処理
 	Sprite::PostDraw();
 
 #pragma endregion
+}
+
+void GameScene::DrawUI() 
+{ titlesprite_->Draw(); }
+
+float GameScene::easeOutBounce(float x) { 
+const float n1 = 7.5625f;
+	const float d1 = 2.75f;
+
+	if (x < 1 / d1) {
+		return n1 * x * x;
+	} else if (x < 2 / d1) {
+		return n1 * (x -= 1.5f / d1) * x + 0.75f;
+	} else if (x < 2.5f / d1) {
+		return n1 * (x -= 2.25f / d1) * x + 0.9375f;
+	} else {
+		return n1 * (x -= 2.625f / d1) * x + 0.984375f;
+	}
 }
