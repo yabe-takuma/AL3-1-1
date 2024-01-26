@@ -62,7 +62,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 	gameScene = new GameScene();
 	gameScene->Initialize();
 
-	
+	TitleScene* titleScene = new TitleScene();
+	titleScene->Initialize();
 
 	// メインループ
 	while (true) {
