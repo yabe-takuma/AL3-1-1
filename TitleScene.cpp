@@ -11,10 +11,18 @@ void TitleScene::Initialize() {
 	input_ = Input::GetInstance();
 	audio_ = Audio::GetInstance();
 
-	//uint32_t textureTitle = TextureManager::Load("タイトル.png");
+	uint32_t textureTitle = TextureManager::Load("タイトルなし.png");
 
-	/*titlesprite_ =
-	    Sprite::Create(textureTitle, {640.0f, 360.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.5f, 0.5f});*/
+	pos_ = {640.0f,0.0f};
+
+	velocity_ = {0.0f, 0.5f};
+
+	color_ = {0.0f, 0.0f, 0.0f, 1.0f};
+
+	titlesprite_[0] =
+	    Sprite::Create(textureTitle, {640.0f, 360.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.5f, 0.5f});
+
+	titlesprite_[1] = Sprite::Create(textureTitle, {pos_.x, pos_.y}, color_, {0.5f, 0.5f});
 }
 
 void TitleScene::Update() {
@@ -22,9 +30,21 @@ void TitleScene::Update() {
 		if (Input::GetInstance()->GetJoystickStatePrevious(0, prevjoyState)) {
 			if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A &&
 			    !(prevjoyState.Gamepad.wButtons & XINPUT_GAMEPAD_A)) {
-				isSceneEnd_ = true;
+				isFead_ = true;
 			}
 		}
+	}
+	
+	if (isFead_) {
+		
+		pos_.y += velocity_.y;
+		titlesprite_[1]->SetPosition(pos_);
+		if (pos_.y >= 360.0f)
+		{
+			isFead_ = false;
+			isSceneEnd_ = true;
+		}
+
 	}
 }
 
@@ -39,6 +59,8 @@ void TitleScene::Draw() {
 	/// <summary>
 	/// ここに背景スプライトの描画処理を追加できる
 	/// </summary>
+
+	DrawUI();
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
@@ -72,4 +94,9 @@ void TitleScene::Draw() {
 	Sprite::PostDraw();
 
 #pragma endregion
+}
+
+void TitleScene::DrawUI() 
+{ titlesprite_[0]->Draw();
+	titlesprite_[1]->Draw();
 }

@@ -104,8 +104,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 		// 描画開始
 		dxCommon->PreDraw();
-		// ゲームシーンの描画
-		gameScene->Draw();
+
+		switch (sceneNo) {
+		case Scene::SceneType::kTitle:
+			titleScene->Draw();
+
+			break;
+		case Scene::SceneType::kGamePlay:
+			// ゲームシーンの描画
+			gameScene->Draw();
+
+			break;
+		}
 		// 軸表示の描画
 		axisIndicator->Draw();
 		// プリミティブ描画のリセット
