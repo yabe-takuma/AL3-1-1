@@ -4,6 +4,7 @@
 #include "Input.h"
 #include "SafeDelete.h"
 #include "Sprite.h"
+#include"Model.h"
 class TitleScene {
 public:
 	void Initialize();
