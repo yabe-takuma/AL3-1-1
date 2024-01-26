@@ -72,7 +72,8 @@ public:
 
 	//ゲームパッドの状態を得る変数
 	XINPUT_STATE joyState;
-	XINPUT_STATE 
+
+	XINPUT_STATE prevjoyState;
 
 	//カメラのビュープロジェクション
 	const ViewProjection* viewProjection_ = nullptr;
