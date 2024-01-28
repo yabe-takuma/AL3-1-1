@@ -29,6 +29,20 @@ void Player::Initialize(const std::vector<Model*>& models) {
 
 void Player::Update() {
 	BaseCharacter::Update();
+
+	if (behavior_ == Behavior::kRoot)
+	{
+		havior_ = 0;
+	}
+	else if (behavior_ == Behavior::kAttack)
+	{
+		havior_ = 1;
+	}
+	else if (behavior_ == Behavior::kJump)
+	{
+		havior_ = 2;
+	}
+
 	if (behaviorRequest_) {
 	//振るまいを変更する
 		behavior_ = behaviorRequest_.value();
@@ -52,6 +66,7 @@ void Player::Update() {
 	
 	 ImGui::Begin("Windows");
 	ImGui::DragFloat("L_arm", &worldTransformL_arm_.rotation_.x, 0.01f);
+	 ImGui::DragInt("Behavior", &havior_, 1);
 	ImGui::End();
 	
 }
@@ -130,18 +145,19 @@ void Player::BehaviorRootUpdate() {
 		const float speed = 0.3f;
 
 		// 移動量
-		Vector3 move2 = {
+		//Vector3 move2 = 
+		velocity_={
 		    (float)joyState.Gamepad.sThumbLX / SHRT_MAX * speed, 0.0f,
 		    (float)joyState.Gamepad.sThumbLY / SHRT_MAX * speed};
 
 		// 移動量に速さを反映
-		move2 = Normalize(move2);
-		move2 = Multiply(speed, move2);
-		move2 = TransformNormal(move2, MakeRotateYMatrix(viewProjection_->rotation_.y));
-		if (move2.x != 0.0f) {
+		velocity_ = Normalize(velocity_);
+		velocity_ = Multiply(speed, velocity_);
+		velocity_ = TransformNormal(velocity_, MakeRotateYMatrix(viewProjection_->rotation_.y));
+		if (velocity_.x != 0.0f) {
 
-			worldTransform_.rotation_.y = std::atan2(move2.x, move2.z);
-			worldTransformBody_.rotation_.y = std::atan2(move2.x, move2.z);
+			worldTransform_.rotation_.y = std::atan2(velocity_.x, velocity_.z);
+			worldTransformBody_.rotation_.y = std::atan2(velocity_.x, velocity_.z);
 			/*worldTransformHead_.rotation_.y = std::atan2(move2.x, move2.z);
 			worldTransformL_arm_.rotation_.y = std::atan2(move2.x, move2.z);
 			worldTransformR_arm_.rotation_.y = std::atan2(move2.x, move2.z);*/
@@ -151,8 +167,8 @@ void Player::BehaviorRootUpdate() {
 		move2 = Multiply2(move2,MakeRotateYMatrix(cameraspeed));*/
 
 		// 移動
-		worldTransform_.translation_ = Add(worldTransform_.translation_, move2);
-		worldTransformBody_.translation_ = Add(worldTransformBody_.translation_, move2);
+		worldTransform_.translation_ = Add(worldTransform_.translation_, velocity_);
+		worldTransformBody_.translation_ = Add(worldTransformBody_.translation_, velocity_);
 		/*worldTransformHead_.translation_ = Add(worldTransformHead_.translation_, move2);
 		worldTransformL_arm_.translation_ = Add(worldTransformL_arm_.translation_, move2);
 		worldTransformR_arm_.translation_ = Add(worldTransformR_arm_.translation_, move2);*/
@@ -161,12 +177,12 @@ void Player::BehaviorRootUpdate() {
 			behavior_ = Behavior::kAttack;
 		}
 		
-		if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A &&
-		    !(prevjoyState.Gamepad.wButtons & XINPUT_GAMEPAD_A)) {
+		if (joyState.Gamepad.wButtons == XINPUT_GAMEPAD_A) {
 			behavior_ = Behavior::kJump;
 		}
-
 	}
+		
+	
 
 	// 座標移動(ベクトルの加算)
 	// worldTransform_.translation_ = Add(worldTransform_.translation_, move);
@@ -224,7 +240,7 @@ worldTransformR_arm_.rotation_.x = 0;
 // ジャンプ初速
 const float kJumpFirstSpeed = 1.0f;
 // ジャンプ初速を与える
-velocity_ = {0.0f, kJumpFirstSpeed, 0.0f};
+velocity_.y = kJumpFirstSpeed;
 }
 
 void Player::BehaviorJumpUpdate() 

@@ -51,7 +51,7 @@ public:
 
 	float EaseInBack(float x);
 
-	const WorldTransform& GetWorldTransform() { return worldTransform_; }
+	const WorldTransform& GetWorldTransform() { return worldTransformBody_; }
 
 	/// <summary>
 	/// 親となるワールドトランスフォームをセット
@@ -102,7 +102,7 @@ public:
 
 	static void (Player::*pBehaviorUpdateTable[])();
 
-
+	int32_t havior_=0;
 
 	//次の振るまいをリクエスト
 	std::optional<Behavior> behaviorRequest_ = std::nullopt;
