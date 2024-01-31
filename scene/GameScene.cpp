@@ -22,7 +22,7 @@ void GameScene::Initialize() {
 	player_ = std::make_unique<Player>();
 	modelFighterBody_.reset(Model::CreateFromOBJ("float_Body", true));
 	modelFighterHead_.reset(Model::CreateFromOBJ("float_Head", true));
-	modelFighterL_arm_.reset(Model::CreateFromOBJ("float_L_arm", true));
+	modelFighterL_arm_.reset(Model::CreateFromOBJ("HurmanR_feed2", true));
 	modelFighterR_arm_.reset(Model::CreateFromOBJ("float_R_arm", true));
 	modelPlayerHammer_.reset(Model::CreateFromOBJ("hammer", true));
 	//自キャラモデル
