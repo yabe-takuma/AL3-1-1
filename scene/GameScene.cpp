@@ -130,6 +130,9 @@ void GameScene::Initialize() {
 
 	soundDataHandle_[3] = audio_->LoadWave("SE3.wav");
 
+	uint32_t textureTitle = TextureManager::Load("タイトルなし.png");
+	titlesprite_ = Sprite::Create(textureTitle, pos_, {0.0f, 0.0f, 0.0f, 1.0f}, {0.5f, 0.5f});
+
 }
 
 void GameScene::Update() { 
