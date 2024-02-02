@@ -51,6 +51,8 @@ public: // メンバ関数
 
 	void Reset();
 
+	float easeOutBounce(float x);
+
 	bool IsSceneEnd() { return isSceneEnd_; }
 	Scene::SceneType NextScene() { return Scene::SceneType::kGameExplanation; }
 
