@@ -25,12 +25,27 @@ void TitleScene::Update() {
 		if (Input::GetInstance()->GetJoystickStatePrevious(0, prevjoyState)) {
 			if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A&&
 				    !(prevjoyState.Gamepad.wButtons & XINPUT_GAMEPAD_A)) {
-				isSceneEnd_ = true;
+				isFead_ = true;
 			
 			}
 		}
 	}
 	
+		if (isFead_) {
+		easing_.kAnimMaxtime = 50;
+		/*	pos_.y += velocity_.y;
+		    titlesprite_[1]->SetPosition(pos_);*/
+		easing_.time++;
+		float frame = (float)easing_.time / easing_.kAnimMaxtime;
+		float easeoutbounce = easeOutBounce(frame * frame);
+
+		pos_.y += easeoutbounce;
+		titlesprite_[1]->SetPosition(pos_);
+		if (pos_.y >= 355.0f) {
+			isFead_ = false;
+			isSceneEnd_ = true;
+		}
+	}
 
 }
 
