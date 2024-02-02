@@ -96,7 +96,7 @@ void TitleScene::Draw() {
 }
 
 void TitleScene::DrawUI() { titlesprite_->Draw();
-	
+	titlesprite_[1]->Draw();
 
 }
 
