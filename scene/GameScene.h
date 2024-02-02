@@ -32,6 +32,11 @@
 /// </summary>
 class GameScene {
 
+	struct Easing {
+		int32_t time;
+		int32_t kAnimMaxtime;
+	};
+
 public: // メンバ関数
 	/// <summary>
 	/// コンストクラタ
