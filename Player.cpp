@@ -177,7 +177,8 @@ void Player::BehaviorRootUpdate() {
 			behavior_ = Behavior::kAttack;
 		}
 		
-		if (joyState.Gamepad.wButtons == XINPUT_GAMEPAD_A) {
+		if (joyState.Gamepad.wButtons == XINPUT_GAMEPAD_A&&
+				    !prevjoyState.Gamepad.wButtons == XINPUT_GAMEPAD_A) {
 			behavior_ = Behavior::kJump;
 		}
 	}
