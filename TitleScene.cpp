@@ -17,7 +17,7 @@ void TitleScene::Initialize() {
 	titlesprite_ =
 	    Sprite::Create(textureTitle, {640.0f, 360.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.5f, 0.5f});
 	
-	
+	titlesprite_[1] = Sprite::Create(textureTitle, {pos_.x, pos_.y}, color_, {0.5f, 0.5f});
 }
 
 void TitleScene::Update() {
