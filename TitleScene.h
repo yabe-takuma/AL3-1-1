@@ -64,6 +64,16 @@ private: // メンバ変数
 	Sprite* titlesprite_ = nullptr;
 	Sprite* fadeout_ = nullptr;
 
+		bool isFead_ = false;
+
+	Vector2 pos_;
+
+	Vector2 velocity_;
+
+	Vector4 color_;
+	// モーション
+	Easing easing_;
+
 	XINPUT_STATE joyState;
 	XINPUT_STATE prevjoyState;
 };
