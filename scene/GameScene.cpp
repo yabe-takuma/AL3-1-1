@@ -130,8 +130,8 @@ void GameScene::Initialize() {
 
 	soundDataHandle_[3] = audio_->LoadWave("SE3.wav");
 
-	uint32_t textureTitle = TextureManager::Load("タイトルなし.png");
-	titlesprite_ = Sprite::Create(textureTitle, pos_, {0.0f, 0.0f, 0.0f, 1.0f}, {0.5f, 0.5f});
+	uint32_t texturefead = TextureManager::Load("タイトルなし.png");
+	Feadsprite_.reset(Sprite::Create(texturefead, pos_, {0.0f, 0.0f, 0.0f, 1.0f}, {0.5f, 0.5f}));
 
 }
 
@@ -826,6 +826,9 @@ void GameScene::DrawUI() {
 	} else if (player_->GetPow() >= 20 &&player_->GetPow() <= 29) {
 		scoresprite_[11]->Draw();
 	}
+
+	Feadsprite_->Draw();
+
 }
 
 void GameScene::ScoreInitialize() 
@@ -961,7 +964,7 @@ void GameScene::UpdateWallPopCommands()
 	        }
 }
 
-void GameScene::DrawUI() { titlesprite_->Draw(); }
+
 
 float GameScene::easeOutBounce(float x) {
 	        const float n1 = 7.5625f;

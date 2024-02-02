@@ -85,6 +85,8 @@ public: // メンバ関数
 
 	void ScoreInitialize();
 
+	float easeOutBounce(float x);
+
 	// 弾リストを取得
 	const std::list <std::unique_ptr<WeakEnemy>>& GetWeakEnemys() const { return weakenemys_; }
 
@@ -177,7 +179,7 @@ private: // メンバ変数
 
 	uint32_t soundDataHandle_[4] = {0, 0,0,0};
 
-	Sprite* titlesprite_ = nullptr;
+	std::unique_ptr<Sprite> Feadsprite_;
 
 	// モーション
 	Easing easing_;
