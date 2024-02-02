@@ -172,6 +172,13 @@ private: // メンバ変数
 
 	uint32_t soundDataHandle_[4] = {0, 0,0,0};
 
+	Sprite* titlesprite_ = nullptr;
+
+	// モーション
+	Easing easing_;
+
+	Vector2 pos_;
+
 	/// <summary>
 	/// ゲームシーン用
 	/// </summary>
