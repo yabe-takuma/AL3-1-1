@@ -66,7 +66,7 @@ private: // メンバ変数
 
 	float velocity = 10.0f;
 
-	Sprite* titlesprite_ = nullptr;
+	Sprite* titlesprite_[2] = {nullptr,nullptr};
 	Sprite* fadeout_ = nullptr;
 
 		bool isFead_ = false;
