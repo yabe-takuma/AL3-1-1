@@ -10,7 +10,7 @@ void Player::Initialize(const std::vector<Model*>& models) {
 
 	SetParent(&worldTransformBody_);
 
-	worldTransformBody_.translation_ = {0.0f, 0.5f, 0.0f};
+	worldTransformBody_.translation_ = {0.0f, 0.0f, 0.0f};
 	worldTransformHead_.translation_ = {0.0f, 1.5f, 0.0f};
 	worldTransformL_arm_.translation_ = {-0.5f, 1.3f, 0.0f};
 	worldTransformR_arm_.translation_ = {0.5f, 1.3f, 0.0f};
@@ -66,7 +66,10 @@ void Player::Update() {
 	
 	 ImGui::Begin("Windows");
 	ImGui::DragFloat("L_arm", &worldTransformL_arm_.rotation_.x, 0.01f);
+	 ImGui::DragFloat3("Body", &worldTransformBody_.translation_.x, 0.01f);
 	 ImGui::DragInt("Behavior", &havior_, 1);
+	 ImGui::DragFloat3("Velocity", &velocity_.x, 1.1f);
+	 ImGui::DragInt("L_arm", &attack_.time, 0.01f);
 	ImGui::End();
 	
 }
@@ -109,7 +112,7 @@ void Player::UpdateFloatingGimmick() {
 	//浮遊の振幅<π>
 	const float floatingAmplitude = 0.3f;
 	//浮遊を座標に反映
-	worldTransformBody_.translation_.y = std::sin(floatingParameter_) * floatingAmplitude-0.5f;
+	worldTransformBody_.translation_.y = std::sin(floatingParameter_) * floatingAmplitude;
 	
 
 	worldTransformL_arm_.rotation_.x = std::sin(floatingParameter_) * floatingAmplitude;
@@ -145,7 +148,7 @@ void Player::BehaviorRootUpdate() {
 		const float speed = 0.3f;
 
 		// 移動量
-		//Vector3 move2 = 
+		/*Vector3 move2 = */
 		velocity_={
 		    (float)joyState.Gamepad.sThumbLX / SHRT_MAX * speed, 0.0f,
 		    (float)joyState.Gamepad.sThumbLY / SHRT_MAX * speed};
@@ -174,12 +177,13 @@ void Player::BehaviorRootUpdate() {
 		worldTransformR_arm_.translation_ = Add(worldTransformR_arm_.translation_, move2);*/
 
 		if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_B) {
-			behavior_ = Behavior::kAttack;
+			behaviorRequest_ = Behavior::kAttack;
 		}
 		
-		if (joyState.Gamepad.wButtons == XINPUT_GAMEPAD_A&&
-				    !prevjoyState.Gamepad.wButtons == XINPUT_GAMEPAD_A) {
-			behavior_ = Behavior::kJump;
+		if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A) {
+		
+
+			behaviorRequest_ = Behavior::kJump;
 		}
 	}
 		
@@ -246,14 +250,21 @@ velocity_.y = kJumpFirstSpeed;
 
 void Player::BehaviorJumpUpdate() 
 {
-	//移動
+
+
+	velocity_ = TransformNormal(velocity_, MakeRotateYMatrix(viewProjection_->rotation_.y));
+// 移動
 worldTransformBody_.translation_ = Add(worldTransformBody_.translation_, velocity_);
-//重力加速度
+
+// 重力加速度
 const float kGravilyAcceleration = 0.05f;
-//加速度ベクトル
+// 加速度ベクトル
 Vector3 accelerationVector = {0, -kGravilyAcceleration, 0};
-//加速する
-Add(velocity_, accelerationVector);
+
+// 加速する
+velocity_ = Add(velocity_, accelerationVector);		
+	       
+
 //着地
 if (worldTransformBody_.translation_.y <= 0.0f)
 {
