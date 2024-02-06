@@ -191,6 +191,26 @@ void Player::BehaviorRootUpdate()
 		// 座標移動(ベクトルの加算)
 		worldTransformBody_.translation_ = Add(worldTransformBody_.translation_, move);
 	}
+	attack_.kAnimMaxtime = 50;
+	attack_.time++;
+	if (attack_.time<attack_.kAnimMaxtime) {
+		
+		
+		float frame = (float)attack_.time / attack_.kAnimMaxtime;
+		float easing = easeOutQuad(frame);
+		worldTransformL_arm_.rotation_.y = worldTransformL_arm_.rotation_.y + easing;
+		worldTransformR_arm_.rotation_.y = worldTransformR_arm_.rotation_.y + easing;
+	}
+	else if (attack_.time >300)
+	{
+		attack_.time = 0;
+		
+	}
+	if (attack_.time > attack_.kAnimMaxtime)
+	{
+		worldTransformL_arm_.rotation_.y = 0.0f;
+		worldTransformR_arm_.rotation_.y = 0.0f;
+	}
 
 	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_B) {
 		behavior_ = Behavior::kAttack;
@@ -388,4 +408,9 @@ void Player::UpdateFloatingGimmick() {
 
 	worldTransformL_arm_.rotation_.x = std::sin(floatingParameter_) * floatingAmplitude;
 	worldTransformR_arm_.rotation_.x = std::sin(floatingParameter_) * floatingAmplitude;
+}
+
+float Player::easeOutQuad(float x) 
+{ 
+	return 1 - (1 - x) * (1 - x); 
 }

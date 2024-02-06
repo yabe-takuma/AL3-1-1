@@ -159,6 +159,8 @@ private: // メンバ変数
 
    Vector3 scale_;
 
+   Easing easing_;
+
 	//デバッグカメラ
 	std::unique_ptr<DebugCamera> debugCamera_;
 	// デバッグカメラ有効
@@ -181,8 +183,7 @@ private: // メンバ変数
 
 	std::unique_ptr<Sprite> Feadsprite_;
 
-	// モーション
-	Easing easing_;
+	
 
 	Vector2 pos_;
 

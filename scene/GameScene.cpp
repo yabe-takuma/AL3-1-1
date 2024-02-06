@@ -130,13 +130,26 @@ void GameScene::Initialize() {
 
 	soundDataHandle_[3] = audio_->LoadWave("SE3.wav");
 
+	pos_ = {640.0f, 360.0f};
+
 	uint32_t texturefead = TextureManager::Load("タイトルなし.png");
 	Feadsprite_.reset(Sprite::Create(texturefead, pos_, {0.0f, 0.0f, 0.0f, 1.0f}, {0.5f, 0.5f}));
 
 }
 
 void GameScene::Update() { 
-	
+	if (pos_.y >= -360.0f) {
+		easing_.time++;
+		easing_.kAnimMaxtime = 50;
+		/*	pos_.y += velocity_.y;
+		    titlesprite_[1]->SetPosition(pos_);*/
+
+		float frame= (float)easing_.time / easing_.kAnimMaxtime;
+		float easeoutbounce = easeOutBounce(frame * frame);
+
+		pos_.y -= easeoutbounce;
+		Feadsprite_->SetPosition(pos_);
+	}
 		// デスフラグの立った弾を削除
 	weakenemys_.remove_if([](std::unique_ptr<WeakEnemy>& weakenemys) {
 		if (weakenemys->IsDead()) {
@@ -322,12 +335,12 @@ void GameScene::Draw() {
 
 	DrawUI();
 
-	if (explanation_->IsInput()==false)
+	/*if (explanation_->IsInput()==false)
 	{
 		explanation_->DrawUI();
 	}
 
-	explanation_->PowExplanationDraw();
+	explanation_->PowExplanationDraw();*/
 
 	// スプライト描画後処理
 	Sprite::PostDraw();

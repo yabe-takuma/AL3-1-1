@@ -98,6 +98,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			if (titleScene->IsSceneEnd()) {
 				// 次のシーンの値を代入してシーンを切り替え
 				sceneNo = titleScene->NextScene();
+				gameScene->GameReset();
 			}
 
 			break;

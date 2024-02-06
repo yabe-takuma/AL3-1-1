@@ -106,6 +106,8 @@ public:
 
 	void SetItem(Item* item) { item_ = item; }
 
+	float easeOutQuad(float x);
+
 	private:
 	//ワールド変換データ
 	WorldTransform worldTransform_;

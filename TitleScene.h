@@ -54,7 +54,7 @@ public: // メンバ関数
 	float easeOutBounce(float x);
 
 	bool IsSceneEnd() { return isSceneEnd_; }
-	Scene::SceneType NextScene() { return Scene::SceneType::kGameExplanation; }
+	Scene::SceneType NextScene() { return Scene::SceneType::kGamePlay; }
 
 private: // メンバ変数
 	DirectXCommon* dxCommon_ = nullptr;
@@ -68,18 +68,19 @@ private: // メンバ変数
 
 	float velocity = 10.0f;
 
-	Sprite* titlesprite_[2] = {nullptr,nullptr};
+	Sprite* titlesprite_[3] = {nullptr,nullptr,nullptr};
 	Sprite* fadeout_ = nullptr;
 
 		bool isFead_ = false;
 
-	Vector2 pos_;
+	Vector2 pos_[2];
+	   
 
-	Vector2 velocity_;
+	Vector2 velocity_[2];
 
 	Vector4 color_;
 	// モーション
-	Easing easing_;
+	Easing easing_[2];
 
 	XINPUT_STATE joyState;
 	XINPUT_STATE prevjoyState;
