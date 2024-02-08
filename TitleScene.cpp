@@ -14,8 +14,19 @@ void TitleScene::Initialize() {
 	uint32_t textureTitle = TextureManager::Load("タイトル.png");
 	
 
-	titlesprite_ =
-	    Sprite::Create(textureTitle, {640.0f, 360.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.5f, 0.5f});
+pos_[0] = {640.0f, -360.0f};
+	pos_[1] = {1920.0f, 360.0f};
+	velocity_[0] = {0.0f, 0.5f};
+	velocity_[1] = {0.5f, 0.0f};
+
+	color_ = {0.0f, 0.0f, 0.0f, 1.0f};
+
+	titlesprite_[0] = Sprite::Create(
+	    textureTitle, {pos_[1].x, pos_[1].y}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.5f, 0.5f});
+
+	titlesprite_[1] = Sprite::Create(textureTitle, {pos_[0].x, pos_[0].y}, color_, {0.5f, 0.5f});
+
+	titlesprite_[2] = Sprite::Create(textureTitle, {640.0f, 360.0f}, color_, {0.5f, 0.5f});
 	
 	
 }
