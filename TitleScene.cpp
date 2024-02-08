@@ -121,8 +121,10 @@ void TitleScene::Draw() {
 #pragma endregion
 }
 
-void TitleScene::DrawUI() { titlesprite_->Draw();
-	
+void TitleScene::DrawUI() {
+	titlesprite_[2]->Draw();
+	titlesprite_[0]->Draw();
+	titlesprite_[1]->Draw();
 
 }
 
