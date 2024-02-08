@@ -15,19 +15,48 @@ void GameOverScene::Initialize() {
 
 	titlesprite_ =
 	    Sprite::Create(textureTitle, {640.0f, 360.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.5f, 0.5f});
+
+	pos_ = {640.0f, 360.0f};
+
+	color_ = {0.0f, 0.0f, 0.0f, 1.0f};
+
+	uint32_t texturefead = TextureManager::Load("タイトル.png");
+	Feadsprite_ = Sprite::Create(texturefead, pos_, color_, {0.5f, 0.5f});
 }
 
 void GameOverScene::Update() {
+
+	if (isFead_[0] == false && isFead_[1]==false) {
+		color_.w -= 0.005f;
+		Feadsprite_->SetColor(color_);
+	}
+
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
 		if (Input::GetInstance()->GetJoystickStatePrevious(0, prevjoyState)) {
 			if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A &&
 			    !(prevjoyState.Gamepad.wButtons & XINPUT_GAMEPAD_A)) {
-				isSceneEnd_ = true;
+				isFead_[0] = true;
 			}
 			else if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_X &&
 			    !(prevjoyState.Gamepad.wButtons & XINPUT_GAMEPAD_X)) {
-				isGameScene_ = true;
+				isFead_[1] = true;
 			}
+		}
+	}
+	if (isFead_[0]) {
+		color_.w += 0.005f;
+		Feadsprite_->SetColor(color_);
+		if (color_.w >= 1.0f) {
+			isSceneEnd_ = true;
+			isFead_[0] = false;
+		}
+	} 
+	if (isFead_[1]) {
+		color_.w += 0.005f;
+		Feadsprite_->SetColor(color_);
+		if (color_.w >= 1.0f) {
+			isGameScene_ = true;
+			isFead_[1] = false;
 		}
 	}
 }
@@ -78,8 +107,12 @@ void GameOverScene::Draw() {
 #pragma endregion
 }
 
-void GameOverScene::DrawUI() { titlesprite_->Draw(); }
+void GameOverScene::DrawUI() { titlesprite_->Draw();
+	Feadsprite_->Draw();
+}
 
 void GameOverScene::Reset() { isSceneEnd_ = false; 
 isGameScene_ = false;
+	color_ = {0.0f, 0.0f, 0.0f, 1.0f};
+Feadsprite_->SetColor(color_);
 }

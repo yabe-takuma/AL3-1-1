@@ -92,17 +92,18 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 		input->Update();
 		switch (sceneNo) {
 		case Scene::SceneType::kTitle:
-			titleScene->Reset();
+			
 			titleScene->Update();
 			
 			if (titleScene->IsSceneEnd()) {
 				// 次のシーンの値を代入してシーンを切り替え
 				sceneNo = titleScene->NextScene();
+				gameexplanationScene->Reset();
 			}
 
 			break;
 		case Scene::SceneType::kGameExplanation:
-			gameexplanationScene->Reset();
+			
 			gameexplanationScene->Update();
 
 			if (gameexplanationScene->IsSceneEnd()) {
@@ -118,19 +119,22 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
 			if (gameScene->IsGameClear()) {
 				sceneNo = gameScene->NextGameScene();
+				gameclear->Reset();
 			}
 
 			if (gameScene->IsGameOver()) {
 				sceneNo = gameScene->NextGameOverScene();
+				gameOverScene_->Reset();
 			}
 
 			break;
 
 		case Scene::SceneType::kGameOver:
-			gameOverScene_->Reset();
+		
 			gameOverScene_->Update();
 			if (gameOverScene_->IsSceneEnd()) {
 				sceneNo = gameOverScene_->NextScene();
+				titleScene->Reset();
 			}
 			if (gameOverScene_->IsGameScene()) {
 				sceneNo = gameOverScene_->NextGameScene();
@@ -139,7 +143,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			break;
 
 		case Scene::SceneType::kGameClear:
-			gameclear->Reset();
+			
 			gameclear->Update();
 			if (gameclear->IsSceneEnd()) {
 				sceneNo = gameclear->NextScene();
@@ -147,6 +151,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 			}
 			if (gameclear->IsTitleScene()) {
 				sceneNo = gameclear->NextTitleScene();
+				titleScene->Reset();
 			}
 
 			break;

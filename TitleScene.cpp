@@ -128,7 +128,14 @@ void TitleScene::DrawUI() {
 
 }
 
-void TitleScene::Reset() { isSceneEnd_ = false; }
+void TitleScene::Reset() { isSceneEnd_ = false;
+	pos_[0] = {640.0f, -360.0f};
+	titlesprite_[1]->SetPosition(pos_[0]);
+	pos_[1] = {1920.0f, 360.0f};
+	titlesprite_[0]->SetPosition(pos_[1]);
+	easing_[0].time = 0;
+	easing_[1].time = 0;
+}
 
 float TitleScene::easeOutBounce(float x) {
 	const float n1 = 7.5625f;

@@ -112,7 +112,13 @@ void GameExplanationScene::DrawUI() { titlesprite_->Draw();
 	Feadsprite_->Draw();
 }
 
-void GameExplanationScene::Reset() { isSceneEnd_ = false; }
+void GameExplanationScene::Reset() { isSceneEnd_ = false;
+	pos_ = {640.0f, 360.0f};
+	Feadsprite_->SetPosition(pos_);
+	
+	easing_.time = 0;
+	
+}
 
 float GameExplanationScene::easeOutBounce(float x) {
 	const float n1 = 7.5625f;

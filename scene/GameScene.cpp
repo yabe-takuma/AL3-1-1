@@ -130,6 +130,8 @@ void GameScene::Initialize() {
 
 	soundDataHandle_[3] = audio_->LoadWave("SE3.wav");
 
+		pos_ = {640.0f, 360.0f};
+
 	uint32_t texturefead = TextureManager::Load("タイトル.png");
 	Feadsprite_.reset (Sprite::Create(texturefead, pos_, {0.0f, 0.0f, 0.0f, 1.0f}, {0.5f, 0.5f}));
 
@@ -333,7 +335,7 @@ void GameScene::Draw() {
 	/// ここに前景スプライトの描画処理を追加できる
 	/// </summary>
 
-	DrawUI();
+
 
 	if (explanation_->IsInput()==false)
 	{
@@ -341,6 +343,8 @@ void GameScene::Draw() {
 	}
 
 	explanation_->PowExplanationDraw();
+
+	DrawUI();
 
 	// スプライト描画後処理
 	Sprite::PostDraw();
@@ -802,6 +806,11 @@ void GameScene::GameReset()
 	fakebullet_->Initialize(modelfakebullet_.get());
 	item_->Initialize(modelitem_.get());
 	explanation_->Initialize();
+
+	pos_ = {640.0f, 360.0f};
+	Feadsprite_->SetPosition(pos_);
+
+	easing_.time = 0;
 }
 
 void GameScene::DrawUI() { 

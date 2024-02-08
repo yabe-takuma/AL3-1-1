@@ -60,6 +60,13 @@ private: // メンバ変数
 	XINPUT_STATE joyState;
 	XINPUT_STATE prevjoyState;
 
+	Sprite* Feadsprite_ = nullptr;
+
+	Vector2 pos_;
+
+	Vector4 color_;
+
+	bool isFead_[2] = {false,false};
 	
 	
 };
