@@ -30,6 +30,36 @@ void TitleScene::Update() {
 			}
 		}
 	}
+
+	if (isFead_) {
+		easing_[0].kAnimMaxtime = 50;
+		/*	pos_.y += velocity_.y;
+		    titlesprite_[1]->SetPosition(pos_);*/
+		easing_[0].time++;
+		float frame = (float)easing_[0].time / easing_[0].kAnimMaxtime;
+		float easeoutbounce = easeOutBounce(frame * frame);
+
+		pos_[0].y += easeoutbounce;
+		titlesprite_[1]->SetPosition(pos_[0]);
+		if (pos_[0].y >= 355.0f) {
+			isFead_ = false;
+			isSceneEnd_ = true;
+		}
+	}
+
+	// if (easing_.time >= 50) {
+	if (pos_[1].x >= 640.0f) {
+		easing_[1].time++;
+		easing_[1].kAnimMaxtime = 50;
+		/*	pos_.y += velocity_.y;
+		    titlesprite_[1]->SetPosition(pos_);*/
+
+		float frame2 = (float)easing_[1].time / easing_[1].kAnimMaxtime;
+		float easeoutbounce2 = easeOutBounce(frame2 * frame2);
+
+		pos_[1].x -= easeoutbounce2;
+		titlesprite_[0]->SetPosition(pos_[1]);
+	}
 	
 
 }
