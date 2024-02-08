@@ -63,8 +63,18 @@ private: // メンバ変数
 
 	float velocity = 10.0f;
 
-	Sprite* titlesprite_ = nullptr;
+	Sprite* titlesprite_[3] = {nullptr, nullptr, nullptr};
 	Sprite* fadeout_ = nullptr;
+
+	bool isFead_ = false;
+
+	Vector2 pos_[2];
+
+	Vector2 velocity_[2];
+
+	Vector4 color_;
+	// モーション
+	Easing easing_[2];
 
 	XINPUT_STATE joyState;
 	XINPUT_STATE prevjoyState;
