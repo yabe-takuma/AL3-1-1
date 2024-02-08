@@ -51,6 +51,10 @@ private: // メンバ変数
 
 	Sprite* titlesprite_ = nullptr;
 
+	Sprite* Feadsprite_=nullptr;
+
+	Vector2 pos_;
+
 	XINPUT_STATE joyState;
 	XINPUT_STATE prevjoyState;
 };
