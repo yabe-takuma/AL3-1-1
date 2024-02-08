@@ -15,6 +15,11 @@ void GameExplanationScene::Initialize() {
 
 	titlesprite_ =
 	    Sprite::Create(textureTitle, {640.0f, 360.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.5f, 0.5f});
+
+	pos_ = {640.0f, 360.0f};
+
+	uint32_t texturefead = TextureManager::Load("タイトルなし.png");
+	Feadsprite_.reset(Sprite::Create(texturefead, pos_, {0.0f, 0.0f, 0.0f, 1.0f}, {0.5f, 0.5f}));
 }
 
 void GameExplanationScene::Update() {
