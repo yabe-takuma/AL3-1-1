@@ -18,6 +18,18 @@ void GameExplanationScene::Initialize() {
 }
 
 void GameExplanationScene::Update() {
+	if (pos_.y >= -360.0f) {
+		easing_.time++;
+		easing_.kAnimMaxtime = 50;
+		/*	pos_.y += velocity_.y;
+		    titlesprite_[1]->SetPosition(pos_);*/
+
+		float frame = (float)easing_.time / easing_.kAnimMaxtime;
+		float easeoutbounce = easeOutBounce(frame * frame);
+
+		pos_.y -= easeoutbounce;
+		Feadsprite_->SetPosition(pos_);
+	}
 	if (Input::GetInstance()->GetJoystickState(0, joyState)) {
 		if (Input::GetInstance()->GetJoystickStatePrevious(0, prevjoyState)) {
 			if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A &&
