@@ -65,7 +65,7 @@ public:
 
 	void BulletAttack();
 
-	
+	float easeOutQuad(float x);
 
 	// ワールドradiusを取得
 	Vector3 GetWorldRadius();

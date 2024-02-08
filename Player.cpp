@@ -209,7 +209,7 @@ void Player::BehaviorRootUpdate()
 	}
 
 	if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_B) {
-		behavior_ = Behavior::kAttack;
+		behaviorRequest_ = Behavior::kAttack;
 	}
 
 	UpdateFloatingGimmick();
@@ -282,7 +282,10 @@ void Player::BehaviorRootInitialize() {
 	worldTransformR_arm_.rotation_ = {0.0f, 0.0f, 0.0f};
 }
 
-void Player::BeheviorAttackInitialize() { attack_.time = 0; }
+void Player::BeheviorAttackInitialize() { attack_.time = 0;
+	worldTransformL_arm_.rotation_ = {0.0f, 0.0f, 0.0f};
+	worldTransformR_arm_.rotation_ = {0.0f, 0.0f, 0.0f};
+}
 
 void (Player::*Player::pBehaviorInitializeTable[])() = {
     &Player::BehaviorRootInitialize,
@@ -405,3 +408,5 @@ void Player::UpdateFloatingGimmick() {
 	worldTransformL_arm_.rotation_.x = std::sin(floatingParameter_) * floatingAmplitude;
 	worldTransformR_arm_.rotation_.x = std::sin(floatingParameter_) * floatingAmplitude;
 }
+
+float Player::easeOutQuad(float x) { return 1 - (1 - x) * (1 - x); }
