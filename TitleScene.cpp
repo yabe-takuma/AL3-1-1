@@ -36,7 +36,7 @@ void TitleScene::Update() {
 		if (Input::GetInstance()->GetJoystickStatePrevious(0, prevjoyState)) {
 			if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A&&
 				    !(prevjoyState.Gamepad.wButtons & XINPUT_GAMEPAD_A)) {
-				isSceneEnd_ = true;
+				isFead_ = true;
 			
 			}
 		}
