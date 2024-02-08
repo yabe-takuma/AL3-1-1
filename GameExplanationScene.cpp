@@ -18,7 +18,7 @@ void GameExplanationScene::Initialize() {
 
 	pos_ = {640.0f, 360.0f};
 
-	uint32_t texturefead = TextureManager::Load("タイトルなし.png");
+	uint32_t texturefead = TextureManager::Load("タイトル.png");
 	Feadsprite_=Sprite::Create(texturefead, pos_, {0.0f, 0.0f, 0.0f, 1.0f}, {0.5f, 0.5f});
 }
 
@@ -39,8 +39,25 @@ void GameExplanationScene::Update() {
 		if (Input::GetInstance()->GetJoystickStatePrevious(0, prevjoyState)) {
 			if (joyState.Gamepad.wButtons & XINPUT_GAMEPAD_A &&
 			    !(prevjoyState.Gamepad.wButtons & XINPUT_GAMEPAD_A)) {
-				isSceneEnd_ = true;
+				isFead_ = true;
+				easing_.time = 0;
 			}
+		}
+	}
+	if (isFead_) {
+		
+		easing_.kAnimMaxtime = 50;
+		/*	pos_.y += velocity_.y;
+		    titlesprite_[1]->SetPosition(pos_);*/
+		easing_.time++;
+		float frame = (float)easing_.time / easing_.kAnimMaxtime;
+		float easeoutbounce = easeOutBounce(frame * frame);
+
+		pos_.y += easeoutbounce;
+		Feadsprite_->SetPosition(pos_);
+		if (pos_.y >= 355.0f) {
+			isFead_ = false;
+			isSceneEnd_ = true;
 		}
 	}
 }
@@ -91,6 +108,23 @@ void GameExplanationScene::Draw() {
 #pragma endregion
 }
 
-void GameExplanationScene::DrawUI() { titlesprite_->Draw(); }
+void GameExplanationScene::DrawUI() { titlesprite_->Draw();
+	Feadsprite_->Draw();
+}
 
 void GameExplanationScene::Reset() { isSceneEnd_ = false; }
+
+float GameExplanationScene::easeOutBounce(float x) {
+	const float n1 = 7.5625f;
+	const float d1 = 2.75f;
+
+	if (x < 1 / d1) {
+		return n1 * x * x;
+	} else if (x < 2 / d1) {
+		return n1 * (x -= 1.5f / d1) * x + 0.75f;
+	} else if (x < 2.5f / d1) {
+		return n1 * (x -= 2.25f / d1) * x + 0.9375f;
+	} else {
+		return n1 * (x -= 2.625f / d1) * x + 0.984375f;
+	}
+}

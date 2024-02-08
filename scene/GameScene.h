@@ -32,6 +32,11 @@
 /// </summary>
 class GameScene {
 
+	struct Easing {
+		int32_t time;
+		int32_t kAnimMaxtime;
+	};
+
 public: // メンバ関数
 	/// <summary>
 	/// コンストクラタ
@@ -79,6 +84,8 @@ public: // メンバ関数
 	void DrawUI();
 
 	void ScoreInitialize();
+
+	float easeOutBounce(float x);
 
 	// 弾リストを取得
 	const std::list <std::unique_ptr<WeakEnemy>>& GetWeakEnemys() const { return weakenemys_; }
@@ -171,6 +178,14 @@ private: // メンバ変数
 	std::unique_ptr<Explanation> explanation_;
 
 	uint32_t soundDataHandle_[4] = {0, 0,0,0};
+
+	std::unique_ptr<Sprite> Feadsprite_;
+
+	Vector2 pos_;
+
+	Easing easing_;
+
+	bool isFead_ = false;
 
 	/// <summary>
 	/// ゲームシーン用

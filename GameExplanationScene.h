@@ -10,6 +10,12 @@
 #include "WorldTransform.h"
 #include "Scene.h"
 class GameExplanationScene {
+
+	struct Easing {
+		int32_t time;
+		int32_t kAnimMaxtime;
+	};
+
 public: // メンバ関数
 	/// <summary>
 	/// コンストラクタ
@@ -40,6 +46,8 @@ public: // メンバ関数
 
 	void Reset();
 
+	float easeOutBounce(float x);
+
 	bool IsSceneEnd() { return isSceneEnd_; }
 	Scene::SceneType NextScene() { return Scene::SceneType::kGamePlay; }
 
@@ -54,6 +62,10 @@ private: // メンバ変数
 	Sprite* Feadsprite_=nullptr;
 
 	Vector2 pos_;
+
+	Easing easing_;
+
+	bool isFead_ = false;
 
 	XINPUT_STATE joyState;
 	XINPUT_STATE prevjoyState;

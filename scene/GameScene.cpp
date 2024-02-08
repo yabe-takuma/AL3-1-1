@@ -130,9 +130,25 @@ void GameScene::Initialize() {
 
 	soundDataHandle_[3] = audio_->LoadWave("SE3.wav");
 
+	uint32_t texturefead = TextureManager::Load("タイトル.png");
+	Feadsprite_.reset (Sprite::Create(texturefead, pos_, {0.0f, 0.0f, 0.0f, 1.0f}, {0.5f, 0.5f}));
+
 }
 
 void GameScene::Update() { 
+
+	if (pos_.y >= -360.0f) {
+		easing_.time++;
+		easing_.kAnimMaxtime = 50;
+		/*	pos_.y += velocity_.y;
+		    titlesprite_[1]->SetPosition(pos_);*/
+
+		float frame = (float)easing_.time / easing_.kAnimMaxtime;
+		float easeoutbounce = easeOutBounce(frame * frame);
+
+		pos_.y -= easeoutbounce;
+		Feadsprite_->SetPosition(pos_);
+	}
 	
 		// デスフラグの立った弾を削除
 	weakenemys_.remove_if([](std::unique_ptr<WeakEnemy>& weakenemys) {
@@ -823,6 +839,8 @@ void GameScene::DrawUI() {
 	} else if (player_->GetPow() >= 20 &&player_->GetPow() <= 29) {
 		scoresprite_[11]->Draw();
 	}
+
+	Feadsprite_->Draw();
 }
 
 void GameScene::ScoreInitialize() 
@@ -958,5 +976,18 @@ void GameScene::UpdateWallPopCommands()
 	        }
 }
 
+float GameScene::easeOutBounce(float x) {
+	        const float n1 = 7.5625f;
+	        const float d1 = 2.75f;
 
+	        if (x < 1 / d1) {
+		        return n1 * x * x;
+	        } else if (x < 2 / d1) {
+		        return n1 * (x -= 1.5f / d1) * x + 0.75f;
+	        } else if (x < 2.5f / d1) {
+		        return n1 * (x -= 2.25f / d1) * x + 0.9375f;
+	        } else {
+		        return n1 * (x -= 2.625f / d1) * x + 0.984375f;
+	        }
+}
 
