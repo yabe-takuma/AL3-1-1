@@ -139,6 +139,8 @@ void GameScene::Initialize() {
 
 void GameScene::Update() { 
 
+	player_->PlayerUpdate();
+
 	if (pos_.y >= -360.0f) {
 		easing_.time++;
 		easing_.kAnimMaxtime = 50;
@@ -217,10 +219,7 @@ void GameScene::Update() {
 	UpdateWallPopCommands();
 
 	
-	if (player_ != nullptr) {
-
-		player_->Update();
-	}
+	
 	CheckAllCollisions();
 	if (explanation_->IsInput()) {
 		
@@ -232,6 +231,10 @@ void GameScene::Update() {
 			enemy_->Update();
 		}
 		
+		if (player_ != nullptr) {
+
+			player_->Update();
+		}
 		
 
 		for (const std::unique_ptr<WeakEnemy>& weakenemy : weakenemys_) {

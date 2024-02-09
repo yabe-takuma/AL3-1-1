@@ -120,4 +120,6 @@ void GameClear::Reset() { isSceneEnd_ = false;
 	isTitleScene_ = false;
 	color_ = {0.0f, 0.0f, 0.0f, 1.0f};
 	Feadsprite_->SetColor(color_);
+	isFead_[0] = false;
+	isFead_[1] = false;
 }

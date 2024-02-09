@@ -102,6 +102,8 @@ public:
 
 	void SetFakeBullet(FakeBullet* fakebullet) { fakebullet_ = fakebullet; }
 
+	void PlayerUpdate();
+
 	bool IsDead() const { return isDead_; }
 
 	void SetItem(Item* item) { item_ = item; }

@@ -58,4 +58,12 @@ public:
 
 	int32_t isPowtimer_;
 
+	int32_t uitimer_;
+
+	Vector4 uicolor_;
+
+	bool isUi_ = false;
+
+	float lowalpha_;
+
 };

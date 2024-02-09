@@ -44,7 +44,7 @@ void Player::Initialize(const std::vector<Model*>& models) {
 	isDead_ = false;
 	isClear_ = false;
 	sevepow_ = 0;
-
+	
 	behavior_ = Behavior::kRoot;
 	
 }
@@ -128,12 +128,7 @@ void Player::Update()
 		isClear_ = true;
 	}
 
-	worldTransform_.UpdateMatrix();
-	worldTransformBody_.UpdateMatrix();
-	worldTransformHead_.UpdateMatrix();
-	worldTransformL_arm_.UpdateMatrix();
-	worldTransformR_arm_.UpdateMatrix();
-	worldTransformSord_.UpdateMatrix();
+	
 
 	/*ImGui::Begin("player");
 	ImGui::DragFloat3("position", &worldTransformBody_.translation_.x, 0.1f);
@@ -272,6 +267,16 @@ void Player::SetParent(const WorldTransform* parent) {
 }
 
 void Player::Pow() { pow_ = pow_ + 1; }
+
+void Player::PlayerUpdate() 
+{
+	worldTransform_.UpdateMatrix();
+	worldTransformBody_.UpdateMatrix();
+	worldTransformHead_.UpdateMatrix();
+	worldTransformL_arm_.UpdateMatrix();
+	worldTransformR_arm_.UpdateMatrix();
+	worldTransformSord_.UpdateMatrix();
+}
 
 
 

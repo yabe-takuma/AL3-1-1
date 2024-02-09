@@ -20,7 +20,7 @@ void Explanation::Initialize()
 	texture_[3] = TextureManager::Load("内容説明4.png");
 
 	sprite_[3] =
-	    Sprite::Create(texture_[3], {640.0f, 500.0f}, {1.0f, 1.0f, 1.0f, 1.0f}, {0.5f, 0.5f});
+	    Sprite::Create(texture_[3], {640.0f, 500.0f}, uicolor_, {0.5f, 0.5f});
 
 	texture_[4] = TextureManager::Load("内容説明5.png");
 
@@ -49,6 +49,10 @@ void Explanation::Initialize()
 	Oncollisiontimer_ = 0;
 	isInputFrag = false;
 	isPowtimer_;
+
+	lowalpha_ = 0.02f;
+	uicolor_ = {1.0f, 1.0f, 1.0f, 1.0f};
+
 }
 
 void Explanation::Update() 
@@ -77,6 +81,24 @@ void Explanation::Update()
 	//ImGui::DragInt("counter", &counter_, 0.01f);
 	//ImGui::DragInt("counter", &timer_, 0.01f);
 	//ImGui::End();
+
+	if (uicolor_.w >= 1.0f ) {
+		isUi_ = false;
+	} else if (uicolor_.w <= 0.0f ) {
+		isUi_ = true;
+	}
+	
+		
+	
+
+	if (isUi_) {
+		uicolor_.w += lowalpha_;
+		sprite_[3]->SetColor(uicolor_);
+	} else if (isUi_ == false) {
+		uicolor_.w -= lowalpha_;
+		sprite_[3]->SetColor(uicolor_);
+	}
+
 }
 
 void Explanation::PowExplanationUpdate() 

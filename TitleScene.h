@@ -70,6 +70,8 @@ private: // メンバ変数
 
 	Sprite* titlesprite_[3] = {nullptr, nullptr, nullptr};
 	Sprite* fadeout_ = nullptr;
+	Sprite* UI_[2] = {nullptr, nullptr};
+	uint32_t textureUI[2];
 
 	bool isFead_ = false;
 
@@ -78,6 +80,10 @@ private: // メンバ変数
 	Vector2 velocity_[2];
 
 	Vector4 color_;
+	Vector4 UIcolor_[2];
+	int32_t uitimer_;
+	float lowalpha_;
+	bool isUi_ = false;
 	// モーション
 	Easing easing_[2];
 

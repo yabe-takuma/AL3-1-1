@@ -20,6 +20,8 @@ void GameExplanationScene::Initialize() {
 
 	uint32_t texturefead = TextureManager::Load("タイトル.png");
 	Feadsprite_=Sprite::Create(texturefead, pos_, {0.0f, 0.0f, 0.0f, 1.0f}, {0.5f, 0.5f});
+	Vector2 size = {1440.0f, 800.0f};
+	titlesprite_->SetSize(size);
 }
 
 void GameExplanationScene::Update() {
