@@ -6,6 +6,7 @@
 #include"ImGuiManager.h"
 #include <optional>
 #include<random>
+#include"GlobalVariables.h"
 class Player : public BaseCharacter {
 
 	//振るまい
@@ -95,7 +96,7 @@ public:
 
 	static void (Player::*pBehaviorUpdateTable[])();
 
-
+	GlobalVariables* globalvariables_ = nullptr;
 
 	//次の振るまいをリクエスト
 	std::optional<Behavior> behaviorRequest_ = std::nullopt;

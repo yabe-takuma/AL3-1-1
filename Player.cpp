@@ -25,6 +25,12 @@ void Player::Initialize(const std::vector<Model*>& models) {
 
 	// シングルトンインスタンスを取得する
 	input_ = Input::GetInstance();
+
+	globalvariables_ = GlobalVariables::GetInstance();
+	const char* groupName = "Player";
+	//グループを追加
+	GlobalVariables::GetInstance()->CreateGroup(groupName);
+	globalvariables_->SetValue(groupName, "Test", {1.0f,3.0f,6.0f});
 }
 
 void Player::Update() {
