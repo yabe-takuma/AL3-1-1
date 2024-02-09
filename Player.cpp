@@ -250,9 +250,10 @@ velocity_.y = kJumpFirstSpeed;
 
 void Player::BehaviorJumpUpdate() 
 {
+worldTransformL_arm_.rotation_.x = 3.0f;
+worldTransformR_arm_.rotation_.x = 3.0f;
 
-
-	velocity_ = TransformNormal(velocity_, MakeRotateYMatrix(viewProjection_->rotation_.y));
+	//velocity_ = TransformNormal(velocity_, MakeRotateYMatrix(viewProjection_->rotation_.y));
 // 移動
 worldTransformBody_.translation_ = Add(worldTransformBody_.translation_, velocity_);
 
